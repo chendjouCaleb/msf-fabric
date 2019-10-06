@@ -1,0 +1,45 @@
+@import 'Fabric';
+@import "_Slider";
+@import "Typo";
+@import "_Button";
+@import "components/_Table";
+
+
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.border {border: 2px solid $ms-color-gray130}
+
+
+.p1 { padding: 1px;}
+.p2 {padding: 2px;}
+
+.mt-3 { margin-top: 30px; }
+
+.ml-3 {margin-left: 3px;}
+.ml-5 {margin-left: 5px;}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+
+@keyframes scaleY {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes scaleYClose {
+
+  to {
+    transform: scaleY(0);
+  }
+}

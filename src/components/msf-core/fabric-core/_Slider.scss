@@ -1,0 +1,120 @@
+@import "variables/_Color.Variables.scss";
+@import "variables/_Font.Variables.scss";
+@import "variables/_Animation.Variables.scss";
+
+
+.ms-Slider-container {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.ms-Slider-slideBox{
+  position: relative;
+  flex-grow: 1;
+  line-height: 28px;
+  display: flex;
+  align-items: center;
+  height: 28px;
+  width: auto;
+  padding: 0 8px;
+  outline: transparent;
+  background: transparent;
+  border-width: initial;
+  border-style: none;
+  border-color: initial;
+  border-image: initial;
+}
+
+
+.ms-Slider-line{
+  display: flex;
+  position: relative;
+  height: 4px;
+  width: 100%;
+  border-radius: 4px;
+  background: $ms-color-gray80;
+}
+
+.ms-Slider-active{
+  position: absolute;
+  left: 0;
+  background: $ms-color-gray160;
+  transition: width $ms-motion-duration-3 $ms-motion-timing-decelerate 0s;
+  height: 4px;
+  border-radius: 4px;
+}
+
+.ms-Slider-thumb{
+  display: block;
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  top: -6px;
+  transform: translateX(-50%);
+  border: 2px solid $ms-color-gray160;
+  border-radius: 50%;
+  background: $ms-color-white;
+  transition: left $ms-motion-duration-3 $ms-motion-timing-decelerate 0s;
+}
+
+.ms-Slider-value{
+  margin: 0 8px;
+  display: block;
+  padding: 8px 0 8px 10px;
+  flex-shrink: 1;
+  width: 50px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.ms-Slider-zeroTick {
+  position: absolute;
+  width: 1px;
+  height: 16px;
+  transform: translateY(-6px);
+  background: $ms-color-gray80;
+}
+
+.ms-Slider-thumb.ms-Slider-thumb--hover,
+.ms-Slider-thumb.ms-Slider-thumb--focus
+{
+  border-color: $ms-color-communicationShade20;
+}
+
+.ms-Slider-thumb--active {
+  border-width: 10px;
+}
+
+.ms-Slider-active.ms-Slider-active--hover,
+.ms-Slider-active.ms-Slider-active--focus
+{
+  background: $ms-color-communicationPrimary;
+}
+
+.ms-Slider-line.ms-Slider-line--hover,
+.ms-Slider-line.ms-Slider-line--focus
+{
+  background: $ms-color-communicationTint30;
+}
+
+
+.ms-Slider-thumb.ms-Slider-thumb--disabled
+{
+  border-color: $ms-color-gray70;
+}
+
+.ms-Slider-active.ms-Slider-active--disabled
+{
+  background: $ms-color-gray80;
+}
+
+.ms-Slider-line.ms-Slider-line--disabled
+{
+  background: $ms-color-gray30;
+}
+
+.ms-Slider-value.ms-Slider-value--disabled
+{
+  color: $ms-color-gray80;
+}

@@ -1,0 +1,16 @@
+<span class="msf-icon-button ms-Icon ms-Icon--{{Icon}}" [tabindex]="!Disabled ? 1 : 0"
+[class.msf-icon-button-outline]="Outline"
+    [class.msf-button-standard]="Theme == 'standard' && !Outline"
+    [class.msf-button-primary]="Theme == 'primary'" 
+    [class.msf-button-success]="Theme == 'success'"
+    [class.msf-button-warning]="Theme == 'warning'" 
+    [class.msf-button-error]="Theme == 'error'"
+    
+    [class.msf-button-outline-standard]="Theme == 'standard' && Outline"
+    [class.msf-button-outline-primary]="Theme == 'primary' && Outline" 
+    [class.msf-button-outline-success]="Theme == 'success' && Outline"
+    [class.msf-button-outline-warning]="Theme == 'warning' && Outline" 
+    [class.msf-button-outline-error]="Theme == 'error' && Outline"
+    >
+
+</span>

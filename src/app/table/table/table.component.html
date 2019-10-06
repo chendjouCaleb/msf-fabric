@@ -1,0 +1,73 @@
+<h1>Table</h1>
+
+<h3>Simple table</h3>
+
+<MsfTable>
+    <MsfTableHead>
+        <MsfTableHeadCell>Position</MsfTableHeadCell>
+        <MsfTableHeadCell>Name</MsfTableHeadCell>
+        <MsfTableHeadCell>Weight</MsfTableHeadCell>
+        <MsfTableHeadCell>Symbol</MsfTableHeadCell>
+    </MsfTableHead>
+
+    <MsfTableRow *ngFor="let item of elements">
+        <MsfTableCell>{{item.position}}</MsfTableCell>
+        <MsfTableCell>{{item.name}}</MsfTableCell>
+        <MsfTableCell>{{item.weight}}</MsfTableCell>
+        <MsfTableCell>{{item.symbol}}</MsfTableCell>
+    </MsfTableRow>
+</MsfTable>
+
+<div>
+    <h2>Table with selection</h2>
+
+    <div style="display: flex">
+        <div style="width: 500px">
+            <MsfTable [Selectable]="true" (onselectionchange)="updateSelection($event)">
+                <MsfTableHead>
+                    <MsfTableHeadCell>Position</MsfTableHeadCell>
+                    <MsfTableHeadCell>Name</MsfTableHeadCell>
+                    <MsfTableHeadCell>Weight</MsfTableHeadCell>
+                    <MsfTableHeadCell>Symbol</MsfTableHeadCell>
+                </MsfTableHead>
+
+                <MsfTableRow *ngFor="let item of elements" [Value]="item">
+                    <MsfTableCell>{{item.position}}</MsfTableCell>
+                    <MsfTableCell>{{item.name}}</MsfTableCell>
+                    <MsfTableCell>{{item.weight}}</MsfTableCell>
+                    <MsfTableCell>{{item.symbol}}</MsfTableCell>
+                </MsfTableRow>
+            </MsfTable>
+        </div>
+
+        <div style="font-family: 'Courier New', Courier, monospace; width: 300px">
+            {{selection}}
+        </div>
+    </div>
+</div>
+
+
+<div>
+    <h2>Sortable table</h2>
+    <MsfTable>
+        <MsfTableHead>
+            <MsfTableHeadCell>#</MsfTableHeadCell>
+            <MsfTableHeadCell SortBy="position">Position</MsfTableHeadCell>
+            <MsfTableHeadCell SortBy="name">Name</MsfTableHeadCell>
+            <MsfTableHeadCell SortBy="weight">Weight</MsfTableHeadCell>
+            <MsfTableHeadCell SortBy="symbol">Symbol</MsfTableHeadCell>
+        </MsfTableHead>
+
+        <MsfTableRow *ngFor="let item of elements" [Value]="item" #line>
+            <MsfTableCell>{{line.index+1}}</MsfTableCell>
+            <MsfTableCell>{{item.position}}</MsfTableCell>
+            <MsfTableCell>{{item.name}}</MsfTableCell>
+            <MsfTableCell>{{item.weight}}</MsfTableCell>
+            <MsfTableCell>{{item.symbol}}</MsfTableCell>
+        </MsfTableRow>
+    </MsfTable>
+</div>
+
+<div>
+    <app-mutable-table></app-mutable-table>
+</div>

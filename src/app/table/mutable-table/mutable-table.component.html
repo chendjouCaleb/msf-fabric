@@ -1,0 +1,26 @@
+<h2>Mutable table</h2>
+<div class="d-flex">
+    <input type="text" (keyup)="filter($event.target.value)" placeholder="enter element Name" />
+    <MsfButton Icon="Add" Theme="primary" (click)="add()">Add</MsfButton>
+</div>
+<MsfTable>
+    <MsfTableHead>
+        <MsfTableHeadCell>#</MsfTableHeadCell>
+        <MsfTableHeadCell SortBy="position">Position</MsfTableHeadCell>
+        <MsfTableHeadCell SortBy="name">Name</MsfTableHeadCell>
+        <MsfTableHeadCell SortBy="weight">Weight</MsfTableHeadCell>
+        <MsfTableHeadCell SortBy="symbol">Symbol</MsfTableHeadCell>
+        <MsfTableHeadCell></MsfTableHeadCell>
+    </MsfTableHead>
+
+    <MsfTableRow *ngFor="let item of elements" [Value]="item" #line>
+        <MsfTableCell>{{line.index+1}}</MsfTableCell>
+        <MsfTableCell>{{item.position}}</MsfTableCell>
+        <MsfTableCell>{{item.name}}</MsfTableCell>
+        <MsfTableCell>{{item.weight}}</MsfTableCell>
+        <MsfTableCell>{{item.symbol}}</MsfTableCell>
+        <MsfTableCell>
+            <MsfIconButton disabled Icon="Delete" Theme="Danger" (click)="remove(item)"></MsfIconButton>
+        </MsfTableCell>
+    </MsfTableRow>
+</MsfTable>

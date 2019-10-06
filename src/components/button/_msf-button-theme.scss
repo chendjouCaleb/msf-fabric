@@ -1,0 +1,34 @@
+@import "../msf-core/variables/Msf-Variable";
+@import "../msf-core/fabric-core/variables/Font.Variables";
+@import "../msf-core/fabric-core/variables/Animation.Variables";
+@import "../utils/styles/button_common";
+
+$msf-button-outline-size: 1;
+
+// Applies a focus style to an mat-button element for each of the supported palettes.
+@mixin _msf-button-outline($theme) {
+  $standard: map-get($theme, standard);
+  $primary: map-get($theme, primary);
+  $success: map-get($theme, success);
+  $warning: map-get($theme, warning);
+  $error: map-get($error, primary);
+
+  &.msf-standard {
+    outline: $msf-button-outline-size solid $standard;
+  }
+
+  &.msf-primary {
+    outline: $msf-button-outline-size solid $primary;
+  }
+
+  &.msf-success {
+    outline: $msf-button-outline-size solid $success;
+  }
+
+  &.msf-warning {
+    outline: $msf-button-outline-size solid $warning;
+  }
+  &.msf-error {
+    outline: $msf-button-outline-size solid $error;
+  }
+}

@@ -1,0 +1,11 @@
+<span class="msf-TableCellLayout" (click)="sortTable()">
+    <span class="msf-TableCellFlexLayout">
+        <ng-content></ng-content>
+        <span *ngIf="isSortable && isCurrentSorter">
+            <span class="ms-Icon ms-Icon--SortUp" *ngIf="sortedAsc"></span>
+            <span class="ms-Icon ms-Icon--SortDown" *ngIf="!sortedAsc"></span>
+        </span>
+        <span *ngIf="isSortable && !isCurrentSorter" class="ms-Icon ms-Icon--SortUp"
+        style="color: transparent"></span>
+    </span>
+</span>

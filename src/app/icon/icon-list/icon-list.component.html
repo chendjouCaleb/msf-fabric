@@ -1,0 +1,38 @@
+<h1>Les icones</h1>
+<div>
+    <input type="text" placeholder="Search icon" (keyup)="filter($event)">
+</div>
+<div class="icon-list">
+    <div *ngFor="let icon of icons" class="icon-item" (click)="click($event)">
+        <div class="icon-value ms-Icon ms-Icon--{{icon.name}}"></div>
+        <div>
+            <div class="icon-class">{{icon.name}}</div>
+            <div class="icon-code">{{icon.code}}</div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .icon-list {
+        width: 99%;
+        display: flex;
+        flex-flow: row wrap;
+    }
+
+    .icon-item {
+        display: flex;
+        flex-flow: row wrap;
+        margin: 2px;
+        padding: 10px;
+        width: 290px;
+        border: 1px solid #EEE;
+        word-wrap: break-word
+    }
+
+    .icon-value {
+        font-size: 50px;
+        text-align: center;
+        width: 70px;
+    }
+</style>

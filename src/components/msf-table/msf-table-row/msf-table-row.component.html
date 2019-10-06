@@ -1,0 +1,10 @@
+
+<span class="msf-TableCell" [class.msf-TableRowError]="Theme == 'error'"
+ *ngIf="selectable">
+    <span class="msf-TableCellLayout">
+        <span class="msf-TableCellFlexLayout">
+            <input type="checkbox" #msfTableSelectCheckbox style="margin: 0" (change)="onclick($event)">
+        </span>
+    </span>
+</span>
+<ng-content></ng-content>

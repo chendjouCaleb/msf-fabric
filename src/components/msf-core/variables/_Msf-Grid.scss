@@ -1,0 +1,11 @@
+@import '../fabric-core/variables/Responsive.Variables';
+
+
+$msf-grid-breakpoints: (
+    sm: $ms-screen-min-sm,
+    md: $ms-screen-min-md,
+    lg: $ms-screen-min-lg,
+    xl: $ms-screen-min-xl,
+    xxl: $ms-screen-min-xxl,
+    xxxl: $ms-screen-min-xxxl
+)
