@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "package": "rm dist && ng-packagr -p package.json",
+    "package": "ng-packagr -p package.json",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
@@ -15,7 +15,21 @@
       "entryFile": "src/components/public_api.ts"
     },
     "dest": "dist",
-    "whitelistedNonPeerDependencies": []
+    "whitelistedNonPeerDependencies": [
+      "@angular/animations",
+      "@angular/common",
+      "@angular/compiler",
+      "@angular/core",
+      "@angular/forms",
+      "@angular/platform-browser",
+      "@angular/platform-browser-dynamic",
+      "@angular/router",
+      "@everest/collections",
+      "rxjs",
+      "tslib",
+    "zone.js"
+
+    ]
   },
   "private": true,
   "dependencies": {

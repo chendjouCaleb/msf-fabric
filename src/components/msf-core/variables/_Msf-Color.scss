@@ -1,7 +1,7 @@
 @import '../fabric-core/variables/Color.Variables';
 $msf-standard-color:$ms-color-gray40;
 $msf-primary-color:$ms-color-communicationPrimary;
-$msf-warning-color:$ms-color-sharedOrange10;
+$msf-warning-color:$ms-color-sharedOrange20;
 $msf-error-color:$ms-color-sharedRed10;
 $msf-success-color:$ms-color-sharedGreen10;
 
@@ -16,3 +16,13 @@ $msf-primary-textColor:$ms-color-white;
 $msf-warning-textColor:$ms-color-white;
 $msf-error-textColor:$ms-color-white;
 $msf-success-textColor:$ms-color-white;
+
+$msf-theme-colors: () !default;
+
+$msf-theme-colors: map-merge((
+    "standard": $msf-standard-color,
+    "primary":  $msf-primary-color,
+    "warning":  $msf-warning-color,
+    "error":    $msf-error-color,
+    "success":  $msf-success-color
+),$msf-theme-colors)

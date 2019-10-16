@@ -1,13 +1,6 @@
 import { Component, OnInit, ElementRef, Input, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { MsfTable } from '../msf-table';
-import { ColorTheme } from 'dist/utils/theme';
-
-function timeout(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-async function sleep(time) {
-  await timeout(time);
-}
+import { ColorTheme } from '../../utils/theme';
 
 @Component({
   selector: 'MsfTableRow',

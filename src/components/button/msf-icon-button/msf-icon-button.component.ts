@@ -1,36 +1,42 @@
 import { Component, OnInit, Input, ElementRef } from '@angular/core';
-import { ColorTheme } from '../../utils/theme';
-import { ButtonSize } from '../msf-button/msf-button.component';
 import { Strings } from '../../utils/string-utils';
+import { MsfButtonBaseComponent } from '../button-base';
 
 @Component({
   selector: 'MsfIconButton, [MsfIconButton]',
   templateUrl: './msf-icon-button.component.html',
-  styles: []
+  host: {
+    '[attr.aria-disabled]': 'disabled.toString()',
+    '[attr.tabindex]': 'disabled ? -1 : 0',
+    'class': 'msf-icon-button'
+  }
 })
-export class MsfIconButtonComponent implements OnInit {
+export class MsfIconButtonComponent extends MsfButtonBaseComponent {
 
   @Input()
   Icon: string;
 
-  @Input()
-  Theme: ColorTheme = "standard";
 
-  @Input()
-  Size: ButtonSize = "2x";
-
-  @Input()
-  Disabled: boolean;
-
-  constructor(private _elementRef: ElementRef) {
-    
-   }
-
+  constructor(protected _elementRef: ElementRef<HTMLElement>) {
+    super(_elementRef);
+  }
   ngOnInit() {
+    super.ngOnInit();
     this.Icon = Strings.upperFirst(this.Icon);
+
+    if(!this.Icon){
+      this.Icon = Strings.upperFirst(this.hostElement.textContent);
+      console.log(this.hostElement.textContent)
+    }
+    
+
+    if(this.IsRounded){
+      this._elementRef.nativeElement.classList.add("msf-rounded-button");
+    }
   }
 
-  get Outline(){
-    return this._elementRef.nativeElement.hasAttribute("Outline")
+  get IsRounded() {
+    return this._elementRef.nativeElement.hasAttribute("Rounded")
   }
+
 }

@@ -1,0 +1,78 @@
+@import '../msf-Function';
+
+@mixin button_variant($background, $hover-background: darken($background, 7.5%), $active-background: darken($background, 10%)){
+    color: color-yiq($background);
+    border-color: transparent;
+    background-color: $background;
+
+    &:hover{
+        color: color-yiq($hover-background);
+        background-color: $hover-background;
+        border-color: transparent;
+    }
+
+    &:focus, &.focus {
+        outline-color: color-yiq($background);
+    }
+
+    &.disabled, &:disabled, &[disabled] {
+        color: color-yiq($background);
+        background-color: $background;
+        border-color: transparent;
+    }
+
+    &:active, &.active {
+        outline-color: color-yiq($active-background);
+        background-color: $active-background;
+    }
+    & .msf-button-icon-left{
+        border-left-color: color-yiq($hover-background);
+    }
+}
+
+
+
+@mixin button_outline_variant($color, $hover-color: color-yiq($color), $active-background: $color, $active-border: $color){
+    color: $color;
+    border-color: $color;
+    background-color: transparent;
+
+    &:hover{
+        color: $hover-color;
+        background-color: $color;
+        border-color: $color;
+    }
+
+    &:focus, &.focus {
+        outline-color: $color;
+    }
+
+    &.disabled, &:disabled, &[disabled] {
+        color: $color;
+        background-color: transparent;
+        border-color: $color;
+    }
+
+    &:active, &.active {
+        outline-color: $color;
+        background-color: $active-background;
+    }
+
+    & .msf-button-icon-left{
+        border-left-color: $color
+    }
+}
+
+@mixin button_icon(){
+    font-size: 16px;
+  margin-top: 0px;
+  margin-right: 4px;
+  margin-bottom: 0px;
+  margin-left: 4px;
+  height: 16px;
+  line-height: 16px;
+  text-align: center;
+  vertical-align: middle;
+  flex-shrink: 0;
+  color: inherit;
+}

@@ -3,8 +3,8 @@
 <div class="mt-5">
     <h2>Default Button</h2>
     <div class="mt-3">
-        <MsfButton>Standard</MsfButton>
-        <MsfButton Theme="primary" (click)='click()'>Primary</MsfButton>
+        <MsfButton Theme="standard">Standard</MsfButton>
+        <MsfButton Theme="primary" class="ml-2" (click)='click()'>Primary</MsfButton>
         <MsfButton Theme="success" class="ml-2" (click)='click()'>Success</MsfButton>
         <MsfButton Theme="warning" class="ml-2" (click)='click()'>Warning</MsfButton>
         <MsfButton Theme="error" class="ml-2" (click)='click()'>Error</MsfButton>
@@ -12,7 +12,7 @@
     <div class="mt-4">
         <h4>Disabled default button</h4>
         <div class="mt-3">
-            <MsfButton disabled>Standard</MsfButton>
+            <MsfButton Theme="standard" disabled>Standard</MsfButton>
             <MsfButton Theme="primary" disabled class="ml-2" (click)='click()'>Primary</MsfButton>
             <MsfButton Theme="success" disabled class="ml-2" (click)='click()'>Success</MsfButton>
             <MsfButton Theme="warning" disabled class="ml-2" (click)='click()'>Warning</MsfButton>
@@ -26,7 +26,7 @@
 <div class="mt-5">
     <h2>Outline Button</h2>
     <div class="mt-3">
-        <MsfOutlineButton>Standard</MsfOutlineButton>
+        <MsfOutlineButton Theme="standard">Standard</MsfOutlineButton>
         <MsfOutlineButton Theme="primary" class="ml-2" (click)='click()'>Primary</MsfOutlineButton>
         <MsfOutlineButton Theme="success" class="ml-2" (click)='click()'>Success</MsfOutlineButton>
         <MsfOutlineButton Theme="warning" class="ml-2" (click)='click()'>Cancel</MsfOutlineButton>
@@ -86,12 +86,40 @@
 <div class="mt-5">
     <h2>Split button</h2>
     <div class="mt-3">
-        <MsfButton Icon="Add" LeftIcon="ChevronLeft" Split>Add</MsfButton>
-        <MsfOutlineButton Icon="Add" LeftIcon="ChevronLeft" class="ml-2">Add</MsfOutlineButton>
-        <MsfOutlineButton Theme="success" class="ml-2" LeftIcon="ChevronLeft" Split>Success</MsfOutlineButton>
-        <MsfOutlineButton Theme="warning" class="ml-2" Icon="Cancel" LeftIcon="ChevronLeft" Split>Cancel
-        </MsfOutlineButton>
-        <MsfButton Theme="error" class="ml-2" disabled Icon="Delete" LeftIcon="ChevronLeft" Split>Delete</MsfButton>
+        <MsfSplitButton Theme="standard">
+            <MsfButton Icon="Add" #LeftButton>Add</MsfButton>
+            <MsfButton Icon="ChevronDown" RightButton></MsfButton>
+        </MsfSplitButton>
+
+        <MsfSplitButton class="ml-2" Theme="standard">
+            <MsfButton Icon="Add" LeftButton>Add</MsfButton>
+            <MsfButton Icon="ChevronDown" RightButton Theme="primary"></MsfButton>
+        </MsfSplitButton>
+
+        <MsfSplitButton class="ml-2" LeftIcon="ChevronLeft">
+            <MsfButton Icon="Add" #LeftButton Theme="success">Add</MsfButton>
+            <MsfButton Icon="ChevronDown" #RightButton Theme="primary"></MsfButton>
+        </MsfSplitButton>
+
+        <MsfSplitButton class="ml-2" LeftIcon="ChevronLeft" Outline Theme="primary">
+            <MsfButton Icon="Add" #LeftButton >Add</MsfButton>
+            <MsfButton Icon="ChevronDown" #RightButton ></MsfButton>
+        </MsfSplitButton>
+
+        <MsfSplitButton class="ml-2" LeftIcon="ChevronLeft" Theme="primary">
+            <MsfButton Icon="Add" #LeftButton >Add</MsfButton>
+            <MsfButton Icon="ChevronDown" #RightButton Outline></MsfButton>
+        </MsfSplitButton>
+
+        <MsfSplitButton class="ml-2" LeftIcon="ChevronLeft" Theme="primary" disabled>
+            <MsfButton Icon="Add" #LeftButton >Add</MsfButton>
+            <MsfButton Icon="ChevronDown" #RightButton Outline></MsfButton>
+        </MsfSplitButton>
+
+        <MsfSplitButton class="ml-2" LeftIcon="ChevronLeft" Theme="primary">
+                <MsfButton Icon="Add" #LeftButton >Add</MsfButton>
+                <MsfButton Icon="ChevronDown" #RightButton Disabled></MsfButton>
+        </MsfSplitButton>
     </div>
 </div>
 
@@ -104,9 +132,9 @@
 <div class="mt-5">
     <h2>Icon Button</h2>
     <div class="mt-3">
-        <MsfIconButton Icon="HomeVerify">Standard</MsfIconButton>
-        <MsfIconButton Theme="primary" Icon="Add" class="ml-2">Primary</MsfIconButton>
-        <MsfIconButton Theme="success" Icon="CheckMark" class="ml-2">Success</MsfIconButton>
+        <MsfIconButton Icon="Home">Standard</MsfIconButton>
+        <MsfIconButton Theme="primary" class="ml-2">Add</MsfIconButton>
+        <MsfIconButton Theme="success" class="ml-2">CheckMark</MsfIconButton>
         <MsfIconButton Theme="warning" Icon="Cancel" class="ml-2">Warning</MsfIconButton>
         <MsfIconButton Theme="error" Icon="Delete" class="ml-2">Error</MsfIconButton>
         <MsfIconButton Outline Icon="HomeVerify" class="ml-2">Standard</MsfIconButton>

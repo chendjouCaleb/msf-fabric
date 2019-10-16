@@ -5,3 +5,5 @@ export { MsfTableHeadCellComponent } from "./msf-table-head-cell/msf-table-head-
 export { MsfTableCellComponent } from "./msf-table-cell/msf-table-cell.component";
 export { MsfTableComponent } from "./msf-table/msf-table.component";
 export { MsfTable } from "./msf-table";
+
+export { ColorTheme } from "../utils/theme";
