@@ -1,0 +1,103 @@
+@import './Msf-Color';
+@import '../fabric-core/variables/Font.Variables';
+@import '../fabric-core/variables/Color.Variables';
+
+
+
+// context-menu-items
+//
+// For each of Bootstrap's context-menu-items, define text, background, and border color.
+
+
+$msf_ContextMenu-minWidth:                    150px;
+$msf_ContextMenu-borderColor:                 $ms-color-gray20;
+
+$msf_ContextMenu-Color:                     $ms-color-sharedGray40;
+
+$msf_ContextMenuItem-padding-y:               0 !default;
+$msf_ContextMenuItem-padding-x:               16px !default;
+$msf_ContextMenuItem-fontFamily:             $msf-font-family-base !default;
+$msf_ContextMenuItem-fontSize:               14px !default;
+$msf_ContextMenuItem-height:                  36px !default;
+$msf_ContextMenuItem-minWidth:                80px !default;
+$msf_ContextMenuItem-line-height:             $msf_ContextMenuItem-height !default;
+
+$msf_ContextMenuItem-padding-y-1x:            0 !default;
+$msf_ContextMenuItem-padding-x-1x:            8px !default;
+$msf_ContextMenuItem-font-size-1x:            11px !default;
+
+$msf_ContextMenuItem-height-1x:               22px !default;
+$msf_ContextMenuItem-line-height-1x:          $msf_ContextMenuItem-height-1x  !default;
+
+$msf_ContextMenuItem-padding-y-3x:            0 !default;
+$msf_ContextMenuItem-padding-x-3x:            32px !default;
+$msf_ContextMenuItem-font-size-3x:            18px !default;
+
+$msf_ContextMenuItem-height-3x:               64px !default;
+$msf_ContextMenuItem-line-height-3x:          $msf_ContextMenuItem-height-3x !default;
+
+$msf_ContextMenuItem-BorderWidth:            1px !default;
+
+$msf_ContextMenuItem-focus-outline-color:     $ms-color-white !default;
+$msf_ContextMenuItem-active-outline-color:    $ms-color-white !default;
+$msf_ContextMenuItem-focus-outline-width:     1px !default;
+$msf_ContextMenuItem-active-outline-width:    1px !default;
+
+$msf_ContextMenuItem-Hover-bgColor:             $ms-color-gray20;
+
+$msf_ContextMenuItemSecondaryText-fontSize:     12px !default;
+$msf_ContextMenuItemSecondaryText-fontWeight:   400;
+$msf_ContextMenuItemSecondaryText-color:        $ms-color-gray130;
+$msf_ContextMenuItemIcon-fontSize:              18px !default;
+$msf_ContextMenuItemSecondaryIcon-fontSize:     18px !default;
+
+$standard: (
+  "color": $msf_ContextMenu-Color,
+  "iconColor": $msf_ContextMenu-Color,
+  "secondaryTextColor": $msf_ContextMenuItemSecondaryText-color,
+  "bgColor": transparent,
+  "hoverBgColor": $msf_ContextMenuItem-Hover-bgColor
+);
+
+$primary: (
+  "color": $msf_ContextMenu-Color,
+  "iconColor": $msf-primary-color,
+  "secondaryTextColor": $msf_ContextMenuItemSecondaryText-color,
+  "bgColor": transparent,
+  "hoverBgColor": $msf_ContextMenuItem-Hover-bgColor
+);
+
+$warning: (
+  "color": $msf_ContextMenu-Color,
+  "iconColor": $msf-warning-color,
+  "secondaryTextColor": $msf_ContextMenuItemSecondaryText-color,
+  "bgColor": transparent,
+  "hoverBgColor": $msf_ContextMenuItem-Hover-bgColor
+);
+
+$success: (
+  "color": $msf_ContextMenu-Color,
+  "iconColor": $msf-success-color,
+  "secondaryTextColor": $msf_ContextMenuItemSecondaryText-color,
+  "bgColor": transparent,
+  "hoverBgColor": $msf_ContextMenuItem-Hover-bgColor
+);
+
+$error: (
+  "color": $msf-error-color,
+  "iconColor": $msf-error-color,
+  "secondaryTextColor": $msf_ContextMenuItemSecondaryText-color,
+  "bgColor": transparent,
+  "hoverBgColor": $msf_ContextMenuItem-Hover-bgColor
+);
+
+$msf_ContextMenuThemes: () !default;
+$msf_ContextMenuThemes: map_merge($msf_ContextMenuThemes, (
+  "success": $success,
+  "error": $error,
+  "warning": $warning,
+  "primary": $primary,
+  "standard": $standard
+))
+
+

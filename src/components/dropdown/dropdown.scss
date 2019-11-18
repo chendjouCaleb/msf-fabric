@@ -1,0 +1,14 @@
+.msf_Dropdown {
+  //border: 1px solid red;
+  z-index: 20;
+  position: fixed;
+}
+
+.msf_DropdownOpen {
+  display: inline-block;
+  position: absolute;
+}
+
+.msf_DropdownClose {
+  display: none;
+}

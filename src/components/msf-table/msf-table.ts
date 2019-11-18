@@ -9,12 +9,25 @@ export class MsfTable {
     headerCells: MsfTableHeadCellComponent[] = [];
 
     selection: MsfTableRowComponent[] = [];
+
+    /**
+     * Indicates if a the selection behavior is unable.
+     */
     selectable: boolean = false;
 
+    /**
+     * Event to emit when a item is selected.
+     */
     onselect = new ReplaySubject<MsfTableRowComponent>();
 
+    /**
+     * Event to emit when the selection list receive or delete item.
+     */
     onselectionchange = new ReplaySubject<MsfTableRowComponent[]>();
 
+    /**
+     * Event to emit when the selection list delete one item.
+     */
     onunselect = new ReplaySubject<MsfTableRowComponent>();
 
     addInitialItem(item:any){

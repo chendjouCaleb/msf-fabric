@@ -1,0 +1,13 @@
+@import "Msf-Button";
+
+$msf-font-family-sans-serif:      $ms-font-family-west-european, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$msf-font-family-monospace:       SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
+$msf-font-family-base:            $font-family-sans-serif !default;
+
+
+// Body
+//
+// Settings for the `<body>` element.
+
+$msf-body-bg:                   $ms-color-white !default;
+$msf-body-color:                $ms-color-sharedGray40 !default;

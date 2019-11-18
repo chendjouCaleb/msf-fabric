@@ -11,7 +11,7 @@ export class MsfTableHeadComponent implements OnInit {
   selectedAll: boolean = false;
 
   @ViewChild("msfTableSelectAllCheckbox", { static: false})
-  selectCheckbox: ElementRef<HTMLInputElement>
+  selectCheckbox: ElementRef<HTMLInputElement>;
 
   constructor(private msfTable: MsfTable,private elementRef: ElementRef<HTMLElement>) {
     this.elementRef.nativeElement.classList.add("msf-TableHead");
@@ -25,8 +25,6 @@ export class MsfTableHeadComponent implements OnInit {
         this.selectCheckbox.nativeElement.checked = false;
       }
     });
-
-    
    }
 
   ngOnInit() {

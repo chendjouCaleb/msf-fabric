@@ -6,9 +6,13 @@
     "package": "ng-packagr -p package.json",
     "start": "ng serve",
     "build": "ng build",
-    "test": "ng test",
+    "test": "jest",
     "lint": "ng lint",
     "e2e": "ng e2e"
+  },
+  "jest": {
+    "preset": "jest-preset-angular",
+    "setupFilesAfterEnv": ["<rootDir>/src/setupJest.ts"]
   },
   "ngPackage": {
     "lib": {
@@ -27,8 +31,7 @@
       "@everest/collections",
       "rxjs",
       "tslib",
-    "zone.js"
-
+      "zone.js"
     ]
   },
   "private": true,
@@ -54,10 +57,13 @@
     "@angular/language-service": "~8.0.1",
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "~2.0.3",
+    "@types/jest": "^24.0.22",
     "@types/node": "~8.9.4",
     "codelyzer": "^5.0.0",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
+    "jest": "^24.9.0",
+    "jest-preset-angular": "^8.0.0",
     "karma": "~4.1.0",
     "karma-chrome-launcher": "~2.2.0",
     "karma-coverage-istanbul-reporter": "~2.0.1",

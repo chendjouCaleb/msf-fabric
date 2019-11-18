@@ -6,21 +6,21 @@
 <MsfTable>
     <MsfTableHead>
         <MsfTableHeadCell>#</MsfTableHeadCell>
-        <MsfTableHeadCell SortBy="position">Position</MsfTableHeadCell>
-        <MsfTableHeadCell SortBy="name">Name</MsfTableHeadCell>
-        <MsfTableHeadCell SortBy="weight">Weight</MsfTableHeadCell>
-        <MsfTableHeadCell SortBy="symbol">Symbol</MsfTableHeadCell>
+        <MsfTableHeadCell sortBy="position">Position</MsfTableHeadCell>
+        <MsfTableHeadCell sortBy="name">Name</MsfTableHeadCell>
+        <MsfTableHeadCell sortBy="weight">Weight</MsfTableHeadCell>
+        <MsfTableHeadCell sortBy="symbol">Symbol</MsfTableHeadCell>
         <MsfTableHeadCell></MsfTableHeadCell>
     </MsfTableHead>
 
-    <MsfTableRow *ngFor="let item of elements" [Value]="item" #line>
+    <MsfTableRow *ngFor="let item of elements" [value]="item" #line>
         <MsfTableCell>{{line.index+1}}</MsfTableCell>
         <MsfTableCell>{{item.position}}</MsfTableCell>
         <MsfTableCell>{{item.name}}</MsfTableCell>
         <MsfTableCell>{{item.weight}}</MsfTableCell>
         <MsfTableCell>{{item.symbol}}</MsfTableCell>
         <MsfTableCell>
-            <MsfIconButton disabled Icon="Delete" Theme="Danger" (click)="remove(item)"></MsfIconButton>
+            <MsfIconButton Icon="Delete" Theme="error" Rounded Outline (click)="remove(item)"></MsfIconButton>
         </MsfTableCell>
     </MsfTableRow>
 </MsfTable>

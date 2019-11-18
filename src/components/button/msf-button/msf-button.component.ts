@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewEncapsulation} from '@angular/core';
-import {ColorTheme} from '../../utils/theme';
+import {ColorTheme} from '../../helpers/theme';
 import { MsfButtonBaseComponent } from '../button-base';
 
 export type ButtonSize = "1x" | "2x" | "3x";
@@ -26,7 +26,7 @@ export class MsfButtonComponent extends MsfButtonBaseComponent{
     super(_elementRef);
   }
 
-  
+
 
   ngOnInit() {
     super.ngOnInit();
@@ -37,7 +37,7 @@ export class MsfButtonComponent extends MsfButtonBaseComponent{
 
   }
 
-  
+
 
   get CommandButton(){
     return this._elementRef.nativeElement.hasAttribute("MsfCommandButton")

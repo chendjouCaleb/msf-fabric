@@ -1,0 +1,11 @@
+<span class="msf_ContextMenuItem-FlexLayout">
+    <span class="msf_ContextMenuItem-Icon msf_ContextMenuItem-LabelIcon ms-Icon ms-Icon--{{Icon}}" *ngIf="linker.hasIcon" ></span>
+    <span class="msf_ContextMenuItem-Label" #msfContextualMenuItemLabel >
+        <ng-content></ng-content>
+    </span >
+    <span class="msf_ContextMenuItem-SecondaryText" *ngIf="linker.hasSecondaryText">
+      {{SecondaryText}}
+    </span>
+    <span *ngIf="linker.hasSecondaryIcon"
+      class="msf_ContextMenuItem-Icon msf_ContextMenuItem-SecondaryIcon ms-Icon ms-Icon--{{SecondaryIcon}}" ></span>
+</span>

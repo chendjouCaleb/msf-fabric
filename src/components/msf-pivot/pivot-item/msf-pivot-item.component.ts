@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from "@angular/core";
 import {RouterLink} from "@angular/router";
 import {MsfPivotComponent} from "../pivot/msf-pivot.component";
-import {ColorTheme} from "../../utils/theme";
+import {ColorTheme} from "../../helpers/theme";
 
 @Component({
   templateUrl: "msf-pivot-item.component.html"

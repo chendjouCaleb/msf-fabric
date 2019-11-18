@@ -1,0 +1,102 @@
+<app-layout>
+    <h1>Menu</h1>
+
+    <div>
+        <h3>Simple contextual menu</h3>
+
+        <MsfButton LeftIcon="ChevronDown" [MsfDropdown]="menu"> Menu</MsfButton>
+        <div #menu>
+            <MsfContextualMenu>
+                <MsfContextualMenuItem>Add</MsfContextualMenuItem>
+                <MsfContextualMenuItem>Edit</MsfContextualMenuItem>
+                <MsfContextualMenuItem>Rename</MsfContextualMenuItem>
+                <MsfContextualMenuItem noCloseDropdown>No close</MsfContextualMenuItem>
+                <MsfContextualMenuItem>Properties</MsfContextualMenuItem>
+            </MsfContextualMenu>
+        </div>
+    </div>
+
+    <div>
+        <h3>Other event trigger</h3>
+
+        <MsfButton LeftIcon="ChevronDown" [MsfDropdown]="focusEventMenu" [openEvent]="'focus'"> Focus</MsfButton>
+        <div #focusEventMenu>
+            <MsfContextualMenu>
+                <MsfContextualMenuItem>Add</MsfContextualMenuItem>
+                <MsfContextualMenuItem>Edit</MsfContextualMenuItem>
+                <MsfContextualMenuItem>Rename</MsfContextualMenuItem>
+                <MsfContextualMenuItem>Properties</MsfContextualMenuItem>
+            </MsfContextualMenu>
+        </div>
+
+        <MsfButton LeftIcon="ChevronDown" [MsfDropdown]="hoverEventMenu" [openEvent]="'mouseenter'">Hover</MsfButton>
+        <div #hoverEventMenu>
+            <MsfContextualMenu>
+                <MsfContextualMenuItem>Add</MsfContextualMenuItem>
+                <MsfContextualMenuItem>Edit</MsfContextualMenuItem>
+                <MsfContextualMenuItem>Rename</MsfContextualMenuItem>
+                <MsfContextualMenuItem>Properties</MsfContextualMenuItem>
+            </MsfContextualMenu>
+        </div>
+
+        <MsfButton LeftIcon="ChevronDown" [MsfDropdown]="contextMenuEventMenu" [openEvent]="'contextmenu'">Context
+            menu
+        </MsfButton>
+        <div #contextMenuEventMenu>
+            <MsfContextualMenu>
+                <MsfContextualMenuItem>Add</MsfContextualMenuItem>
+                <MsfContextualMenuItem>Edit</MsfContextualMenuItem>
+                <MsfContextualMenuItem SecondaryText="Ctrl + R" Icon="Rename">RenameDDDDDDDDDD</MsfContextualMenuItem>
+                <MsfContextualMenuItem>Properties</MsfContextualMenuItem>
+            </MsfContextualMenu>
+        </div>
+    </div>
+
+    <div>
+        <h3>Dropdown with su bMenus</h3>
+
+        <MsfButton LeftIcon="ChevronDown" [MsfDropdown]="withsubMenu"> Menu</MsfButton>
+        <div #withsubMenu>
+            <MsfContextualMenu>
+                <MsfContextualMenuItem>Add</MsfContextualMenuItem>
+                <MsfContextualMenuItem>Edit</MsfContextualMenuItem>
+                <MsfContextualMenuItem>Rename</MsfContextualMenuItem>
+                <MsfContextualMenuItem SecondaryIcon="ChevronRight" Icon="Add" noCloseDropdown xPosition="proper" yPosition="properAlign" [MsfDropdown]="subMenu1">Plus</MsfContextualMenuItem>
+            </MsfContextualMenu>
+        </div>
+
+        <div #subMenu1>
+            <MsfContextualMenu>
+                <MsfContextualMenuItem>Add</MsfContextualMenuItem>
+                <MsfContextualMenuItem>Edit</MsfContextualMenuItem>
+                <MsfContextualMenuItem>Rename</MsfContextualMenuItem>
+                <MsfContextualMenuItem SecondaryIcon="ChevronRight" Icon="Add" noCloseDropdown xPosition="proper" yPosition="properAlign" [MsfDropdown]="subMenu2">Plus</MsfContextualMenuItem>
+            </MsfContextualMenu>
+        </div>
+
+        <div #subMenu2>
+            <MsfContextualMenu>
+                <MsfContextualMenuItem>Add</MsfContextualMenuItem>
+                <MsfContextualMenuItem>Edit</MsfContextualMenuItem>
+                <MsfContextualMenuItem>Rename</MsfContextualMenuItem>
+                <MsfContextualMenuItem>Properties</MsfContextualMenuItem>
+            </MsfContextualMenu>
+        </div>
+    </div>
+
+  <div>
+    <h3>Cover target</h3>
+
+    <MsfButton LeftIcon="ChevronDown" theme="primary" [MsfDropdown]="coverTarget.host" [yPosition]="20"> cover Target</MsfButton>
+    <div >
+      <MsfContextualMenu #coverTarget>
+        <MsfContextualMenuItem>Add</MsfContextualMenuItem>
+        <MsfContextualMenuItem>Edit</MsfContextualMenuItem>
+        <MsfContextualMenuItem>Rename</MsfContextualMenuItem>
+        <MsfContextualMenuItem noCloseDropdown>No close</MsfContextualMenuItem>
+        <MsfContextualMenuItem>Properties</MsfContextualMenuItem>
+      </MsfContextualMenu>
+    </div>
+  </div>
+</app-layout>
+

@@ -6,16 +6,17 @@ import { Routes, RouterModule } from '@angular/router';
 import { MsfTableModule } from '../../components/public_api';
 import { MutableTableComponent } from './mutable-table/mutable-table.component';
 import { MsfButtonModule } from '../../components/public_api';
+import {AppLayoutModule} from "../layout/app.layout.module";
 
 const routes: Routes = [
   {path: "", component: TableComponent }
-]
+];
 
 @NgModule({
   declarations: [TableComponent, MutableTableComponent],
   imports: [
     CommonModule, RouterModule.forChild(routes), FormsModule, ReactiveFormsModule,
-    MsfTableModule, MsfButtonModule
+    MsfTableModule, MsfButtonModule, AppLayoutModule
   ]
 })
 export class TableModule { }

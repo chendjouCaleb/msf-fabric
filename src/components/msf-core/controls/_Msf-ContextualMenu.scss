@@ -1,0 +1,95 @@
+@import '../../msf-core/variables/Msf-Variable';
+@import '../../msf-core/fabric-core/variables/Font.Variables';
+@import '../../msf-core/fabric-core/variables/Animation.Variables';
+@import "../variables/Msf-ContextMenu";
+
+.msf_ContextMenu {
+  display: inline-block;
+  min-width: $msf_ContextMenu-minWidth;
+  border: 1px solid $msf_ContextMenu-borderColor;
+  background: $msf-background-color;
+}
+
+.msf_ContextMenuItem {
+  font-family: $msf-font-family-base;
+  font-size: $msf-ContextMenuItem-fontSize;
+  color: $msf_ContextMenu-Color;
+  display: block;
+  position: relative;
+  vertical-align: top;
+  cursor: pointer;
+  padding: $msf-ContextMenuItem-padding-y 0;
+  height: $msf-ContextMenuItem-height;
+
+  user-select: none;
+  outline: transparent;
+  border-width: $msf_ContextMenuItem-BorderWidth;
+
+
+  background-color: transparent;
+
+  box-sizing: border-box;
+
+  transition: background-color $ms-motion-duration-1;
+
+  &:disabled, &[disabled], &.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  &:hover {
+    background: $msf_ContextMenuItem-Hover-bgColor;
+  }
+
+}
+
+.msf_ContextMenuItem-FlexLayout{
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.msf_ContextMenuItem-Label{
+  text-align: left;
+  padding-right: 10px;
+  vertical-align: middle;
+  margin: 0 4px;
+  display: inline-block;
+  flex-grow: 1;
+}
+.msf_ContextMenuItem-SecondaryText{
+  font-size: $msf_ContextMenuItemSecondaryText-fontSize;
+  opacity: .8;
+  text-align: right;
+  padding-left: 10px;
+  flex-grow: 1;
+}
+
+.msf_ContextMenuItem-Icon{
+  font-size: 18px;
+  text-align: center;
+  width: $msf-ContextMenuItem-height;
+}
+
+.msf_ContextMenuItem-LabelIcon{
+
+}
+
+.msf_ContextMenuItem-SecondaryIcon{
+  justify-self: flex-end;
+}
+
+@each $theme, $value in $msf_ContextMenuThemes {
+  .msf_ContextMenuItem-#{$theme} .msf_ContextMenuItem-Label{
+    color: map_get($value, "color")
+  }
+
+  .msf_ContextMenuItem-#{$theme} .msf_ContextMenuItem-SecondaryText{
+    color: map_get($value, "color")
+  }
+
+  .msf_ContextMenuItem-#{$theme} .msf_ContextMenuItem-LabelIcon {
+    color: map_get($value, "iconColor")
+  }
+}
+

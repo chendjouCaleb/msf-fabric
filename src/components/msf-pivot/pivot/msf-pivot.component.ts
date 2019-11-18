@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from "@angular/core";
-import {ColorTheme} from "../../utils/theme";
+import {ColorTheme} from "../../helpers/theme";
 import {MsfPivotItemComponent} from "../pivot-item/msf-pivot-item.component";
 
 @Component({

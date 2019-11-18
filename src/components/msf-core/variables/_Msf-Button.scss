@@ -1,0 +1,49 @@
+@import './Msf-Color';
+@import '../fabric-core/variables/Font.Variables';
+@import '../fabric-core/variables/Font.Variables';
+
+$msf-font-family-sans-serif:      $ms-font-family-west-european, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$msf-font-family-monospace:       SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
+$msf-font-family-base:            $font-family-sans-serif !default;
+
+
+// Body
+//
+// Settings for the `<body>` element.
+
+$msf-body-bg:                   $ms-color-white !default;
+$msf-body-color:                $ms-color-sharedGray40 !default;
+
+// Buttons
+//
+// For each of Bootstrap's buttons, define text, background, and border color.
+
+$msf-button-padding-y:               0 !default;
+$msf-button-padding-x:               16px !default;
+$msf-button-font-family:             $msf-font-family-base !default;
+$msf-button-font-size:               14px !default;
+$msf-button-height:                  32px !default;
+$msf-button-minWidth:                80px !default;
+$msf-button-line-height:             $msf-button-height  !default;
+
+$msf-button-padding-y-1x:            0 !default;
+$msf-button-padding-x-1x:            8px !default;
+$msf-button-font-size-1x:            11px !default;
+
+$msf-button-height-1x:               22px !default;
+$msf-button-line-height-1x:          $msf-button-height-1x  !default;
+
+$msf-button-padding-y-3x:            0 !default;
+$msf-button-padding-x-3x:            32px !default;
+$msf-button-font-size-3x:            18px !default;
+
+$msf-button-height-3x:               64px !default;
+$msf-button-line-height-3x:          $msf-button-height-3x  !default;
+
+$msf-button-border-width:            1px !default;
+$msf-button-border-radius:           2px !default;
+
+$msf-button-focus-outline-color:     $ms-color-white !default;
+$msf-button-active-outline-color:    $ms-color-white !default;
+$msf-button-focus-outline-width:     1px !default;
+$msf-button-active-outline-width:    1px !default;

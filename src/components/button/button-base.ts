@@ -1,15 +1,29 @@
 import { Input, ElementRef, OnInit } from '@angular/core';
-import { ColorTheme } from 'dist/public_api';
-import { ButtonSize } from 'dist/button/msf-button/msf-button.component';
+import {ButtonSize} from "./msf-button/msf-button.component";
+import {ColorTheme} from "../helpers/theme";
 
 export class MsfButtonBaseComponent implements OnInit{
 
-    @Input()
-  Theme: ColorTheme;
+  private _theme: ColorTheme;
 
   @Input()
+  set theme(theme: ColorTheme) {
+    this._theme= theme;
+    if(theme){
+      if(this.Outline){
+        this._elementRef.nativeElement.classList.add(`msf-button-outline-${this.theme}`);
+      }else{
+        this._elementRef.nativeElement.classList.add(`msf-button-${this.theme}`);
+      }
+    }
+  }
+
+  get theme(): ColorTheme {
+    return this._theme;
+  }
+  @Input()
   Size: ButtonSize = "2x";
-  
+
     @Input()
   set disabled(state: boolean){
     this._elementRef.nativeElement.setAttribute("disabled", state.toString());
@@ -24,16 +38,9 @@ export class MsfButtonBaseComponent implements OnInit{
 
   ngOnInit() {
     this._elementRef.nativeElement.classList.add("msf-button");
-  
 
-    if(this.Theme){
-      if(this.Outline){
-        this._elementRef.nativeElement.classList.add(`msf-button-outline-${this.Theme}`);
-      }else{
-        this._elementRef.nativeElement.classList.add(`msf-button-${this.Theme}`);
-      }
-      
-    }
+
+
 }
 
   get Outline() {
@@ -44,5 +51,6 @@ export class MsfButtonBaseComponent implements OnInit{
   get hostElement(): HTMLElement {
     return this._elementRef.nativeElement;
   }
-  
+
+
 }

@@ -25,6 +25,9 @@ export class IconListComponent implements OnInit {
   }
 
   click(event){
-    console.log(event.target.innerHTML)
+    let icon = window.getComputedStyle(event.target, '::before').getPropertyValue('content');
+    icon = icon.replace('"', "").replace('"', "");
+    navigator.clipboard.writeText(icon).then(() => console.log("Icon copied"));
+
   }
 }

@@ -1,5 +1,5 @@
 //@import "src/fabric-core/variables/_Color.Variables.scss";
-//@import "src/fabric-core/variables/_Font.Variables.scss";
+@import "../fabric-core/variables/_Font.Variables";
 //@import "src/fabric-core/variables/_Animation.Variables.scss";
 
 .msf-Table {
@@ -19,7 +19,7 @@
 }
 
 .msf-TableRow.msf-TableRowError {
-    background-color: $ms-color-severeWarningBackground;   
+    background-color: $ms-color-severeWarningBackground;
 }
 
 MsfTableRow:hover{
@@ -32,27 +32,26 @@ MsfTableRow:hover{
 .msf-TableCell,
 .msf-TableHeadCell {
   display: table-cell;
-  font-family: "Segoe UI", $ms-font-family-west-european;
+  font-family: "segoe ui", $ms-font-family-west-european;
   border-bottom: 1px solid $ms-color-gray40;
   padding-top: 0px;
   margin-right: 32px;
   padding-bottom: 0px;
   padding-left: 12px;
 
-  height: 42px;
-}
-
-.msf-TableHeadCell {
-    cursor: pointer;
-    position: relative;
+  min-height: 42px;
 }
 
 .msf-TableColumnResizer {
+  position: absolute;
+  left:0;
+  top:0;
     background: red;
     border:2px solid transparent;
     height: 100%;
     width: 1px;
-    cursor: e-resize
+    cursor: e-resize;
+    user-select: none;
 }
 
 .msf-TableCellFlexLayout {
@@ -64,23 +63,24 @@ MsfTableRow:hover{
 }
 
 .msf-TableHeadCell {
-  font-family: $ms-font-family-west-european;
+
   position: relative;
-  color: rgb(50, 49, 48);
+
   display: table-cell;
   box-sizing: border-box;
-  padding-top: 0px;
-  padding-right: 12px;
-  padding-bottom: 0px;
-  padding-left: 12px;
+  padding: 0 12px;
   line-height: inherit;
   margin: 0;
   height: 42px;
   vertical-align: top;
   white-space: nowrap;
+
+  -webkit-font-smoothing: antialiased;
+
+  cursor: pointer;
   text-overflow: ellipsis;
   text-align: left;
-  -webkit-font-smoothing: antialiased;
+  color: rgb(50, 49, 48);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: $ms-font-weight-semibold;
 }

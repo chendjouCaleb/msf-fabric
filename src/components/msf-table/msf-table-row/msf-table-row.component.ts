@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, Input, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { MsfTable } from '../msf-table';
-import { ColorTheme } from '../../utils/theme';
+import { ColorTheme } from '../../helpers/theme';
 
 @Component({
   selector: 'MsfTableRow',
@@ -10,13 +10,13 @@ import { ColorTheme } from '../../utils/theme';
 export class MsfTableRowComponent implements OnInit, OnDestroy {
 
   @Input()
-  Selected: boolean = false;
+  selected: boolean = false;
 
   @Input()
-  Theme: ColorTheme = "standard";
+  theme: ColorTheme = "standard";
 
   @Input()
-  Value: any;
+  value: any;
 
   selectable: boolean = false;
 
@@ -46,22 +46,22 @@ export class MsfTableRowComponent implements OnInit, OnDestroy {
       this.elementRef.nativeElement.style.transform = `translateY(${0})`;
     }, 500);
 
-    if (this.Selected) {
+    if (this.selected) {
       this.select();
     }
   }
 
   select() {
-    if (this.selectable && !this.Selected) {
-      this.Selected = true;
+    if (this.selectable && !this.selected) {
+      this.selected = true;
       this.msfTable.selectItem(this);
       this.selectCheckbox.nativeElement.checked = true;
     }
   }
 
   unselect() {
-    if (this.selectable && this.Selected) {
-      this.Selected = false;
+    if (this.selectable && this.selected) {
+      this.selected = false;
       this.msfTable.unselectItem(this);
       this.selectCheckbox.nativeElement.checked = false;
     }
@@ -76,7 +76,7 @@ export class MsfTableRowComponent implements OnInit, OnDestroy {
   }
 
   toggleSelect() {
-    if (!this.Selected) {
+    if (!this.selected) {
       this.select();
     } else {
       this.unselect();

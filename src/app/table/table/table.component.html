@@ -1,3 +1,4 @@
+<app-layout title="Table">
 <h1>Table</h1>
 
 <h3>Simple table</h3>
@@ -23,7 +24,7 @@
 
     <div style="display: flex">
         <div style="width: 500px">
-            <MsfTable [Selectable]="true" (onselectionchange)="updateSelection($event)">
+            <MsfTable [selectable]="true" (onselectionchange)="updateSelection($event)">
                 <MsfTableHead>
                     <MsfTableHeadCell>Position</MsfTableHeadCell>
                     <MsfTableHeadCell>Name</MsfTableHeadCell>
@@ -31,7 +32,7 @@
                     <MsfTableHeadCell>Symbol</MsfTableHeadCell>
                 </MsfTableHead>
 
-                <MsfTableRow *ngFor="let item of elements" [Value]="item">
+                <MsfTableRow *ngFor="let item of elements" [value]="item">
                     <MsfTableCell>{{item.position}}</MsfTableCell>
                     <MsfTableCell>{{item.name}}</MsfTableCell>
                     <MsfTableCell>{{item.weight}}</MsfTableCell>
@@ -52,13 +53,13 @@
     <MsfTable>
         <MsfTableHead>
             <MsfTableHeadCell>#</MsfTableHeadCell>
-            <MsfTableHeadCell SortBy="position">Position</MsfTableHeadCell>
-            <MsfTableHeadCell SortBy="name">Name</MsfTableHeadCell>
-            <MsfTableHeadCell SortBy="weight">Weight</MsfTableHeadCell>
-            <MsfTableHeadCell SortBy="symbol">Symbol</MsfTableHeadCell>
+            <MsfTableHeadCell sortBy="position">Position</MsfTableHeadCell>
+            <MsfTableHeadCell sortBy="name">Name</MsfTableHeadCell>
+            <MsfTableHeadCell sortBy="weight">Weight</MsfTableHeadCell>
+            <MsfTableHeadCell sortBy="symbol">Symbol</MsfTableHeadCell>
         </MsfTableHead>
 
-        <MsfTableRow *ngFor="let item of elements" [Value]="item" #line>
+        <MsfTableRow *ngFor="let item of elements" [value]="item" #line>
             <MsfTableCell>{{line.index+1}}</MsfTableCell>
             <MsfTableCell>{{item.position}}</MsfTableCell>
             <MsfTableCell>{{item.name}}</MsfTableCell>
@@ -71,3 +72,5 @@
 <div>
     <app-mutable-table></app-mutable-table>
 </div>
+
+</app-layout>

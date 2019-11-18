@@ -1,0 +1,53 @@
+<app-layout>
+<h1>Menu</h1>
+
+<div>
+  <h3>Simple contextual menu</h3>
+
+  <MsfContextualMenu>
+    <MsfContextualMenuItem>Add</MsfContextualMenuItem>
+    <div style="background-color:#e9ecef; height:0"></div>
+    <MsfContextualMenuItem>Edit</MsfContextualMenuItem>
+    <MsfContextualMenuItem>Rename</MsfContextualMenuItem>
+    <MsfContextualMenuItem>Properties</MsfContextualMenuItem>
+    <MsfContextualMenuItem>Link same window</MsfContextualMenuItem>
+    <MsfContextualMenuItem>Link new window</MsfContextualMenuItem>
+    <MsfContextualMenuItem>Link click</MsfContextualMenuItem>
+    <MsfContextualMenuItem disabled>Disabled item</MsfContextualMenuItem>
+  </MsfContextualMenu>
+</div>
+
+<div class="mt-5">
+  <h4>Menu with icon</h4>
+  <MsfContextualMenu>
+    <MsfContextualMenuItem Icon="Add" >Add</MsfContextualMenuItem>
+    <MsfContextualMenuItem Icon="Folder" >Open</MsfContextualMenuItem>
+    <MsfContextualMenuItem>Open URL</MsfContextualMenuItem>
+    <MsfContextualMenuItem Icon="Cancel" >Close</MsfContextualMenuItem>
+  </MsfContextualMenu>
+</div>
+
+<div class="mt-5">
+  <h4>Menu with secondary icon</h4>
+  <MsfContextualMenu>
+    <MsfContextualMenuItem Icon="Add"  SecondaryIcon="ChevronRight">Add</MsfContextualMenuItem>
+    <MsfContextualMenuItem Icon="Folder" >Open</MsfContextualMenuItem>
+    <MsfContextualMenuItem>Open URL</MsfContextualMenuItem>
+    <MsfContextualMenuItem Icon="Cancel" >Close</MsfContextualMenuItem>
+  </MsfContextualMenu>
+</div>
+
+<div class="mt-5">
+  <h4>Menu secondary text</h4>
+  <MsfContextualMenu>
+    <MsfContextualMenuItem Icon="Add" SecondaryText="Ctrl + N" SecondaryIcon="ChevronRight" Theme="success">Add</MsfContextualMenuItem>
+    <MsfContextualMenuItem Icon="Folder" SecondaryText="Ctrl + O" Theme="primary">Open</MsfContextualMenuItem>
+    <MsfContextualMenuItem>Open  and URL and destroy him to me</MsfContextualMenuItem>
+    <MsfContextualMenuItem Icon="Cancel" SecondaryText="Alt + F4" Theme="warning">Close</MsfContextualMenuItem>
+    <MsfContextualMenuItem Icon="Delete" SecondaryText="Shift + Del" Theme="error">Delete</MsfContextualMenuItem>
+  </MsfContextualMenu>
+</div>
+
+<div class="mt-4"></div>
+
+</app-layout>

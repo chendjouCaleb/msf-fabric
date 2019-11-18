@@ -20,6 +20,7 @@ describe('MsfButtonComponent', () => {
   });
 
   it('should create', () => {
+    console.log("bonjour")
     expect(component).toBeTruthy();
   });
 });

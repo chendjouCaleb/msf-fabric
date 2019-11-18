@@ -1,13 +1,14 @@
 @import '../../msf-core/variables/Msf-Variable';
 @import '../../msf-core/fabric-core/variables/Font.Variables';
 @import '../../msf-core/fabric-core/variables/Animation.Variables';
-@import '../controls/msf-Button.mixin';
+@import 'Msf-Button.mixin';
 
 .msf-button {
   font-family: $msf-font-family-base;
   font-size: $msf-button-font-size;
   display: inline-block;
   position: relative;
+  vertical-align: top;
   cursor: pointer;
   padding: $msf-button-padding-y $msf-button-padding-x;
   min-width: $msf-button-minWidth;
@@ -23,7 +24,7 @@
   border-radius: $msf-button-border-radius;
 
   background-color: transparent;
-  
+
   box-sizing: border-box;
 
   transition: background-color $ms-motion-duration-3;
@@ -97,11 +98,11 @@
 
 
 .msf-button.msf-command-button {
-  background: #FFF;
   border: none;
   height: 40px;
   border-radius: 0;
   font-weight: 400;
+  background: transparent;
 }
 
 
@@ -125,7 +126,15 @@
   color: $msf-success-color;
 }
 
+.msf-split-button-leftPart{
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
 
+.msf-split-button-rightPart{
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
 
 
 .msf-button .msf-button-label{

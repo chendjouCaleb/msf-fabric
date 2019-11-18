@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { MsfTableRowComponent } from 'src/components/public_api';
 import { ELEMENT_DATA } from '../element'
 
-
-
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -19,7 +17,7 @@ export class TableComponent implements OnInit {
   }
 
   updateSelection(items: MsfTableRowComponent[]) {
-    const data = items.map(i => i.Value);
+    const data = items.map(i => i.value);
     this.selection = JSON.stringify(data);
   }
 

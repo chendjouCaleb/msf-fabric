@@ -1,0 +1,16 @@
+<div class="d-flex">
+    <div >
+        <MsfContextualMenu style="width: 250px; height: 100%; border-radius: 0; box-shadow: none">
+            <MsfContextualMenuItem routerLink="/button" Icon="Button">Button</MsfContextualMenuItem>
+            <MsfContextualMenuItem routerLink="/icon">Icon</MsfContextualMenuItem>
+            <MsfContextualMenuItem routerLink="/menu" Icon="ContextMenu">Menu</MsfContextualMenuItem>
+            <MsfContextualMenuItem routerLink="/dropdown" Icon="Dropdown">Dropdown</MsfContextualMenuItem>
+            <MsfContextualMenuItem routerLink="/table" Icon="Table">Table</MsfContextualMenuItem>
+            <MsfContextualMenuItem routerLink="/checkbox" Icon="CheckboxComposite">Checkbox</MsfContextualMenuItem>
+        </MsfContextualMenu>
+    </div>
+
+    <div class="px-2">
+        <ng-content></ng-content>
+    </div>
+</div>

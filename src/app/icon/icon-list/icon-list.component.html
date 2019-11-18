@@ -1,10 +1,12 @@
+<app-layout title="Icon">
 <h1>Les icones</h1>
 <div>
     <input type="text" placeholder="Search icon" (keyup)="filter($event)">
+    <input type="text" style="font-family: FabricMDL2Icons">
 </div>
 <div class="icon-list">
-    <div *ngFor="let icon of icons" class="icon-item" (click)="click($event)">
-        <div class="icon-value ms-Icon ms-Icon--{{icon.name}}"></div>
+    <div *ngFor="let icon of icons" class="icon-item" >
+        <div class="icon-value ms-Icon ms-Icon--{{icon.name}}" (click)="click($event)"></div>
         <div>
             <div class="icon-class">{{icon.name}}</div>
             <div class="icon-code">{{icon.code}}</div>
@@ -36,3 +38,5 @@
         width: 70px;
     }
 </style>
+
+</app-layout>

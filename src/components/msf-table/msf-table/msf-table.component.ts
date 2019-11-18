@@ -10,20 +10,20 @@ import { MsfTableRowComponent } from '../msf-table-row/msf-table-row.component';
 })
 export class MsfTableComponent implements OnInit {
   @Input()
-  Selectable: boolean = false;
+  selectable: boolean = false;
 
   @Output()
-  Onselectionchange = new EventEmitter<MsfTableRowComponent[]>();
+  onselectionchange = new EventEmitter<MsfTableRowComponent[]>();
 
   constructor(private msfTable: MsfTable, private elementRef: ElementRef<HTMLElement>) {
     this.elementRef.nativeElement.classList.add("msf-Table");
    }
 
   ngOnInit() {
-    this.msfTable.selectable = this.Selectable;
+    this.msfTable.selectable = this.selectable;
 
     this.msfTable.onselectionchange.subscribe((e) => {
-      this.Onselectionchange.emit(e);
+      this.onselectionchange.emit(e);
     })
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, Input, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ElementRef, Input} from '@angular/core';
 import { MsfTable } from '../msf-table';
 import { MsfTableRowComponent } from '../msf-table-row/msf-table-row.component';
 
@@ -7,13 +7,14 @@ import { MsfTableRowComponent } from '../msf-table-row/msf-table-row.component';
   templateUrl: './msf-table-head-cell.component.html',
   styles: []
 })
-export class MsfTableHeadCellComponent implements OnInit {
+export class MsfTableHeadCellComponent implements OnInit{
 
   @Input()
-  SortBy: any;
+  sortBy: any;
 
   @Input()
-  SortFn: (a: MsfTableRowComponent, b: MsfTableRowComponent) => number
+  sortFn: (a: MsfTableRowComponent, b: MsfTableRowComponent) => number;
+
 
 
   /**
@@ -26,13 +27,14 @@ export class MsfTableHeadCellComponent implements OnInit {
    */
   isCurrentSorter: boolean = false;
 
-  
+
   constructor(private msfTable: MsfTable, private elementRef: ElementRef<HTMLElement>) {
     this.elementRef.nativeElement.classList.add("msf-TableHeadCell");
     this.msfTable.addHeadCell(this);
   }
 
   ngOnInit() {
+
   }
 
   sortTable() {
@@ -46,25 +48,31 @@ export class MsfTableHeadCellComponent implements OnInit {
       return;
     }
 
-    if (this.SortBy) {
+    if (this.sortBy) {
       this.msfTable.sortTable(this._propertySortFn, this);
     } else {
-      this.msfTable.sortTable(this.SortFn, this);
+      this.msfTable.sortTable(this.sortFn, this);
     }
     this.sortedAsc = true;
   }
 
   get isSortable() {
-    return !(!this.SortFn && !this.SortBy);
+    return !(!this.sortFn && !this.sortBy);
   }
 
   private _propertySortFn = (a: MsfTableRowComponent, b: MsfTableRowComponent) => {
-    if (a.Value[this.SortBy] > b.Value[this.SortBy]) {
+    if (a.value[this.sortBy] > b.value[this.sortBy]) {
       return 1;
-    } else if (a.Value[this.SortBy] < b.Value[this.SortBy]) {
+    } else if (a.value[this.sortBy] < b.value[this.sortBy]) {
       return -1;
     }
     return 0;
+  };
+
+
+
+  get hostElement(): HTMLElement {
+    return this.elementRef.nativeElement;
   }
 
 }
