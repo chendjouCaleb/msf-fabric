@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, Input, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ElementRef, Input, ViewChild, OnDestroy } from '@angular/core';
 import { MsfTable } from '../msf-table';
 import { ColorTheme } from '../../helpers/theme';
 
@@ -24,7 +24,7 @@ export class MsfTableRowComponent implements OnInit, OnDestroy {
 
 
   @ViewChild("msfTableSelectCheckbox", { static: false })
-  selectCheckbox: ElementRef<HTMLInputElement>
+  selectCheckbox: ElementRef<HTMLInputElement>;
 
   constructor(private msfTable: MsfTable, public elementRef: ElementRef<HTMLElement>) {
     this.elementRef.nativeElement.classList.add("msf-TableRow");

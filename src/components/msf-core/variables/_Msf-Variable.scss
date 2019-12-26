@@ -1,3 +1,19 @@
 @import "./Msf-Base";
 @import "./Msf-Button";
 @import "./Msf-ContextMenu";
+
+$msf-fontSize-tn:10;
+$msf-fontSize-sm:12;
+$msf-fontSize-md:14;
+$msf-fontSize-lg:24;
+$msf-fontSize-xl:32;
+$msf-fontSize-xxl:68;
+
+$msf-fontSizes: (
+  sm: $msf-fontSize-sm,
+  md: $msf-fontSize-md,
+  lg: $msf-fontSize-lg,
+  xl: $msf-fontSize-xl,
+  xxl: $msf-fontSize-xxl
+)
+

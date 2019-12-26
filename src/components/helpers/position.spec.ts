@@ -45,6 +45,11 @@ describe("test positioning element", () => {
     expect(position.right()).toBe(position.landmarkRect().left + position.landmarkRect().width);
   });
 
+  test("get xCenter should be the landmark.left + landmark.width/2 - element.width/2", () => {
+    expect(position.xCenter())
+      .toBe(position.landmarkRect().left + position.landmarkRect().width/2 - position.elementRect().width/2);
+  });
+
   test("get alignRight should be the landmark.left + landmark.width - elementRect.width", () => {
     expect(position.alignRight()).toBe(position.landmarkRect().left + position.landmarkRect().width - position.elementRect().width);
   });
@@ -152,6 +157,11 @@ describe("test positioning element", () => {
 
   test("get alignTop should be the landmark.top", () => {
     expect(position.alignTop()).toBe(position.landmarkRect().top);
+  });
+
+  test("get yCenter should be the landmark.top + landmark.height/2 - element.height/2", () => {
+    expect(position.yCenter())
+      .toBe(position.landmarkRect().top + position.landmarkRect().height/2 - position.elementRect().height/2);
   });
 
   test("get bottom should be the landmark.top + landmark.height", () => {

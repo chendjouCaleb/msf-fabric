@@ -1,0 +1,10 @@
+.msf_Grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: space-between;
+}
+
+.msf_GridItem {
+  display: block;
+}

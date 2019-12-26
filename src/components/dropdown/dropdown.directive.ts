@@ -1,4 +1,6 @@
 import {
+  AfterViewInit,
+  ContentChildren,
   Directive,
   ElementRef,
   EventEmitter,
@@ -7,7 +9,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Output
+  Output, QueryList, ViewChildren
 } from "@angular/core";
 import {MsfContextualMenuEvent, MsfDropdownCloseEvent, MsfDropdownOpenEvent} from "./menu-trigger-event";
 import {DomUtils} from "../utils/dom-utils";
@@ -20,12 +22,15 @@ export const NO_CLOSE_DROPDOWN_ATTR = "noCloseDropdown";
 @Directive({
   selector: "[MsfDropdown]"
 })
-export class MsfDropdown implements OnInit, OnDestroy {
+export class MsfDropdown implements OnInit, OnDestroy, AfterViewInit {
   private _isOpen: boolean = false;
   private _position: Position = new Position();
 
   @Input("MsfDropdown")
   target: HTMLElement;
+
+  @Input()
+  parent: MsfDropdown;
 
   @Input()
   xPosition: relativePosition = "properAlign";
@@ -77,6 +82,9 @@ export class MsfDropdown implements OnInit, OnDestroy {
   @Input()
   useTargetAsMinWidth: boolean = false;
 
+  @ViewChildren(MsfDropdown)
+  children: QueryList<MsfDropdown>;
+
 
   /**
    * Callback for when the menu is being closed (removing from the DOM).
@@ -119,12 +127,8 @@ export class MsfDropdown implements OnInit, OnDestroy {
   }
 
   @HostListener("focus", ["$event"])
-  onFocus(e) {
-    if (this.openEvent !== "focus") {
-      return;
-    }
-    this.openMenu();
-    console.log("focus")
+  onFocus() {
+
   }
 
   @HostListener("contextmenu", ["$event"])
@@ -152,15 +156,6 @@ export class MsfDropdown implements OnInit, OnDestroy {
     console.log("mouseout")
   }
 
-
-  @HostListener("blur")
-  onBlur() {
-    if (!this.isCloseEvent("blur")) {
-      return;
-    }
-
-    console.log("blur")
-  }
 
 
   private _onDropdownMouseOut = (event: MouseEvent) => {
@@ -220,11 +215,14 @@ export class MsfDropdown implements OnInit, OnDestroy {
     });
   }
 
+
+
   constructor(private elementRef: ElementRef<HTMLElement>) {
     //this.elementRef.nativeElement.setAttribute(NO_CLOSE_DROPDOWN_ATTR, "true");
   }
 
   ngOnInit(): void {
+
     this._position.landmarkRect = () => {return{
       left: this.elementRef.nativeElement.getBoundingClientRect().left,
       top: this.elementRef.nativeElement.getBoundingClientRect().top,
@@ -280,6 +278,10 @@ export class MsfDropdown implements OnInit, OnDestroy {
     }
     console.log(result);
     return result;
+  }
+
+  ngAfterViewInit(): void {
+    console.log(this.children)
   }
 
 }

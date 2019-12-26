@@ -1,0 +1,20 @@
+@import '../../msf-core/variables/Msf-Variable';
+
+@each $color, $value in $msf-theme-colors {
+  MsfIcon.msf_Theme-#{$color}, [MsfIcon].msf_Theme-#{$color} {
+    color: $value;
+  }
+}
+
+@each $size, $value in $msf-fontSizes {
+  MsfIcon.msf_Size-#{$size}, [MsfIcon].msf_Size-#{$size} {
+    font-size: $value + px;
+  }
+}
+
+@each $size, $value in $msf-fontSizes {
+  MsfIconImage.msf_Size-#{$size} img, [MsfIconImage].msf_Size-#{$size} img {
+    height: $value + px;
+    width: $value + px;
+  }
+}

@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "./bootstrap/scss/bootstrap.scss";
+@import "~@mdi/font/css/materialdesignicons.min.css";
+@import "./assets/reset.css";
 @import "fabric-core/Fabric.scss";
 @import "components/msf-core/Msf-Core.scss";
