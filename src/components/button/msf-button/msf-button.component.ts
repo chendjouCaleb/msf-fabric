@@ -1,5 +1,5 @@
-import {ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewEncapsulation} from '@angular/core';
-import {ColorTheme} from '../../helpers/theme';
+import {ChangeDetectionStrategy, Component, ElementRef, Input, ViewEncapsulation} from '@angular/core';
+
 import { MsfButtonBaseComponent } from '../button-base';
 
 export type ButtonSize = "1x" | "2x" | "3x";

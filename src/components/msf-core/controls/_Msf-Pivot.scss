@@ -1,0 +1,133 @@
+@import '../../msf-core/variables/Msf-Variable';
+@import '../../msf-core/fabric-core/variables/Font.Variables';
+@import '../../msf-core/fabric-core/variables/Animation.Variables';
+@import "../variables/Msf-Pivot";
+
+.msf_PivotHeader {
+  display: block;
+  position: relative;
+}
+
+
+.msf_PivotHeader .msf_PivotItemLabel:first-child {
+  margin-left: 0 !important;
+}
+
+.msf_PivotHeader .msf_PivotItemLabel {
+  margin-left: 15px;
+}
+
+.msf_PivotActiveBorder {
+  display: inline-block;
+  height: 2px;
+  background: $msf_PivotActiveBorder-background;
+
+  position: absolute;
+  bottom: 0;
+  transition-duration: .2s;
+}
+
+.msf_PivotItemLabel {
+  font-family: $msf-font-family-base;
+  font-size: $msf-PivotItemLabelItem-fontSize;
+  font-weight: $msf_PivotItemLabelItem-fontWeight;
+  color: $msf_PivotItemLabel-Color;
+
+  position: relative;
+  vertical-align: top;
+
+  padding: $msf-PivotItemLabelItem-padding-y 0;
+  height: $msf-PivotItemLabelItem-height;
+  display: inline-block;
+
+
+  cursor: pointer;
+
+  user-select: none;
+  outline: transparent;
+
+
+
+
+  background-color: transparent;
+  box-sizing: border-box;
+  transition: background-color $ms-motion-duration-1;
+
+  &:disabled, &[disabled], &.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  &:hover {
+    background: $msf_PivotItemLabelItem-Hover-bgColor;
+  }
+  &:focus {
+    outline: 1px dashed $msf_PivotItemLabelItem-focus-outline-color;
+  }
+}
+
+.msf_PivotItemLabel[active]{
+  color: $msf_PivotActiveLabel-color;
+}
+
+.msf_PivotItemLabel-FlexLayout{
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.msf_PivotItemLabel-Label{
+  text-align: left;
+  vertical-align: middle;
+  margin: 0 5px;
+  display: inline-block;
+  flex-grow: 1;
+}
+
+
+.msf_PivotItemLabel-Icon{
+  font-size: 18px;
+  text-align: center;
+  margin: 0 5px;
+}
+
+.msf_PivotItemLabel-LabelIcon{
+
+}
+
+.msf_PivotItemLabel-SecondaryIcon{
+  justify-self: flex-end;
+}
+
+@each $theme, $value in $msf_PivotItemLabelThemes {
+  .msf_PivotItemLabel-#{$theme} .msf_PivotItemLabel-Label{
+    color: map_get($value, "color")
+  }
+
+  .msf_PivotItemLabelItem-#{$theme} .msf_PivotItemLabelItem-SecondaryText{
+    color: map_get($value, "color")
+  }
+
+  .msf_PivotItemLabelItem-#{$theme} .msf_PivotItemLabelItem-LabelIcon {
+    color: map_get($value, "iconColor")
+  }
+}
+
+
+.msf_PivotBody {
+  display: block;
+  overflow: hidden;
+}
+
+.msf_PivotBodyLayout{
+
+  display: flex;
+  transition-duration: .3s;
+}
+
+.msf_PivotContent{
+  display: inline-block;
+  width: 100%;
+}
+
+

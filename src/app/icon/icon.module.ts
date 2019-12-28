@@ -17,12 +17,7 @@ const routes: Routes = [
   {path: "", component: IconComponent}
 ];
 
-let mapping = new Dictionary<string, string>();
 
-mapping.put("neural", "/assets/icon/neural.png");
-mapping.put("document", "/assets/icon/document.png");
-mapping.put("cpu", "/assets/icon/cpu.png");
-mapping.put("smartphone", "/assets/icon/smartphone.png");
 
 
 @NgModule({
@@ -31,8 +26,7 @@ mapping.put("smartphone", "/assets/icon/smartphone.png");
     CommonModule, RouterModule.forChild(routes), AppLayoutModule, MsfIconModule
   ],
   providers: [
-    {provide: IconRegistry, useValue: MSF_DEFAULT_ICON_REGISTRY},
-    {provide: MSF_ICON_IMAGE_MAPPING, useValue: mapping}
+
     ]
 })
 export class IconModule {

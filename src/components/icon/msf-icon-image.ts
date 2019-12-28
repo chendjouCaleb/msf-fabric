@@ -3,7 +3,9 @@ import {Component, ElementRef, Inject, Input, Optional} from "@angular/core";
 import {IDictionary} from "@positon/collections";
 import {Size} from "../helpers/theme";
 import {AssertHelpers} from "@positon/collections/dist/helpers/assert-helpers";
-import {IconRegistry} from "./icon-registry";
+import {IconImageProps} from "./icon-props";
+
+
 
 export const MSF_ICON_IMAGE_MAPPING = "iconImageMapping";
 
@@ -37,7 +39,7 @@ export class MsfIconImage {
   }
 
   /**
-   * The font-size of icon. You can use style property instead.
+   * The size of icon. You can use style property instead.
    */
   @Input()
   set size(value: Size) {
@@ -45,6 +47,22 @@ export class MsfIconImage {
     this.elementRef.nativeElement.classList.add("msf_Size-" + value);
     this._size = value;
   }
+
+  private _props: IconImageProps;
+
+  @Input()
+  set props(value: IconImageProps) {
+    this.size = value.size;
+    this.source = value.source;
+    this.alt = value.alt;
+    this._props = value;
+  }
+
+
+  get props(): IconImageProps {
+    return this._props;
+  }
+
   constructor(@Inject(MSF_ICON_IMAGE_MAPPING) @Optional() private mapping: IDictionary<string, string>,
      private elementRef: ElementRef<HTMLElement>) {
     this.size = "md";
@@ -60,4 +78,6 @@ export class MsfIconImage {
 
     return this.mapping.get(src);
   }
+
+
 }

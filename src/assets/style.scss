@@ -1,0 +1,44 @@
+@for $i from 1 through 6 {
+  h#{$i} {
+    font-weight: 600;
+  }
+}
+
+#app-sidebar MsfContextualMenuItem {
+  font-weight: 600;
+
+  color: $ms-color-gray130
+}
+
+.documentation-body{
+  background: $ms-color-gray10;
+  padding: 30px;
+}
+
+.component-overview {
+  font-size: 16px;
+  padding: 20px;
+  box-shadow: $ms-depth-shadow-8;
+  background: $ms-color-white;
+}
+
+.component-usage {
+  padding: 20px;
+  box-shadow: $ms-depth-shadow-4;
+  background: $ms-color-white;
+}
+
+
+.component-usage-section{
+  margin-top: 30px;
+}
+
+.component-usage-section-title {
+  color: $ms-color-gray130;
+  border-bottom: 1px solid $ms-color-gray80;
+  padding-bottom: 10px;
+}
+
+.component-usage-section-content{
+  margin-top: 20px;
+}

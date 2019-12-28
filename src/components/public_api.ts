@@ -7,3 +7,4 @@ export * from "./contextual-menu/public_api";
 export * from "./dropdown/public_api";
 export * from "./grid/public_api";
 export * from "./selection/public_api";
+export * from "./pivot/public_api";

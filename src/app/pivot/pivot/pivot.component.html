@@ -1,0 +1,98 @@
+<app-layout title="Pivot">
+  <h1>Pivot</h1>
+
+  <div class="component-overview">
+    <h3 class="component-overview-title">Overview</h3>
+    <div class="component-overview-content">
+      The Pivot control and related tabs pattern are used for navigating frequently accessed,
+      distinct content categories. Pivots allow for navigation between two or more content
+      views and relies on text headers to articulate the different sections of content.
+
+      <br><br>
+      &#8226; Tapping on a pivot item header navigates to that header's section content.
+      <br><br>
+
+      Tabs are a visual variant of Pivot that use a combination of icons and text or just
+      icons to articulate section content.
+    </div>
+  </div>
+
+
+  <div class="component-usage mt-5">
+    <h3 class="component-usage-title">Usage</h3>
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">Default Pivot</h5>
+
+      <div class="component-usage-section-content">
+        <MsfPivot>
+          <MsfPivotHeader>
+            <MsfPivotLabel>My Files</MsfPivotLabel>
+            <MsfPivotLabel>Recent</MsfPivotLabel>
+            <MsfPivotLabel>Shared with me</MsfPivotLabel>
+          </MsfPivotHeader>
+
+          <MsfPivotBody>
+            <MsfPivotContent>Pivot #1</MsfPivotContent>
+            <MsfPivotContent>Pivot #2</MsfPivotContent>
+            <MsfPivotContent>Pivot #3</MsfPivotContent>
+          </MsfPivotBody>
+
+
+        </MsfPivot>
+      </div>
+    </div>
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">With icon</h5>
+
+      <div class="component-usage-section-content">
+        <MsfPivot>
+          <MsfPivotHeader>
+            <MsfPivotLabel [icon]="{name: 'plus', provider: 'MdiIcon', size: 'lg'}">My Files</MsfPivotLabel>
+            <MsfPivotLabel [icon]="{name: 'Clock'}">Recent</MsfPivotLabel>
+            <MsfPivotLabel [iconImage]="{source: 'folder', size: 'lg'}">Folder</MsfPivotLabel>
+            <MsfPivotLabel [iconImage]="{source: 'settings'}">Settings</MsfPivotLabel>
+          </MsfPivotHeader>
+
+          <MsfPivotBody>
+            <MsfPivotContent>Pivot #1</MsfPivotContent>
+            <MsfPivotContent>Pivot #2</MsfPivotContent>
+            <MsfPivotContent>Pivot #3</MsfPivotContent>
+            <MsfPivotContent>Pivot #4</MsfPivotContent>
+          </MsfPivotBody>
+
+
+        </MsfPivot>
+      </div>
+    </div>
+
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">Override selected item</h5>
+
+      <div class="component-usage-section-content">
+        <MsfPivot #pivot>
+          <MsfPivotHeader>
+            <MsfPivotLabel>My Files</MsfPivotLabel>
+            <MsfPivotLabel>Recent</MsfPivotLabel>
+            <MsfPivotLabel>Shared with me</MsfPivotLabel>
+          </MsfPivotHeader>
+
+          <MsfPivotBody>
+            <MsfPivotContent>Pivot #1</MsfPivotContent>
+            <MsfPivotContent>Pivot #2</MsfPivotContent>
+            <MsfPivotContent>Pivot #3</MsfPivotContent>
+          </MsfPivotBody>
+
+        </MsfPivot>
+
+        <div class="mt-3">
+          <MsfOutlineButton theme="primary" Icon="ChevronLeft" (click)="pivot.selectPrev()">Select prev item</MsfOutlineButton>
+          <MsfOutlineButton theme="primary" LeftIcon="ChevronRight" class="ml-2" (click)="pivot.selectNext()">Select next item</MsfOutlineButton>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</app-layout>

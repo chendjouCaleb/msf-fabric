@@ -1,0 +1,13 @@
+<span class="msf_PivotItemLabel-FlexLayout">
+    <span MsfIcon [props]="icon" class="msf_PivotItemLabel-Icon msf_PivotItemLabel-LabelIcon" *ngIf="icon"></span>
+        <MsfIconImage *ngIf="iconImage" [props]="iconImage"
+                      class="msf_PivotItemLabel-Icon msf_PivotItemLabel-LabelIcon"></MsfIconImage>
+
+  <span class="msf_PivotItemLabel-Label" #msfPivotItemLabel>
+        <ng-content></ng-content>
+    </span>
+
+    <MsfIcon *ngIf="secondaryIcon" [props]="secondaryIcon"></MsfIcon>
+    <MsfIconImage *ngIf="secondaryIconImage" [props]="secondaryIconImage"></MsfIconImage>
+
+</span>

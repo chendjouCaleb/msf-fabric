@@ -1,5 +1,10 @@
 @import '../../msf-core/variables/Msf-Variable';
 
+MsfIcon, [MsfIcon], MsfIconImage, [MsfIconImage] {
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+}
 @each $color, $value in $msf-theme-colors {
   MsfIcon.msf_Theme-#{$color}, [MsfIcon].msf_Theme-#{$color} {
     color: $value;

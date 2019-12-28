@@ -3,10 +3,12 @@ import {ColorTheme, Size} from "../helpers/theme";
 import {IconRegistry} from "./icon-registry";
 import {IconProvider} from "./icon-provider";
 import {NullArgumentException} from "@positon/collections";
+import {IconImageProps, IconProps} from "./icon-props";
+import {AssertHelpers} from "@positon/collections/dist/helpers/assert-helpers";
 
 @Component({
   selector: "MsfIcon, [MsfIcon]",
-  templateUrl: "msf-icon-font.html",
+  template: "",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MsfIconFont implements OnInit {
@@ -36,7 +38,13 @@ export class MsfIconFont implements OnInit {
     if (!value) {
       throw new Error("Cannot use empty or null string as icon name");
     }
+    this.setIconName(value);
+  }
 
+  private setIconName(value: string) {
+    if (!value) {
+      return;
+    }
 
     this.host.classList.remove(this._provider.classPrefix + this.getRealIconName(value));
 
@@ -85,12 +93,18 @@ export class MsfIconFont implements OnInit {
     }
 
     this.host.classList.remove(this._provider.className);
-    this.host.classList.remove(this._provider.classPrefix + this.getRealIconName(this.iconName));
+    if(this.iconName){
+      this.host.classList.remove(this._provider.classPrefix + this.getRealIconName(this.iconName));
+    }
+
 
     this._provider = this.registry.get(value);
 
     this.host.classList.add(this._provider.className);
-    this.host.classList.add(this._provider.classPrefix + this.getRealIconName(this.iconName));
+
+    if(this.iconName) {
+      this.host.classList.add(this._provider.classPrefix + this.getRealIconName(this.iconName));
+    }
   }
 
 
@@ -101,6 +115,15 @@ export class MsfIconFont implements OnInit {
   }
 
   private _provider: IconProvider;
+
+  @Input()
+  set props(value: IconProps) {
+    console.log(value);
+    this.size = value.size != null ? value.size: "md";
+    this.providerName = value.provider != null ? value.provider:this.registry.defaultProviderName;
+
+    this.setIconName(value.name);
+  }
 
   ngOnInit(): void {
 

@@ -8,7 +8,8 @@ const routes: Routes = [
   {path: "grid", loadChildren: () => import('./grid/grid.module').then(m => m.GridModule)},
   {path: "menu", loadChildren: () => import('./menu/menu.module').then(m => m.MenuModule)},
   {path: "dropdown", loadChildren: () => import('./dropdown/dropdown.module').then(m => m.DropdownModule)},
-  {path: "icon", loadChildren: () => import('./icon/icon.module').then(m => m.IconModule)}
+  {path: "icon", loadChildren: () => import('./icon/icon.module').then(m => m.IconModule)},
+  {path: "pivot", loadChildren: () => import('./pivot/pivot.module').then(m => m.PivotModule)},
 ];
 
 @NgModule({
