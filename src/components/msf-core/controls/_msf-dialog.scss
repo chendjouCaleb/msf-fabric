@@ -1,0 +1,54 @@
+
+$msf-dialog-padding: 24px !default;
+$msf-dialog-max-height: 65vh !default;
+$msf-dialog-button-margin: 8px !default;
+
+.msf-dialog-container {
+  display: block;
+  padding: $msf-dialog-padding;
+  box-sizing: border-box;
+  overflow: auto;
+  outline: 0;
+
+  // The dialog container should completely fill its parent overlay element.
+  width: 100%;
+  height: 100%;
+
+  // Since the dialog won't stretch to fit the parent, if the height
+  // isn't set, we have to inherit the min and max values explicitly.
+  min-height: inherit;
+  max-height: inherit;
+}
+
+.msf-dialog-content {
+  display: block;
+  margin: 0 $msf-dialog-padding * -1;
+  padding: 0 $msf-dialog-padding;
+  max-height: $msf-dialog-max-height;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.msf-dialog-title {
+  margin: 0 0 20px;
+  display: block;
+}
+
+.msf-dialog-actions {
+  padding: 8px 0;
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 52px;
+  align-items: center;
+
+  // Pull the actions down to avoid their padding stacking with the dialog's padding.
+  margin-bottom: -$msf-dialog-padding;
+
+  &[align='end'] {
+    justify-content: flex-end;
+  }
+
+  &[align='center'] {
+    justify-content: center;
+  }
+}

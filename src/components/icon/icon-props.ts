@@ -1,8 +1,9 @@
-import {Size} from "../helpers/theme";
+import {ColorTheme, Size} from "../helpers/theme";
 
 export interface IconProps {
   name: string;
   size?: Size;
+  theme?: ColorTheme;
   provider?: string
 }
 

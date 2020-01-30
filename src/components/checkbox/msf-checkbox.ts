@@ -50,7 +50,7 @@ export class MsfCheckboxChange {
 
 
 @Component({
-  templateUrl: "checkbox.html"
+  templateUrl: "radio.html"
 })
 export class MsfCheckbox extends MsfBaseComponent{
   private _uniqueId: string = "msf_Checkbox-${++nextUniqueId}";
@@ -58,18 +58,18 @@ export class MsfCheckbox extends MsfBaseComponent{
 
   /** A unique id for the checkbox input. If none is supplied, it will be auto-generated. */
   @Input("id")
-  Id: string;
+  id: string;
 
 
   /**
    * Returns the unique id for the visual hidden input.
    */
-  get InputId(): string { return `${this.Id || this._uniqueId}-input`; }
+  get inputId(): string { return `${this.id || this._uniqueId}-input`; }
 
   /** Whether the checkbox is required. */
-  @Input("required")
-  get Required(): boolean { return this._required; }
-  set Required(value: boolean) { this._required = coerceBooleanProperty(value); }
+  @Input()
+  get required(): boolean { return this._required; }
+  set required(value: boolean) { this._required = coerceBooleanProperty(value); }
   private _required: boolean;
 
   /** Whether the label should appear after or before the checkbox. Defaults to 'after' */
@@ -78,15 +78,15 @@ export class MsfCheckbox extends MsfBaseComponent{
 
   /** Name value will be applied to the input element if present */
   @Input("name")
-  Name: string | null = null;
+  name: string | null = null;
 
   @Input("value")
-  Value: any;
+  value: any;
 
 
   /** Event emitted when the checkbox's `checked` value changes. */
   @Output()
-  readonly OnChange: EventEmitter<MsfCheckboxChange> = new EventEmitter<MsfCheckboxChange>();
+  readonly onChange: EventEmitter<MsfCheckboxChange> = new EventEmitter<MsfCheckboxChange>();
 
 
   /** Event emitted when the checkbox's `indeterminate` value changes. */
@@ -96,6 +96,6 @@ export class MsfCheckbox extends MsfBaseComponent{
   @ViewChild('input', {static: false})
   _inputElement: ElementRef<HTMLInputElement>;
 
-  
+
 
 }

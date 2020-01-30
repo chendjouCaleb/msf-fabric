@@ -15,5 +15,21 @@ $msf-fontSizes: (
   lg: $msf-fontSize-lg,
   xl: $msf-fontSize-xl,
   xxl: $msf-fontSize-xxl
-)
+);
+
+
+$msf-size-tn:10;
+$msf-size-sm:12;
+$msf-size-md:14;
+$msf-size-lg:24;
+$msf-size-xl:32;
+$msf-size-xxl:68;
+
+$msf-sizes: (
+  sm: $msf-size-sm,
+  md: $msf-size-md,
+  lg: $msf-size-lg,
+  xl: $msf-size-xl,
+  xxl: $msf-size-xxl
+);
 

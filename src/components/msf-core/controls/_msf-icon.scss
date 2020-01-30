@@ -4,7 +4,14 @@ MsfIcon, [MsfIcon], MsfIconImage, [MsfIconImage] {
   margin: 0;
   padding: 0;
   display: inline-block;
+  vertical-align: middle;
 }
+
+MsfIconImage img, [MsfIconImage] img {
+  height: $msf-fontSize-md + px;
+  width: $msf-fontSize-md + px;
+}
+
 @each $color, $value in $msf-theme-colors {
   MsfIcon.msf_Theme-#{$color}, [MsfIcon].msf_Theme-#{$color} {
     color: $value;
@@ -17,7 +24,7 @@ MsfIcon, [MsfIcon], MsfIconImage, [MsfIconImage] {
   }
 }
 
-@each $size, $value in $msf-fontSizes {
+@each $size, $value in $msf-sizes {
   MsfIconImage.msf_Size-#{$size} img, [MsfIconImage].msf_Size-#{$size} img {
     height: $value + px;
     width: $value + px;

@@ -1,4 +1,5 @@
 export class Keyboard {
+  static Escape: string = 'Esc';
   static Home: string = 'Home';
   static Tab: string = 'Tab';
   static End: string = 'End';

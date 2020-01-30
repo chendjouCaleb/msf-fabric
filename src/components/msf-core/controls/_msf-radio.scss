@@ -1,0 +1,81 @@
+@import '../../msf-core/variables/Msf-Variable';
+@import '../../msf-core/fabric-core/variables/Font.Variables';
+@import '../../msf-core/fabric-core/variables/Animation.Variables';
+@import "../variables/Msf-ContextMenu";
+
+$msf-radio-radius: 20px;
+$msf-radio-default-color: $msf-primary-color;
+$msf-radio-border-width: 2px;
+$msf-radio-indicator-radius: 12px;
+$msf-radio-border-color: $ms-color-sharedGray30;
+
+
+.msf-radio-container {
+  display: flex;
+  //position: relative;
+  align-items: center;
+  justify-content: center;
+  height: $msf-radio-radius;
+  width: $msf-radio-radius;
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  border: $msf-radio-border-width solid $msf-radio-border-color;
+
+
+
+  &:checked, &[checked], &.msf-checked {
+
+  }
+
+  &:focus {
+
+
+  }
+
+  &:hover {
+    filter: brightness(0.8);
+  }
+}
+
+
+.msf-radio{
+  display: inline-block;
+
+  &.msf-disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+}
+MsfRadio.checked .msf-radio-container {
+  border-color: $msf-radio-default-color;
+}
+.msf-radio-indicator {
+  //display:  inline-block;
+  //position: absolute;
+  //top: 2px;
+  //left: 2px;
+  height: $msf-radio-indicator-radius;
+  width: $msf-radio-indicator-radius;
+  border-radius: 50%;
+
+  background: $msf-radio-default-color;
+  transition-duration: .27s;
+  opacity: 0;
+
+  &.visible{
+    opacity: 1;
+  }
+}
+
+@each $color, $value in $msf-theme-colors {
+  MsfRadio.msf-theme-#{$color} .msf-radio-indicator{
+    color: $value;
+    background: $value;
+  }
+
+  MsfRadio.msf-theme-#{$color} .msf-radio-container{
+    border-color: $value;
+  }
+}

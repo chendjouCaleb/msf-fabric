@@ -1,0 +1,69 @@
+<app-layout title="Icons">
+  <h1>RadioGroupMap</h1>
+
+  <div class="component-overview">
+    <h3 class="component-overview-title">Overview</h3>
+    <div class="component-overview-content">
+      The ChoiceGroup component, also known as radio buttons,
+      let users select one option from two or more choices.
+      Each option is represented by one ChoiceGroup button;
+      a user can select only one ChoiceGroup in a button group.
+      <br><br>
+      ChoiceGroup emphasize all options equally,
+      and that may draw more attention to the options than necessary.
+      Consider using other controls, unless the options deserve extra attention from the user.
+      For example, if the default option is recommended for most users in most situations,
+      use a Dropdown component instead.
+      <br><br>
+      If there are only two mutually exclusive options, combine them into a single Checkbox or Toggle switch.
+      For example, use a Checkbox for "I agree" instead of ChoiceGroup buttons for "I agree" and "I don't agree."
+    </div>
+  </div>
+
+
+  <div class="component-usage mt-5">
+    <h3 class="component-usage-title">Usage</h3>
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">Basic RadioGroupMap</h5>
+
+      <div class="component-usage-section-content">
+
+          <label for="option-A"> <MsfRadio id="option-A" name="option-group-1"></MsfRadio> Option A </label>
+          <label for="option-B"> <MsfRadio id="option-B" name="option-group-1"></MsfRadio> Option B </label>
+          <label for="option-C"> <MsfRadio id="option-C" name="option-group-1"></MsfRadio> Option D </label>
+          <label for="option-D"> <MsfRadio id="option-D" name="option-group-1"></MsfRadio> Option D </label>
+
+      </div>
+    </div>
+
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">Theming</h5>
+
+      <div class="component-usage-section-content">
+
+          <label for="option-A"> <MsfRadio theme="error"></MsfRadio> Error </label>
+          <label for="option-B"> <MsfRadio theme="primary"></MsfRadio> Primary </label>
+          <label for="option-C"> <MsfRadio theme="success"></MsfRadio> Success </label>
+          <label for="option-D"> <MsfRadio theme="warning"></MsfRadio> Warning </label>
+
+      </div>
+    </div>
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">Disabled radio</h5>
+
+      <div class="component-usage-section-content">
+
+        <label for="option-A"> <MsfRadio [disabled]="true" ></MsfRadio> Option A</label>
+        <label for="option-B"> <MsfRadio theme="primary" [disabled]="true"></MsfRadio> Option B </label>
+
+
+      </div>
+    </div>
+
+
+  </div>
+
+</app-layout>

@@ -1,0 +1,35 @@
+<app-layout title="Icons">
+  <h1>Dialog</h1>
+
+  <div class="component-overview">
+    <h3 class="component-overview-title">Overview</h3>
+    <div class="component-overview-content">
+      Dialogs are temporary, modal UI overlay that generally provide contextual app information or
+      require user confirmation/input. In most cases, Dialogs block interactions with the web page
+      or application until being explicitly dismissed, and often request action from the user.
+      They are primarily used for lightweight creation or edit tasks, and simple management tasks.
+    </div>
+  </div>
+
+
+  <div class="component-usage mt-5">
+    <h3 class="component-usage-title">Usage</h3>
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">Default Dialog</h5>
+
+      <div class="component-usage-section-content">
+        <MsfButton (click)="templateDialog()" theme="standard">Template Dialog</MsfButton>
+        <MsfButton (click)="componentDialog()" theme="standard" class="ml-5">Component Dialog</MsfButton>
+
+
+        <ng-template #templateDialogView>
+          Template dialog view template
+        </ng-template>
+      </div>
+    </div>
+
+
+  </div>
+
+</app-layout>

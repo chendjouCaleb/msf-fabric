@@ -2,8 +2,8 @@ import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {IconRegistry} from "./icon-registry";
 import {IconProvider} from "./icon-provider";
-import {MsfIconFont} from "./msf-icon-font";
-import {MsfIconImage} from "./msf-icon-image";
+import {MsfIconFont} from "./icon-font.component";
+import {MsfIconImage} from "./icon-image";
 
 
 let msfProvider = new IconProvider();
@@ -23,11 +23,14 @@ iconRegistry.defaultProviderName = "MsIcon";
 export const MSF_DEFAULT_ICON_REGISTRY = iconRegistry;
 
 
-
 @NgModule({
-  imports: [ CommonModule ],
-  declarations: [ MsfIconFont, MsfIconImage],
-  exports: [ MsfIconFont, MsfIconImage]
+  imports: [CommonModule],
+  declarations: [MsfIconFont, MsfIconImage],
+  exports: [MsfIconFont, MsfIconImage],
+  providers: [
+    {provide: IconRegistry, useValue: MSF_DEFAULT_ICON_REGISTRY}
+  ]
 
 })
-export class MsfIconModule {}
+export class MsfIconModule {
+}

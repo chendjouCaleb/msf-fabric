@@ -1,0 +1,13 @@
+<span class="msf-radio-container">
+  <span class="msf-radio-indicator" [class.visible]="checked"></span>
+</span>
+
+<input type="radio" style="display: none" #inputElement
+       [attr.id]="inputId"
+       [attr.disabled]="disabled"
+       [attr.aria-labelledby]="ariaLabelledby"
+       [attr.aria-describedby]="ariaDescribedby"
+       [attr.aria-label]="ariaLabel"
+       [attr.name]="name"
+       [checked]="checked"
+>

@@ -8,3 +8,6 @@ export * from "./dropdown/public_api";
 export * from "./grid/public_api";
 export * from "./selection/public_api";
 export * from "./pivot/public_api";
+export * from "./callout/public_api";
+export * from "./dialog/public_api";
+export * from "./radio/public_api"

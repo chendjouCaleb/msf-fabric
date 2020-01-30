@@ -1,0 +1,13 @@
+@import '../../msf-core/variables/Msf-Variable';
+@import '../../msf-core/fabric-core/variables/Font.Variables';
+@import '../../msf-core/fabric-core/variables/Animation.Variables';
+@import "../variables/Msf-Pivot";
+
+.msf-callout-backdrop {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.msf-callout-panel {
+  border: 1px solid red;
+  background: #FFF;
+}
