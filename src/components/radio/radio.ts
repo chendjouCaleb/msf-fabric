@@ -1,13 +1,11 @@
 import {
-  AfterContentInit, AfterViewInit,
+  AfterContentInit,
   ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
-  HostBinding,
   HostListener,
   Input,
-  Optional,
   Output,
   ViewChild
 } from "@angular/core";
@@ -39,24 +37,61 @@ export class MsfRadioChange {
     '[class.msf-disabled]': 'disabled',
 
     // Needs to be -1 so the `focus` event still fires.
-    '[attr.tabindex]': '-1',
+    '[attr.tabindex]': 'disabled ? -1 : 0',
     '[attr.id]': 'id',
     '[attr.disabled]': 'disabled',
     '[attr.aria-labelledby]': 'ariaLabelledby',
     '[attr.aria-describedby]': 'ariaDescribedby',
-    '[attr.aria-label]': 'ariaLabel',
-    // Note: under normal conditions focus shouldn't land on this element, however it may be
-    // programmatically set, for example inside of a focus trap, in this case we want to forward
-    // the focus to the native element.
-    '(focus)': '_inputElement.nativeElement.focus()',
+    '[attr.aria-label]': 'ariaLabel'
+
   }
 })
-export class MsfRadioInput {
+export class MsfRadioInput implements AfterContentInit{
+  private _isInitialized: boolean = false;
 
   private _uniqueId: string = `msf-radio-${++nextUniqueId}`;
 
   /** The unique ID for the radio button. */
-  @Input() id: string = this._uniqueId;
+  @Input()
+  get id(): string {
+    return this._id;
+  }
+
+  set id( value: string) {
+    this._id = value;
+
+    if(this._isInitialized){
+      this.forLabel = `label[for='${value}']`;
+    }
+  }
+
+  private _id = this._uniqueId;
+
+  set forLabel(value: string) {
+    AssertHelpers.isNotNull(value);
+    if (this._label) {
+      this._label.removeEventListener("click", this._forLabelEvent);
+    }
+    this._forLabel = value;
+    this._label = document.querySelector(value);
+
+    if (this._label) {
+      this._label.addEventListener("click", this._forLabelEvent);
+    }
+  }
+
+  private _forLabel: string;
+  private _label: HTMLElement;
+
+  @Input()
+  get forLabel() {
+    return this._forLabel;
+  }
+
+
+  private _forLabelEvent = () => {
+    this.onClick();
+  };
 
   /**
    * ID of the native input element inside `<MsfRadioInput>`
@@ -153,8 +188,17 @@ export class MsfRadioInput {
   ngOnInit() {
   }
 
+  /** Focuses the radio button. */
+  focus(): void {
+    this._focusMonitor.focusVia(this._inputElement, 'keyboard');
+  }
+
+
   ngOnDestroy() {
-    this._focusMonitor.stopMonitoring(this._elementRef);
+    if (this._label ) {
+      this._label.removeEventListener("click", this._forLabelEvent);
+    }
+
     this.group.remove(this);
   }
 
@@ -163,10 +207,6 @@ export class MsfRadioInput {
     this.change.emit(new MsfRadioChange(this, this._value));
   }
 
-  /** Focuses the radio button. */
-  focus(): void {
-    this._focusMonitor.focusVia(this._inputElement, 'keyboard');
-  }
 
   @Input()
   get value(): any {
@@ -175,7 +215,14 @@ export class MsfRadioInput {
 
   set value(value: any) {
     this._value = value;
-    this.inputElement.value = value;
+
+    if(this._isInitialized){
+      this.inputElement.value = value;
+
+      if (this.checked) {
+        this.group.refreshValue();
+      }
+    }
   }
 
   @Input()
@@ -184,9 +231,9 @@ export class MsfRadioInput {
   }
 
   set checked(value: boolean) {
-    value =  coerceBooleanProperty(value);
+    value = coerceBooleanProperty(value);
 
-    if(value) {
+    if (value) {
       this._nameGroup.get(this.name).select(this);
     }
     this._checked = value;
@@ -195,13 +242,14 @@ export class MsfRadioInput {
 
   @HostListener("click")
   onClick() {
+    if(this.disabled){
+      return;
+    }
     if (!this._checked) {
       this.checked = true;
     }
     this._emitChangeEvent();
   }
-
-
 
 
   get element(): HTMLElement {
@@ -214,6 +262,12 @@ export class MsfRadioInput {
 
   get group(): RadioGroup {
     return this._nameGroup.get(this.name);
+  }
+
+  ngAfterContentInit(): void {
+    this._isInitialized = true;
+
+    this.forLabel = `label[for='${this.id}']`
   }
 
 }

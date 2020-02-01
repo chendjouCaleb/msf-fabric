@@ -10,4 +10,6 @@ export * from "./selection/public_api";
 export * from "./pivot/public_api";
 export * from "./callout/public_api";
 export * from "./dialog/public_api";
-export * from "./radio/public_api"
+export * from "./radio/public_api";
+export * from "./icon/public_api";
+export * from "./checkbox/public_api";

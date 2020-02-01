@@ -81,6 +81,8 @@ describe('RadioComponent', function () {
 
 
   it("change name", () => {
+    let oldName = component.name;
+
     component.name = "input name";
 
     fixture.detectChanges();
@@ -88,9 +90,13 @@ describe('RadioComponent', function () {
     expect(component.name).toBe("input name");
     expect(component.inputElement.getAttribute("name")).toBe("input name");
 
+
+
+    //Checks if the input have change a group.
     expect(nameGroup.items.containsKey("input name")).toBeTruthy();
-    expect(nameGroup.items.get("msf-radio-1").length).toBe(0);
+    expect(nameGroup.items.get(oldName).length).toBe(0);
     expect(nameGroup.items.get("input name").get(0)).toBe(component);
+    expect(nameGroup.items.get("input name")).toBe(component.group);
   });
 
   it("value", () => {
@@ -101,6 +107,21 @@ describe('RadioComponent', function () {
 
     expect(component.value).toBe(value);
     expect(component.inputElement.value).toBe(value);
+  });
+
+  it("change value of selected item", () => {
+
+    component.value = "abc";
+    component.checked = true;
+
+    let value = "123";
+    component.value = value;
+    fixture.detectChanges();
+
+    expect(component.value).toBe(value);
+    expect(component.group.value).toBe(value);
+
+
   });
 
   it("check", () => {

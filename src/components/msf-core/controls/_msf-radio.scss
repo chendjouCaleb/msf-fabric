@@ -47,6 +47,9 @@ $msf-radio-border-color: $ms-color-sharedGray30;
     opacity: 0.6;
     pointer-events: none;
   }
+  &:focus {
+    outline: 1px dashed $msf-radio-border-color;
+  }
 }
 MsfRadio.checked .msf-radio-container {
   border-color: $msf-radio-default-color;

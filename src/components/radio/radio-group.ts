@@ -43,16 +43,16 @@ export class RadioGroup {
 
   select(item: MsfRadioInput) {
     AssertHelpers.isNotNull(item);
-    if(!this.items.contains(item)){
+    if (!this.items.contains(item)) {
       throw Error("The item does not belong to the group");
     }
 
-    if(this.selected === item){
+    if (this.selected === item) {
       return;
     }
 
     this.forEach(other => {
-      if(other !== item){
+      if (other !== item) {
         other.checked = false;
       }
     });
@@ -62,6 +62,16 @@ export class RadioGroup {
 
   }
 
+  refreshValue() {
+    if (!this.selected) {
+      return;
+    }
+
+    if (this.selected.value !== this.value) {
+      this._value = this.selected.value;
+    }
+  }
+
   add(item: MsfRadioInput) {
     AssertHelpers.isNotNull(item);
     this.items.add(item);
@@ -69,13 +79,13 @@ export class RadioGroup {
 
   remove(item: MsfRadioInput) {
     this.items.remove(item);
-    if(this._selected === item){
+    if (this._selected === item) {
       this._selected = null;
       this._value = null;
     }
   }
 
-  get(index: number): MsfRadioInput{
+  get(index: number): MsfRadioInput {
     return this.items.get(index);
   }
 

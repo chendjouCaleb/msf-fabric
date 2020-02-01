@@ -8,7 +8,7 @@ let nextUniqueId = 0;
 
 
 /**
- * Provider Expression that allows MsfCheckbox to register as a ControlValueAccessor.
+ * Provider Expression that allows Checkbox to register as a ControlValueAccessor.
  * This allows it to support [(ngModel)].
  * @docs-private
  */
@@ -44,21 +44,61 @@ export class MsfCheckboxChange {
   checked: boolean;
 
   /** The native html event that triggered event */
-  event: Event;
+  nativeEvent: Event;
 }
 
 
 
 @Component({
-  templateUrl: "radio.html"
+  templateUrl: "checkbox.html"
 })
 export class MsfCheckbox extends MsfBaseComponent{
+  /**
+   * Attached to the aria-label attribute of the host element. In most cases, aria-labelledby will
+   * take precedence so this may be omitted.
+   */
+  @Input( )
+  ariaLabel: string = '';
+
+  /**
+   * Users can specify the `aria-labelledby` attribute which will be forwarded to the input element
+   */
+  @Input( )
+  ariaLabelledby: string | null = null;
+
   private _uniqueId: string = "msf_Checkbox-${++nextUniqueId}";
+
+  /** Returns the unique id for the visual hidden input. */
+  private _inputId: string;
+
+
+  /** Whether the checkbox is required. */
+  private _required: boolean;
+
+
+  /**
+   * Whether the checkbox is checked.
+   */
+  private _checked: boolean = false;
+
+  /**
+   * Whether the checkbox is disabled.
+   */
+  private _disabled: boolean = false;
+
+  /**
+   * Whether the checkbox is indeterminate. This is also known as "mixed" mode and can be used to
+   * represent a checkbox with three states, e.g. a checkbox that represents a nested list of
+   * checkable items. Note that whenever checkbox is manually clicked, indeterminate is immediately
+   * set to false.
+   */
+  private _indeterminate: boolean = false;
 
 
   /** A unique id for the checkbox input. If none is supplied, it will be auto-generated. */
   @Input("id")
-  id: string;
+  id: string = this._uniqueId;
+
 
 
   /**
@@ -66,31 +106,22 @@ export class MsfCheckbox extends MsfBaseComponent{
    */
   get inputId(): string { return `${this.id || this._uniqueId}-input`; }
 
-  /** Whether the checkbox is required. */
-  @Input()
-  get required(): boolean { return this._required; }
-  set required(value: boolean) { this._required = coerceBooleanProperty(value); }
-  private _required: boolean;
 
-  /** Whether the label should appear after or before the checkbox. Defaults to 'after' */
-  @Input() LabelPosition: 'before' | 'after' = 'after';
+
 
 
   /** Name value will be applied to the input element if present */
-  @Input("name")
+  @Input()
   name: string | null = null;
 
-  @Input("value")
+  @Input()
   value: any;
 
 
   /** Event emitted when the checkbox's `checked` value changes. */
   @Output()
-  readonly onChange: EventEmitter<MsfCheckboxChange> = new EventEmitter<MsfCheckboxChange>();
+  readonly change: EventEmitter<MsfCheckboxChange> = new EventEmitter<MsfCheckboxChange>();
 
-
-  /** Event emitted when the checkbox's `indeterminate` value changes. */
-  @Output() readonly indeterminateChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   /** The native `<input type="checkbox">` element */
   @ViewChild('input', {static: false})

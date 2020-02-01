@@ -25,14 +25,22 @@
     <h3 class="component-usage-title">Usage</h3>
 
     <div class="component-usage-section">
-      <h5 class="component-usage-section-title">Basic RadioGroupMap</h5>
+      <h5 class="component-usage-section-title">Basic Radio </h5>
 
       <div class="component-usage-section-content">
 
-          <label for="option-A"> <MsfRadio id="option-A" name="option-group-1"></MsfRadio> Option A </label>
-          <label for="option-B"> <MsfRadio id="option-B" name="option-group-1"></MsfRadio> Option B </label>
-          <label for="option-C"> <MsfRadio id="option-C" name="option-group-1"></MsfRadio> Option D </label>
-          <label for="option-D"> <MsfRadio id="option-D" name="option-group-1"></MsfRadio> Option D </label>
+        <label for="option-A">
+          <MsfRadio id="option-A" name="option-group-1"></MsfRadio>
+          Option A </label>
+        <label for="option-B">
+          <MsfRadio id="option-B" name="option-group-1"></MsfRadio>
+          Option B </label>
+        <label for="option-C">
+          <MsfRadio id="option-C" name="option-group-1"></MsfRadio>
+          Option D </label>
+        <label for="option-D">
+          <MsfRadio id="option-D" name="option-group-1"></MsfRadio>
+          Option D </label>
 
       </div>
     </div>
@@ -43,10 +51,18 @@
 
       <div class="component-usage-section-content">
 
-          <label for="option-A"> <MsfRadio theme="error"></MsfRadio> Error </label>
-          <label for="option-B"> <MsfRadio theme="primary"></MsfRadio> Primary </label>
-          <label for="option-C"> <MsfRadio theme="success"></MsfRadio> Success </label>
-          <label for="option-D"> <MsfRadio theme="warning"></MsfRadio> Warning </label>
+        <label id="optionALabel">
+          <MsfRadio theme="error" forLabel="#optionALabel"></MsfRadio>
+          Error </label>
+        <label for="option-B">
+          <MsfRadio theme="primary"></MsfRadio>
+          Primary </label>
+        <label for="option-C">
+          <MsfRadio theme="success"></MsfRadio>
+          Success </label>
+        <label for="option-D">
+          <MsfRadio theme="warning"></MsfRadio>
+          Warning </label>
 
       </div>
     </div>
@@ -55,14 +71,99 @@
       <h5 class="component-usage-section-title">Disabled radio</h5>
 
       <div class="component-usage-section-content">
-
-        <label for="option-A"> <MsfRadio [disabled]="true" ></MsfRadio> Option A</label>
-        <label for="option-B"> <MsfRadio theme="primary" [disabled]="true"></MsfRadio> Option B </label>
-
-
+        <label for="option-A">
+          <MsfRadio [disabled]="true"></MsfRadio>
+          Option A</label>
+        <label for="option-B">
+          <MsfRadio theme="primary" [disabled]="true"></MsfRadio>
+          Option B </label>
       </div>
     </div>
 
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">Basic Radio Group</h5>
+
+      <div class="component-usage-section-content">
+        <MsfRadioGroup (change)="group1OnChange($event)" [(ngModel)]="group1Value">
+          <label for="group-option-1">
+            <MsfRadio id="group-option-1" value="Option 1"></MsfRadio>
+            Option 1 </label>
+          <label for="group-option-2">
+            <MsfRadio id="group-option-2" value="Option 2"></MsfRadio>
+            Option 2 </label>
+          <label for="group-option-3">
+            <MsfRadio id="group-option-3" value="Option 3"></MsfRadio>
+            Option 3 </label>
+          <label for="group-option-4" *ngIf="group1Value">
+            <MsfRadio id="group-option-4" value="Option 4"></MsfRadio>
+            Option 4 </label>
+        </MsfRadioGroup>
+
+        <div>
+          Selection value: {{group1Value}}
+        </div>
+      </div>
+    </div>
+
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">Radio with icon</h5>
+
+      <div class="component-usage-section-content">
+        <MsfRadioGroup>
+
+          <label for="group3-option-1">
+
+            <MsfRadio id="group3-option-1" value="Option 1"></MsfRadio>
+            <MsfIconImage source="/assets/icon/neural.png" size="xxl"></MsfIconImage>
+          </label>
+
+          <label for="group3-option-2">
+            <MsfRadio id="group3-option-2" value="Option 2"></MsfRadio>
+            <MsfIconImage source="/assets/icon/atom.png"  size="xxl"></MsfIconImage>
+          </label>
+
+          <label for="group3-option-3" [class.ms-bgColor-info]="option3.checked">
+            <MsfRadio id="group3-option-3" value="Option 23" #option3> </MsfRadio>
+            <MsfIconImage source="/assets/icon/archive.png"  size="xxl" ></MsfIconImage>
+          </label>
+
+
+        </MsfRadioGroup>
+
+        <div>
+          Selection value: {{group1Value}}
+        </div>
+      </div>
+    </div>
+
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">Disable radio group</h5>
+
+      <div class="component-usage-section-content">
+        <MsfRadioGroup [disabled]="group2State">
+          <label for="group2-option-1">
+            <MsfRadio id="group2-option-1" value="Option 1"></MsfRadio>
+            Option 1 </label>
+          <label for="group2-option-2">
+            <MsfRadio id="group2-option-2" value="Option 2"></MsfRadio>
+            Option 2 </label>
+          <label for="group2-option-3">
+            <MsfRadio id="group2-option-3" value="Option 3"></MsfRadio>
+            Option 3 </label>
+          <label for="group2-option-4">
+            <MsfRadio id="group2-option-4" value="Option 4"></MsfRadio>
+            Option 4 </label>
+        </MsfRadioGroup>
+
+        <div>
+          <MsfButton theme="primary" [hidden]="!group2State" (click)="toggleGroup2State()">Enable group</MsfButton>
+          <MsfButton theme="error" [hidden]="group2State" (click)="toggleGroup2State()">Disable group</MsfButton>
+        </div>
+      </div>
+    </div>
 
   </div>
 
