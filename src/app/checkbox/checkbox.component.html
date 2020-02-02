@@ -1,0 +1,181 @@
+<app-layout title="Icons">
+  <h1>CheckboxGroupMap</h1>
+
+  <div class="component-overview">
+    <h3 class="component-overview-title">Overview</h3>
+    <div class="component-overview-content">
+      A Checkbox is a UI element that allows users to switch between two mutually exclusive options
+      (checked or unchecked, on or off) through a single click or tap.
+      It can also be used to indicate a subordinate setting or preference when paired with another control.
+      <br><br>
+      A Checkbox is used to select or deselect action items.
+      It can be used for a single item or for a list of multiple items that a user can choose from.
+      The control has two selection states: unselected and selected.
+      <br><br>
+      Use a single Checkbox for a subordinate setting, such as with a "Remember me?"
+      login scenario or with a terms of service agreement.
+      <br><br>
+      For a binary choice, the main difference between a Checkbox and a toggle switch is that the Checkbox is
+      for status and the toggle switch is for action. You can delay committing a Checkbox interaction
+      (as part of a form submit, for example), while you should immediately commit a toggle switch interaction.
+      Also, only Checkboxes allow for multi-selection.
+
+      <br><br>
+      Use multiple Checkboxes for multi-select scenarios in which a user chooses one or more items
+      from a group of choices that are not mutually exclusive.
+    </div>
+  </div>
+
+
+  <div class="component-usage mt-5">
+    <h3 class="component-usage-title">Usage</h3>
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">Basic Checkbox </h5>
+
+      <div class="component-usage-section-content">
+
+        <label for="option-A">
+          <MsfCheckbox id="option-A" name="option-group-1" [(ngModel)]="value"></MsfCheckbox>
+          Option A </label> <span class="bg-danger">{{value}}</span>
+        <label for="option-B">
+          <MsfCheckbox id="option-B" name="option-group-1"></MsfCheckbox>
+          Option B </label>
+        <label for="option-C">
+          <MsfCheckbox id="option-C" name="option-group-1"></MsfCheckbox>
+          Option D </label>
+        <label for="option-D">
+          <MsfCheckbox id="option-D" name="option-group-1"></MsfCheckbox>
+          Option D </label>
+
+      </div>
+    </div>
+
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">Theming</h5>
+
+      <div class="component-usage-section-content">
+
+
+        <label for="option-B">
+          <MsfCheckbox theme="primary"></MsfCheckbox>
+          Primary </label>
+        <label for="option-C">
+          <MsfCheckbox theme="success"></MsfCheckbox>
+          Success </label>
+        <label for="option-D">
+          <MsfCheckbox theme="warning"></MsfCheckbox>
+          Warning </label>
+
+        <label for="group2-option4">  <MsfCheckbox  id="group2-option4" theme="error"></MsfCheckbox> Error </label>
+
+      </div>
+    </div>
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">Disabled checkbox</h5>
+
+      <div class="component-usage-section-content">
+        <label for="option-A">
+          <MsfCheckbox [disabled]="true"></MsfCheckbox>
+          Option A</label>
+        <label for="option-B">
+          <MsfCheckbox theme="primary" [disabled]="true"></MsfCheckbox>
+          Option B </label>
+      </div>
+    </div>
+
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">Basic Checkbox Group</h5>
+
+      <div class="component-usage-section-content">
+        <MsfCheckboxGroup >
+          <label for="group-option-1"><MsfCheckbox id="group-option-1" value="Option 1"></MsfCheckbox> Option 1 </label>
+          <label for="group-option-2"><MsfCheckbox id="group-option-2" value="Option 2"></MsfCheckbox> Option 2 </label>
+          <label for="group-option-3"><MsfCheckbox id="group-option-3" value="Option 3"></MsfCheckbox> Option 3 </label>
+          <label for="group-option-4"><MsfCheckbox id="group-option-4" value="Option 4"></MsfCheckbox>Option 4 </label>
+        </MsfCheckboxGroup>
+        <div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">Rounded Checkbox</h5>
+
+      <div class="component-usage-section-content">
+        <MsfCheckboxGroup >
+          <label for="group2-option-1"><MsfCheckbox id="group2-option-1" value="Option 1" [rounded]="true"></MsfCheckbox> Option 1 </label>
+          <label for="group2-option-2"><MsfCheckbox id="group2-option-2" value="Option 2" [rounded]="true"></MsfCheckbox> Option 2 </label>
+          <label for="group2-option-3"><MsfCheckbox id="group2-option-3" value="Option 3" [rounded]="true"></MsfCheckbox> Option 3 </label>
+          <label for="group2-option-4"><MsfCheckbox id="group2-option-4" value="Option 4" [rounded]="true"></MsfCheckbox>Option 4 </label>
+        </MsfCheckboxGroup>
+        <div>
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">Checkbox with icon</h5>
+
+      <div class="component-usage-section-content">
+        <MsfCheckboxGroup>
+
+          <label for="group3-option-1">
+
+            <MsfCheckbox id="group3-option-1" value="Option 1"></MsfCheckbox>
+            <MsfIconImage source="/assets/icon/neural.png" size="xxl"></MsfIconImage>
+          </label>
+
+          <label for="group3-option-2">
+            <MsfCheckbox id="group3-option-2" value="Option 2"></MsfCheckbox>
+            <MsfIconImage source="/assets/icon/atom.png"  size="xxl"></MsfIconImage>
+          </label>
+
+          <label for="group3-option-3" [class.ms-bgColor-info]="option3.checked">
+            <MsfCheckbox id="group3-option-3" value="Option 23" #option3> </MsfCheckbox>
+            <MsfIconImage source="/assets/icon/archive.png"  size="xxl" ></MsfIconImage>
+          </label>
+
+
+        </MsfCheckboxGroup>
+
+        <div>
+          Selection value: {{group1Value}}
+        </div>
+      </div>
+    </div>
+
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">Disable checkbox group</h5>
+
+      <div class="component-usage-section-content">
+        <MsfCheckboxGroup [disabled]="group2State">
+          <label for="group2-option-1">
+            <MsfCheckbox id="group5-option-1" value="Option 1"></MsfCheckbox>Option 1 </label>
+          <label for="group2-option-2">
+            <MsfCheckbox id="group5-option-2" value="Option 2"></MsfCheckbox>Option 2 </label>
+          <label for="group2-option-3">
+            <MsfCheckbox id="group5-option-3" value="Option 3"></MsfCheckbox>
+            Option 3 </label>
+          <label for="group2-option-4">
+            <MsfCheckbox id="group5-option-4" value="Option 4"></MsfCheckbox>
+            Option 4 </label>
+        </MsfCheckboxGroup>
+
+        <div>
+          <MsfButton theme="primary" [hidden]="!group2State" (click)="toggleGroup2State()">Enable group</MsfButton>
+          <MsfButton theme="error" [hidden]="group2State" (click)="toggleGroup2State()">Disable group</MsfButton>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</app-layout>

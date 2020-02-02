@@ -5,6 +5,7 @@ const routes: Routes = [
   {path: "", loadChildren: () => import('./button/button.module').then(m => m.ButtonModule)},
   {path: "button", loadChildren: () => import('./button/button.module').then(m => m.ButtonModule)},
   {path: "radio", loadChildren: () => import('./radio/radio.module').then(m => m.RadioModule)},
+  {path: "checkbox", loadChildren: () => import('./checkbox/checkbox.module').then(m => m.CheckboxModule)},
   {path: "table", loadChildren: () => import('./table/table.module').then(m => m.TableModule)},
   {path: "grid", loadChildren: () => import('./grid/grid.module').then(m => m.GridModule)},
   {path: "menu", loadChildren: () => import('./menu/menu.module').then(m => m.MenuModule)},

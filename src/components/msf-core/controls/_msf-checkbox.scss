@@ -1,0 +1,79 @@
+@import '../../msf-core/variables/Msf-Variable';
+@import '../../msf-core/fabric-core/variables/Font.Variables';
+@import '../../msf-core/fabric-core/variables/Animation.Variables';
+@import "../variables/Msf-ContextMenu";
+
+$msf-checkbox-radius: 20px;
+$msf-checkbox-default-color: $msf-primary-color;
+$msf-checkbox-border-width: 1px;
+$msf-checkbox-marker-color: $msf-white-color;
+$msf-checkbox-border-color: $ms-color-sharedGray30;
+
+.msf-checkbox{
+  display: inline-block;
+
+  height: $msf-checkbox-radius;
+  width: $msf-checkbox-radius;
+
+  border-radius: 2px;
+  border: $msf-checkbox-border-width solid $msf-checkbox-border-color;
+
+  cursor: pointer;
+
+  overflow: hidden;
+
+  &.msf-rounded {
+    border-radius: 50%;
+  }
+
+  &.msf-disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  &.msf-checked {
+    border-color: $msf-checkbox-default-color;
+    background: $msf-checkbox-default-color;
+  }
+
+  &:hover {
+    filter: brightness(0.8);
+  }
+}
+
+
+.msf-checkbox-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+}
+
+.msf-checkbox-marker{
+  color: $msf-checkbox-marker-color;
+  text-align: center;
+  height: 100%;
+  width: 100%;
+
+  opacity: 0;
+
+  background: $msf-checkbox-default-color;
+  transition: opacity $ms-motion-duration-2;
+}
+
+.msf-checkbox.msf-checked .msf-checkbox-marker {
+  opacity: 1;
+}
+
+@each $color, $value in $msf-theme-colors {
+  .msf-checkbox.msf-theme-#{$color} .msf-checkbox-marker{
+
+    background: $value;
+  }
+
+  .msf-checkbox.msf-theme-#{$color} {
+    border-color: $value;
+  }
+}

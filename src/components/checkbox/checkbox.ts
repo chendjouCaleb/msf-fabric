@@ -1,7 +1,11 @@
-import {Component, ElementRef, EventEmitter, forwardRef, Input, Output, ViewChild} from "@angular/core";
-import {MsfBaseComponent} from "../helpers/base-component";
-import {coerceBooleanProperty} from "../utils/boolean-property";
-import {NG_VALUE_ACCESSOR} from "@angular/forms";
+import {Component, ElementRef, EventEmitter, forwardRef, HostListener, Input, Output, ViewChild} from "@angular/core";
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
+import {applyThemeClass, ColorTheme} from "../helpers/theme";
+import {AssertHelpers} from "@positon/collections/dist/helpers/assert-helpers";
+import {CanColor, CanColorCtor, mixinColor} from "../helpers/behaviors/theme";
+
+
+
 
 // Increasing integer for generating unique ids for checkbox components.
 let nextUniqueId = 0;
@@ -38,21 +42,43 @@ export enum TransitionCheckState {
 
 /** Change event object emitted by MatCheckbox. */
 export class MsfCheckboxChange {
+  constructor(
   /** The source MatCheckbox of the event. */
-  source: MsfCheckbox;
-  /** The new `checked` value of the checkbox. */
-  checked: boolean;
+  public source: MsfCheckbox,
 
   /** The native html event that triggered event */
-  nativeEvent: Event;
+  public nativeEvent: Event,
+  /** The new `checked` value of the checkbox. */
+  public checked: boolean) {}
 }
 
+class MsfCheckboxBase {
+  constructor(public _elementRef: ElementRef) {}
+}
+
+const _MsfCheckboxMixinBase:
+  CanColorCtor & typeof MsfCheckboxBase = mixinColor(MsfCheckboxBase );
 
 
 @Component({
-  templateUrl: "checkbox.html"
+  templateUrl: "checkbox.html",
+  selector: "MsfCheckbox",
+  providers: [MSF_CHECKBOX_CONTROL_VALUE_ACCESSOR],
+  host: {
+    "class": "msf-checkbox",
+    "[class.msf-checked]": "checked",
+    "[class.msf-rounded]": "rounded",
+    "[class.msf-disabled]": "disabled",
+
+    // Needs to be -1 so the `focus` event still fires.
+    "[attr.tabindex]": "disabled ? -1 : 0",
+    "[attr.id]": "id",
+    "[attr.disabled]": "disabled",
+    "[attr.aria-labelledby]": "ariaLabelledby",
+    "[attr.aria-label]": "ariaLabel"
+  }
 })
-export class MsfCheckbox extends MsfBaseComponent{
+export class MsfCheckbox extends _MsfCheckboxMixinBase implements ControlValueAccessor, CanColor{
   /**
    * Attached to the aria-label attribute of the host element. In most cases, aria-labelledby will
    * take precedence so this may be omitted.
@@ -65,6 +91,10 @@ export class MsfCheckbox extends MsfBaseComponent{
    */
   @Input( )
   ariaLabelledby: string | null = null;
+
+  /** Whether this radio button is disabled. */
+  @Input()
+  disabled: boolean = false;
 
   private _uniqueId: string = "msf_Checkbox-${++nextUniqueId}";
 
@@ -85,6 +115,9 @@ export class MsfCheckbox extends MsfBaseComponent{
    * Whether the checkbox is disabled.
    */
   private _disabled: boolean = false;
+
+  /** The color theme of the checkbox */
+  private _theme: ColorTheme;
 
   /**
    * Whether the checkbox is indeterminate. This is also known as "mixed" mode and can be used to
@@ -108,6 +141,8 @@ export class MsfCheckbox extends MsfBaseComponent{
 
 
 
+  @Input()
+  rounded: boolean = false;
 
 
   /** Name value will be applied to the input element if present */
@@ -127,6 +162,76 @@ export class MsfCheckbox extends MsfBaseComponent{
   @ViewChild('input', {static: false})
   _inputElement: ElementRef<HTMLInputElement>;
 
+
+  constructor(public _elementRef: ElementRef<HTMLElement>) {
+    super(_elementRef);
+  }
+
+  @Input()
+  get checked(): boolean {
+    return this._checked;
+  }
+
+  set checked(state: boolean) {
+    this._checked = state;
+  }
+
+  // @Input()
+  // get theme(): ColorTheme {
+  //   return this._theme
+  // }
+  //
+  // set theme(value: ColorTheme) {
+  //   AssertHelpers.isNotNull(value);
+  //   applyThemeClass(this.element, this._theme, value);
+  //   this._theme = value;
+  // }
+
+  @HostListener("click")
+  onClick(event: Event) {
+    if(this.disabled){
+      return;
+    }
+
+      this.checked = !this.checked;
+
+    this._emitChangeEvent(event);
+  }
+
+
+  get element(): HTMLElement {
+    return this._elementRef.nativeElement;
+  }
+
+  get inputElement(): HTMLInputElement {
+    return this._inputElement.nativeElement;
+  }
+
+  /** Dispatch change event with current value. */
+  private _emitChangeEvent(event: Event): void {
+    this.change.emit(new MsfCheckboxChange(this, event, this._checked));
+    this._cb(this.checked);
+  }
+
+  private _cb: (_: any) => void = (_) => {};
+  private _cbBlurred: any;
+
+  registerOnChange(fn: any): void {
+    this._cb = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this._cbBlurred = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
+  writeValue(value: any): void {
+    console.log('value writing')
+    this.checked = !!value;
+  }
 
 
 }
