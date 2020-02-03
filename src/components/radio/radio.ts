@@ -14,7 +14,8 @@ import {applyThemeClass, ColorTheme} from "../helpers/theme";
 import {AssertHelpers} from "@positon/collections/dist/helpers/assert-helpers";
 import {RadioGroupMap} from "./radio-group-map";
 import {coerceBooleanProperty} from "@angular/cdk/coercion";
-import {RadioGroup} from "./radio-group";
+import {RadioItems} from "./radio-items";
+import {CanColor, CanColorCtor, mixinColor} from "../helpers/behaviors/theme";
 
 let nextUniqueId = 0;
 
@@ -27,6 +28,16 @@ export class MsfRadioChange {
     public value: any) {
   }
 }
+
+class MsfRadioInputBase {
+  constructor(public _elementRef: ElementRef) {}
+}
+
+const _MsfCheckboxMixinBase:
+  CanColorCtor & typeof MsfRadioInputBase = mixinColor(MsfRadioInputBase, "primary");
+
+
+
 
 @Component({
   templateUrl: 'radio.html',
@@ -46,7 +57,7 @@ export class MsfRadioChange {
 
   }
 })
-export class MsfRadioInput implements AfterContentInit{
+export class MsfRadioInput extends _MsfCheckboxMixinBase implements CanColor, AfterContentInit{
   private _isInitialized: boolean = false;
 
   private _uniqueId: string = `msf-radio-${++nextUniqueId}`;
@@ -88,6 +99,10 @@ export class MsfRadioInput implements AfterContentInit{
     return this._forLabel;
   }
 
+  get label(): HTMLElement {
+    return this._label;
+  }
+
 
   private _forLabelEvent = () => {
     this.onClick();
@@ -100,18 +115,7 @@ export class MsfRadioInput implements AfterContentInit{
   @Input()
   inputId: string = "";
 
-  @Input()
-  get theme(): ColorTheme {
-    return this._theme
-  }
 
-  set theme(value: ColorTheme) {
-    AssertHelpers.isNotNull(value);
-    applyThemeClass(this.element, this._theme, value);
-    this._theme = value;
-  }
-
-  private _theme: ColorTheme;
 
   /** Used to set the 'aria-label' attribute on the underlying input element. */
   @Input() ariaLabel: string;
@@ -161,11 +165,12 @@ export class MsfRadioInput implements AfterContentInit{
   @ViewChild("inputElement", {static: false})
   private _inputElement: ElementRef<HTMLInputElement>;
 
-  constructor(private _elementRef: ElementRef<HTMLElement>,
+  constructor(public _elementRef: ElementRef<HTMLElement>,
               private _changeDetector: ChangeDetectorRef,
               private _nameGroup: RadioGroupMap,
               private _focusMonitor: FocusMonitor
   ) {
+    super(_elementRef);
     this._nameGroup.add(this);
     setTimeout(() => {
       this.inputElement.addEventListener("change", () => {
@@ -225,6 +230,7 @@ export class MsfRadioInput implements AfterContentInit{
     }
   }
 
+
   @Input()
   get checked(): boolean {
     return this._checked;
@@ -235,6 +241,9 @@ export class MsfRadioInput implements AfterContentInit{
 
     if (value) {
       this._nameGroup.get(this.name).select(this);
+    }
+    else if(!value && this.group.selected == this){
+      this.group.select(null);
     }
     this._checked = value;
     this._changeDetector.detectChanges();
@@ -260,7 +269,7 @@ export class MsfRadioInput implements AfterContentInit{
     return this._inputElement.nativeElement;
   }
 
-  get group(): RadioGroup {
+  get group(): RadioItems {
     return this._nameGroup.get(this.name);
   }
 

@@ -1,15 +1,15 @@
 import {Injectable} from "@angular/core";
 import {Dictionary, IDictionary, List} from "@positon/collections";
 import {MsfRadioInput} from "./radio";
-import {RadioGroup} from "./radio-group";
+import {RadioItems} from "./radio-items";
 
 @Injectable({providedIn: "root"})
 export class RadioGroupMap{
-  private _items = new Dictionary<string, RadioGroup>();
+  private _items = new Dictionary<string, RadioItems>();
 
   add(item: MsfRadioInput) {
     if(!this._items.containsKey(item.name)) {
-      this.items.put(item.name, new RadioGroup(item.name));
+      this.items.put(item.name, new RadioItems(item.name));
     }
 
     this.items.get(item.name).add(item);
@@ -24,11 +24,11 @@ export class RadioGroupMap{
     this.add(item);
   }
 
-  get(name: string): RadioGroup {
+  get(name: string): RadioItems {
     return this._items.get(name);
   }
 
-  get items(): IDictionary<string, RadioGroup> {
+  get items(): IDictionary<string, RadioItems> {
     return this._items;
   }
 }

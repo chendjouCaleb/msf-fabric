@@ -8,6 +8,13 @@ import {MsfRadioChange } from "../../components/radio/radio";
 export class RadioComponent {
   group1Value: string;
   group2State = true;
+  value: string = "Option 1";
+
+  constructor() {
+    setTimeout(() => {
+      this.value = "Option 1";
+    }, 2000);
+  }
 
   group1OnChange(input: MsfRadioChange) {
     this.group1Value = input.value;
