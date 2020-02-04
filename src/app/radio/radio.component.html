@@ -85,7 +85,7 @@
       <h5 class="component-usage-section-title">Basic Radio Group</h5>
 
       <div class="component-usage-section-content">
-        <MsfRadioGroup (change)="group1OnChange($event)" [(ngModel)]="group1Value">
+        <MsfRadioGroup  [(ngModel)]="group1Value">
           <label for="group-option-1">
             <MsfRadio id="group-option-1" value="Option 1"></MsfRadio>
             Option 1 </label>
@@ -95,14 +95,17 @@
           <label for="group-option-3">
             <MsfRadio id="group-option-3" value="Option 3"></MsfRadio>
             Option 3 </label>
-          <label for="group-option-4" *ngIf="group1Value">
+          <label for="group-option-4" >
             <MsfRadio id="group-option-4" value="Option 4"></MsfRadio>
             Option 4 </label>
         </MsfRadioGroup>
 
         <div>
           Selection value: {{group1Value}}
+
+          <MsfButton theme="error" Icon="Close" (click)="group1Value=null">Clear</MsfButton>
         </div>
+
       </div>
     </div>
 

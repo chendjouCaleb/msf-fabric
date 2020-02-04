@@ -36,7 +36,7 @@ export const MSF_RADIO_GROUP_CONTROL_VALUE_ACCESSOR: any = {
   host: {
     'role': 'radiogroup',
     'class': 'msf-radio-group',
-  },
+  }
 
 })
 export class MsfRadioGroup implements AfterContentInit, ControlValueAccessor, OnDestroy {
@@ -79,6 +79,8 @@ export class MsfRadioGroup implements AfterContentInit, ControlValueAccessor, On
 
     this._radios.forEach(item => item.name = this._name);
     this._radios.forEach(item => item.change.subscribe((data) => this.change.next(data)));
+    this._touch();
+    this.group._controlValueAccessorChangeFn = this._controlValueAccessorChangeFn;
 
   }
 
@@ -102,6 +104,7 @@ export class MsfRadioGroup implements AfterContentInit, ControlValueAccessor, On
       }else{
         this.group.select(null);
       }
+      this._controlValueAccessorChangeFn(_value);
     }
   }
 
@@ -191,6 +194,9 @@ export class MsfRadioGroup implements AfterContentInit, ControlValueAccessor, On
    */
   registerOnChange(fn: any): void {
     this._controlValueAccessorChangeFn = fn;
+    if(this.group){
+      this.group._controlValueAccessorChangeFn = fn;
+    }
   }
 
   registerOnTouched(fn: any): void {

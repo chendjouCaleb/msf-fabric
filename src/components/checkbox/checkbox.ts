@@ -76,8 +76,10 @@ const _MsfCheckboxMixinBase:
     "[attr.disabled]": "disabled",
     "[attr.aria-labelledby]": "ariaLabelledby",
     "[attr.aria-label]": "ariaLabel"
-  }
+  },
+  inputs: [ 'theme']
 })
+
 export class MsfCheckbox extends _MsfCheckboxMixinBase implements ControlValueAccessor, CanColor{
   /**
    * Attached to the aria-label attribute of the host element. In most cases, aria-labelledby will
@@ -116,8 +118,6 @@ export class MsfCheckbox extends _MsfCheckboxMixinBase implements ControlValueAc
    */
   private _disabled: boolean = false;
 
-  /** The color theme of the checkbox */
-  private _theme: ColorTheme;
 
   /**
    * Whether the checkbox is indeterminate. This is also known as "mixed" mode and can be used to

@@ -54,8 +54,8 @@ const _MsfCheckboxMixinBase:
     '[attr.aria-labelledby]': 'ariaLabelledby',
     '[attr.aria-describedby]': 'ariaDescribedby',
     '[attr.aria-label]': 'ariaLabel'
-
-  }
+  },
+  inputs: [ 'theme']
 })
 export class MsfRadioInput extends _MsfCheckboxMixinBase implements CanColor, AfterContentInit{
   private _isInitialized: boolean = false;

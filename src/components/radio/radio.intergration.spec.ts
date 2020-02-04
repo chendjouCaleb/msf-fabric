@@ -290,12 +290,9 @@ describe("MsfRadio", () => {
     it('should be able to inherit the color from the radio group', () => {
       groupInstance.theme = "warning";
       fixture.detectChanges();
-      
 
       expect(radioNativeElements.every(radioEl => radioEl.classList.contains('msf-theme-warning'))).toBe(true);
     });
-
-
 
   });
 });
