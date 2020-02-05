@@ -1,7 +1,7 @@
 import {
   AfterContentInit, ChangeDetectorRef,
   Component,
-  ContentChildren,
+  ContentChildren, ElementRef,
   EventEmitter,
   forwardRef,
   Input, OnDestroy,
@@ -11,9 +11,10 @@ import {
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
 import {MsfRadioChange, MsfRadioInput} from "./radio";
 import {ColorTheme} from "../helpers/theme";
-import {RadioGroupMap} from "./radio-group-map";
+import {RadioItemsMap} from "./radio-items-map";
 import {RadioItems} from "./radio-items";
 import {coerceBooleanProperty} from "@angular/cdk/coercion";
+import {FocusMonitor} from "@angular/cdk/a11y";
 
 // Increasing integer for generating unique ids for radio components.
 let nextUniqueId = 0;
@@ -35,7 +36,7 @@ export const MSF_RADIO_GROUP_CONTROL_VALUE_ACCESSOR: any = {
   providers: [MSF_RADIO_GROUP_CONTROL_VALUE_ACCESSOR],
   host: {
     'role': 'radiogroup',
-    'class': 'msf-radio-group',
+    'class': 'msf-radio-group'
   }
 
 })
@@ -44,19 +45,18 @@ export class MsfRadioGroup implements AfterContentInit, ControlValueAccessor, On
   /** Whether the `value` has been set to its initial value. */
   private _isInitialized: boolean = false;
 
-  /** Selected value for the radio group. */
-  private _value: any = null;
-
 
   /** The HTML name attribute applied to radio buttons in this group. */
   private _name: string = `msf-radio-group-${nextUniqueId++}`;
 
-  /** The currently selected radio button. Should match value. */
-  private _selected: MsfRadioInput | null = null;
-
 
   /** Whether the radio group is required. */
   private _required: boolean = false;
+
+  /**
+   * Color theme of buttons radio.
+   */
+  private _theme: ColorTheme;
 
   /**
    * Event emitted when the group value changes.
@@ -69,20 +69,35 @@ export class MsfRadioGroup implements AfterContentInit, ControlValueAccessor, On
   @ContentChildren(forwardRef(() => MsfRadioInput), {descendants: true})
   _radios: QueryList<MsfRadioInput>;
 
-  constructor(private _changeDetector: ChangeDetectorRef, private _groupMap: RadioGroupMap) {
+
+  constructor(private _changeDetector: ChangeDetectorRef,
+              private _groupMap: RadioItemsMap,
+              private _elementRef: ElementRef<HTMLElement>,
+              private _focusMonitor: FocusMonitor) {
 
   }
 
 
   ngAfterContentInit(): void {
-    this._isInitialized = true;
 
-    this._radios.forEach(item => item.name = this._name);
-    this._radios.forEach(item => item.change.subscribe((data) => this.change.next(data)));
-    this._touch();
+
+    this._radios.forEach(item => {
+      item.changeDetector.detach();
+      item.name = this._name;
+      item.change.subscribe((data) => this.change.next(data));
+      item.changeDetector.detectChanges();
+      item.changeDetector.reattach();
+    });
+
+    this._focusMonitor.monitor(this._elementRef.nativeElement, true)
+      .subscribe(() => {
+        this._touch();
+      });
+
     this.group._controlValueAccessorChangeFn = this._controlValueAccessorChangeFn;
-
+    this._isInitialized = true;
   }
+
 
   @Input()
   get value(): any {
@@ -94,7 +109,7 @@ export class MsfRadioGroup implements AfterContentInit, ControlValueAccessor, On
       return;
     }
 
-    if (_value === null) {
+    if (_value == null) {
       this._radios.forEach(item => item.checked = false);
     } else {
 
@@ -104,7 +119,8 @@ export class MsfRadioGroup implements AfterContentInit, ControlValueAccessor, On
       }else{
         this.group.select(null);
       }
-      this._controlValueAccessorChangeFn(_value);
+
+
     }
   }
 
@@ -119,7 +135,7 @@ export class MsfRadioGroup implements AfterContentInit, ControlValueAccessor, On
     }
     this._theme=value;
   }
-  private _theme: ColorTheme;
+
 
   @Input()
   get name() {
@@ -128,10 +144,9 @@ export class MsfRadioGroup implements AfterContentInit, ControlValueAccessor, On
 
   set name(value: string) {
     this._name = value;
-    if (this._radios) {
+    if (this._isInitialized) {
       this._radios.forEach(item => item.name = this._name);
     }
-
   }
 
   /** Whether the radio group is required. */
@@ -144,6 +159,9 @@ export class MsfRadioGroup implements AfterContentInit, ControlValueAccessor, On
     this._required = value;
   }
 
+  /**
+   * Gets the selected radio of the group.
+   */
   get selected(): MsfRadioInput {
     return this.group.selected;
   }
@@ -163,15 +181,13 @@ export class MsfRadioGroup implements AfterContentInit, ControlValueAccessor, On
   }
 
   /** The method to be called in order to update ngModel */
-  _controlValueAccessorChangeFn: (value: any) => void = () => {
-  };
+  _controlValueAccessorChangeFn: (value: any) => void = () => { };
 
   /**
    * onTouch function registered via registerOnTouch (ControlValueAccessor).
    * @docs-private
    */
-  onTouched: () => any = () => {
-  };
+  onTouched: () => any = () => { };
 
   /**
    * Mark this group as being "touched" (for ngModel). Meant to be called by the contained
@@ -193,7 +209,7 @@ export class MsfRadioGroup implements AfterContentInit, ControlValueAccessor, On
    * @param fn Callback to be registered.
    */
   registerOnChange(fn: any): void {
-    this._controlValueAccessorChangeFn = fn;
+     this._controlValueAccessorChangeFn = fn;
     if(this.group){
       this.group._controlValueAccessorChangeFn = fn;
     }
@@ -204,6 +220,7 @@ export class MsfRadioGroup implements AfterContentInit, ControlValueAccessor, On
   }
 
   ngOnDestroy(): void {
+    this._focusMonitor.stopMonitoring(this._elementRef.nativeElement);
   }
 
   /**

@@ -9,6 +9,19 @@ $msf-radio-border-width: 1px;
 $msf-radio-indicator-radius: 12px;
 $msf-radio-border-color: $ms-color-sharedGray30;
 
+.msf-radio{
+  display: inline-block;
+
+  &.msf-disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+}
+.msf-radio.checked .msf-radio-container {
+  border-color: $msf-radio-default-color;
+}
+
 
 .msf-radio-container {
   display: flex;
@@ -23,48 +36,20 @@ $msf-radio-border-color: $ms-color-sharedGray30;
 
   border: $msf-radio-border-width solid $msf-radio-border-color;
 
-
-
-  &:checked, &[checked], &.msf-checked {
-
-  }
-
-  &:focus {
-
-
-  }
-
   &:hover {
     filter: brightness(0.8);
   }
 }
 
 
-.msf-radio{
-  display: inline-block;
 
-  &.msf-disabled {
-    opacity: 0.6;
-    pointer-events: none;
-  }
-  &:focus {
-    outline: 1px dashed $msf-radio-border-color;
-  }
-}
-MsfRadio.checked .msf-radio-container {
-  border-color: $msf-radio-default-color;
-}
 .msf-radio-indicator {
-  //display:  inline-block;
-  //position: absolute;
-  //top: 2px;
-  //left: 2px;
   height: $msf-radio-indicator-radius;
   width: $msf-radio-indicator-radius;
   border-radius: 50%;
 
   background: $msf-radio-default-color;
-  transition-duration: .27s;
+  transition-duration: .200s;
   opacity: 0;
 
   &.visible{
@@ -73,12 +58,12 @@ MsfRadio.checked .msf-radio-container {
 }
 
 @each $color, $value in $msf-theme-colors {
-  MsfRadio.msf-theme-#{$color} .msf-radio-indicator{
+  .msf-radio.msf-theme-#{$color} .msf-radio-indicator{
     color: $value;
     background: $value;
   }
 
-  MsfRadio.msf-theme-#{$color} .msf-radio-container{
+  .msf-radio.msf-theme-#{$color} .msf-radio-container{
     border-color: $value;
   }
 }

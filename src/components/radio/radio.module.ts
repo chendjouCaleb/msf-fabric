@@ -1,7 +1,7 @@
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {MsfRadioInput} from "./radio";
-import {RadioGroupMap} from "./radio-group-map";
+import {RadioItemsMap} from "./radio-items-map";
 import {MsfRadioGroup} from "./radio-group";
 
 
@@ -9,6 +9,6 @@ import {MsfRadioGroup} from "./radio-group";
   imports: [ CommonModule ],
   declarations: [ MsfRadioInput, MsfRadioGroup ],
   exports: [ MsfRadioInput, MsfRadioGroup ],
-  providers: [RadioGroupMap]
+  providers: [RadioItemsMap]
 })
 export class MsfRadioModule {}

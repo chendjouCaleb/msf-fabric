@@ -1,6 +1,6 @@
 import {ComponentFixture, TestBed} from "@angular/core/testing";
 import {MsfRadioInput} from "./radio";
-import {RadioGroupMap} from "./radio-group-map";
+import {RadioItemsMap} from "./radio-items-map";
 import {MsfRadioModule} from "./radio.module";
 
 describe('RadioComponent', () => {
@@ -12,7 +12,7 @@ describe('RadioComponent', () => {
 
     let inputName = "input name";
 
-    let groups: RadioGroupMap;
+    let groups: RadioItemsMap;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -26,7 +26,7 @@ describe('RadioComponent', () => {
       component2 = fixture2.componentInstance;
 
 
-      groups = TestBed.get(RadioGroupMap);
+      groups = TestBed.get(RadioItemsMap);
 
       fixture1.componentInstance.name = inputName;
       fixture2.componentInstance.name = inputName;

@@ -49,7 +49,6 @@ export class RadioItems {
     if(item == null){
       this._selected = null;
       this._value = null;
-      this._controlValueAccessorChangeFn(null);
       return;
     }
     if (!this.items.contains(item)) {
@@ -68,7 +67,6 @@ export class RadioItems {
 
     this._value = item.value;
     this._selected = item;
-    this._controlValueAccessorChangeFn(item.value);
 
   }
 
@@ -79,7 +77,7 @@ export class RadioItems {
 
     if (this.selected.value !== this.value) {
       this._value = this.selected.value;
-      this._controlValueAccessorChangeFn(this._value);
+
     }
   }
 

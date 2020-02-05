@@ -1,32 +1,33 @@
 import {
-  AfterContentInit,
+  AfterContentInit, ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
-  HostListener,
-  Input,
+  HostListener, Inject,
+  Input, OnDestroy, OnInit, Optional,
   Output,
   ViewChild
 } from "@angular/core";
 import {FocusMonitor} from "@angular/cdk/a11y";
 import {applyThemeClass, ColorTheme} from "../helpers/theme";
 import {AssertHelpers} from "@positon/collections/dist/helpers/assert-helpers";
-import {RadioGroupMap} from "./radio-group-map";
+import {RadioItemsMap} from "./radio-items-map";
 import {coerceBooleanProperty} from "@angular/cdk/coercion";
 import {RadioItems} from "./radio-items";
 import {CanColor, CanColorCtor, mixinColor} from "../helpers/behaviors/theme";
+import {MSF_RADIO_DEFAULT_OPTIONS, MsfRadioDefaultOptions} from "./radio-options";
 
 let nextUniqueId = 0;
 
 /** Change event object emitted by MatRadio and MatRadioGroup. */
 export class MsfRadioChange {
-  constructor(
-    /** The MatRadioButton that emits the change event. */
-    public source: MsfRadioInput,
-    /** The value of the MatRadioButton. */
-    public value: any) {
-  }
+  /**
+   * The constructor.
+   * @param source he MatRadioButton that emits the change event.
+   * @param value The value of the MatRadioButton.
+   */
+  constructor( public source: MsfRadioInput, public value: any) { }
 }
 
 class MsfRadioInputBase {
@@ -34,7 +35,7 @@ class MsfRadioInputBase {
 }
 
 const _MsfCheckboxMixinBase:
-  CanColorCtor & typeof MsfRadioInputBase = mixinColor(MsfRadioInputBase, "primary");
+  CanColorCtor & typeof MsfRadioInputBase = mixinColor(MsfRadioInputBase);
 
 
 
@@ -47,7 +48,6 @@ const _MsfCheckboxMixinBase:
     '[class.msf-checked]': 'checked',
     '[class.msf-disabled]': 'disabled',
 
-    // Needs to be -1 so the `focus` event still fires.
     '[attr.tabindex]': 'disabled ? -1 : 0',
     '[attr.id]': 'id',
     '[attr.disabled]': 'disabled',
@@ -55,59 +55,19 @@ const _MsfCheckboxMixinBase:
     '[attr.aria-describedby]': 'ariaDescribedby',
     '[attr.aria-label]': 'ariaLabel'
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
   inputs: [ 'theme']
 })
-export class MsfRadioInput extends _MsfCheckboxMixinBase implements CanColor, AfterContentInit{
-  private _isInitialized: boolean = false;
 
-  private _uniqueId: string = `msf-radio-${++nextUniqueId}`;
-
-  /** The unique ID for the radio button. */
-  @Input()
-  get id(): string {
-    return this._id;
-  }
-
-  set id( value: string) {
-    this._id = value;
-
-    if(this._isInitialized){
-      this.forLabel = `label[for='${value}']`;
-    }
-  }
-
-  private _id = this._uniqueId;
-
-  set forLabel(value: string) {
-    AssertHelpers.isNotNull(value);
-    if (this._label) {
-      this._label.removeEventListener("click", this._forLabelEvent);
-    }
-    this._forLabel = value;
-    this._label = document.querySelector(value);
-
-    if (this._label) {
-      this._label.addEventListener("click", this._forLabelEvent);
-    }
-  }
-
-  private _forLabel: string;
-  private _label: HTMLElement;
-
-  @Input()
-  get forLabel() {
-    return this._forLabel;
-  }
-
-  get label(): HTMLElement {
-    return this._label;
-  }
-
-
-  private _forLabelEvent = () => {
-    this.onClick();
-  };
-
+/**
+ * The radio input component.
+ * Code inspired by Angular Material.
+ * Design inspired by Microsoft Fabric.
+ *
+ * @author Chendjou Caleb deGrace
+ * @version 1.
+ */
+export class MsfRadioInput extends _MsfCheckboxMixinBase implements CanColor, AfterContentInit, OnInit, OnDestroy{
   /**
    * ID of the native input element inside `<MsfRadioInput>`
    * This Id should be different to id property which is used for the MsfRadioInput
@@ -126,20 +86,6 @@ export class MsfRadioInput extends _MsfCheckboxMixinBase implements CanColor, Af
   /** The 'aria-describedby' attribute is read after the element's label and field type. */
   @Input() ariaDescribedby: string;
 
-  @Input()
-  get name(): string {
-    return this._name;
-  }
-
-  set name(value: string) {
-    let lastName = this.name;
-    this._name = value;
-
-    this._nameGroup.update(this, lastName);
-  }
-
-  private _name: string = this._uniqueId;
-
   /** Whether this radio button is disabled. */
   @Input()
   disabled: boolean = false;
@@ -151,6 +97,33 @@ export class MsfRadioInput extends _MsfCheckboxMixinBase implements CanColor, Af
    */
   @Output()
   readonly change: EventEmitter<MsfRadioChange> = new EventEmitter<MsfRadioChange>();
+
+  /**
+   * Tells whether the component is initialised.
+   */
+  private _isInitialized: boolean = false;
+
+  private _uniqueId: string = `msf-radio-${++nextUniqueId}`;
+
+  /** The unique ID for the radio button. */
+  private _id = this._uniqueId;
+
+  /**
+   * The css selector of the HTML label of the radio.
+   */
+  private _forLabel: string;
+
+
+  /**
+   * The html label of the input radio?
+   */
+  private _label: HTMLElement;
+
+  /**
+   * The name of the input radio. The modification of name
+   * change the group of the radio.
+   */
+  private _name: string = this._uniqueId;
 
 
   /** Whether this radio is checked. */
@@ -165,38 +138,31 @@ export class MsfRadioInput extends _MsfCheckboxMixinBase implements CanColor, Af
   @ViewChild("inputElement", {static: false})
   private _inputElement: ElementRef<HTMLInputElement>;
 
+
+
+
+
+
   constructor(public _elementRef: ElementRef<HTMLElement>,
               private _changeDetector: ChangeDetectorRef,
-              private _nameGroup: RadioGroupMap,
-              private _focusMonitor: FocusMonitor
+              private _nameGroup: RadioItemsMap,
+              private _focusMonitor: FocusMonitor,
+              @Optional() @Inject(MSF_RADIO_DEFAULT_OPTIONS)
+              private _providerOverride?: MsfRadioDefaultOptions
   ) {
     super(_elementRef);
     this._nameGroup.add(this);
-    setTimeout(() => {
-      this.inputElement.addEventListener("change", () => {
-        console.log(this.inputElement.checked)
-      })
-    }, 1000)
+
   }
 
-  /**
-   * Marks the radio button as needing checking for change detection.
-   * This method is exposed because the parent radio group will directly
-   * update bound properties of the radio button.
-   */
-  _markForCheck() {
-    // When group value changes, the button will not be notified. Use `markForCheck` to explicit
-    // update radio button's status
-    this._changeDetector.markForCheck();
-  }
+
 
   ngOnInit() {
+    if(!this.theme && this._providerOverride && this._providerOverride.color) {
+      this.theme = this._providerOverride.color;
+    }
   }
 
-  /** Focuses the radio button. */
-  focus(): void {
-    this._focusMonitor.focusVia(this._inputElement, 'keyboard');
-  }
 
 
   ngOnDestroy() {
@@ -207,9 +173,38 @@ export class MsfRadioInput extends _MsfCheckboxMixinBase implements CanColor, Af
     this.group.remove(this);
   }
 
-  /** Dispatch change event with current value. */
-  private _emitChangeEvent(): void {
-    this.change.emit(new MsfRadioChange(this, this._value));
+  @HostListener("click")
+  onClick() {
+
+    if(this.disabled){
+      return;
+    }
+    if (!this._checked) {
+      this.checked = true;
+      this.group._controlValueAccessorChangeFn(this.value);
+      this._emitChangeEvent();
+    }
+  }
+
+
+
+  ngAfterContentInit(): void {
+    this._isInitialized = true;
+
+    this.forLabel = `label[for='${this.id}']`
+  }
+
+
+  @Input()
+  get name(): string {
+    return this._name;
+  }
+
+  set name(value: string) {
+    let lastName = this.name;
+    this._name = value;
+    this._markForCheck();
+    this._nameGroup.update(this, lastName);
   }
 
 
@@ -249,16 +244,47 @@ export class MsfRadioInput extends _MsfCheckboxMixinBase implements CanColor, Af
     this._changeDetector.detectChanges();
   }
 
-  @HostListener("click")
-  onClick() {
-    if(this.disabled){
-      return;
+
+  @Input()
+  get id(): string { return this._id; }
+
+  set id( value: string) {
+    this._id = value;
+
+    if(this._isInitialized){
+      this.forLabel = `label[for='${value}']`;
     }
-    if (!this._checked) {
-      this.checked = true;
-    }
-    this._emitChangeEvent();
   }
+
+
+  @Input()
+  get forLabel() {
+    return this._forLabel;
+  }
+
+  set forLabel(value: string) {
+
+    if (this._label) {
+      this._label.removeEventListener("click", this._forLabelEvent);
+    }
+    this._forLabel = value;
+    this._label = document.querySelector(value);
+
+    if (this._label) {
+      this._label.addEventListener("click", this._forLabelEvent);
+    }
+  }
+
+
+  get label(): HTMLElement {
+    return this._label;
+  }
+
+
+  private _forLabelEvent = () => {
+    this.onClick();
+  };
+
 
 
   get element(): HTMLElement {
@@ -273,10 +299,26 @@ export class MsfRadioInput extends _MsfCheckboxMixinBase implements CanColor, Af
     return this._nameGroup.get(this.name);
   }
 
-  ngAfterContentInit(): void {
-    this._isInitialized = true;
-
-    this.forLabel = `label[for='${this.id}']`
+  get changeDetector(): ChangeDetectorRef{
+    return this._changeDetector;
   }
+
+
+  /**
+   * Marks the radio button as needing checking for change detection.
+   * This method is exposed because the parent radio group will directly
+   * update bound properties of the radio button.
+   */
+  _markForCheck() {
+    // When group value changes, the button will not be notified. Use `markForCheck` to explicit
+    // update radio button's status
+    this._changeDetector.markForCheck();
+  }
+
+  /** Dispatch change event with current value. */
+  private _emitChangeEvent(): void {
+    this.change.emit(new MsfRadioChange(this, this._value));
+  }
+
 
 }
