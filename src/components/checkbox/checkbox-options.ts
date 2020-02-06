@@ -3,6 +3,7 @@ import {InjectionToken} from "@angular/core";
 
 export interface MsfCheckboxDefaultOptions {
   theme: ColorTheme;
+  rounded: boolean;
 }
 
 export const MSF_CHECKBOX_DEFAULT_OPTIONS =
@@ -13,6 +14,7 @@ export const MSF_CHECKBOX_DEFAULT_OPTIONS =
 
 export function MSF_CHECKBOX_DEFAULT_OPTIONS_FACTORY(): MsfCheckboxDefaultOptions {
   return {
-    theme: null
+    theme: null,
+    rounded: true
   };
 }

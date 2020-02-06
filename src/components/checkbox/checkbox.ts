@@ -14,6 +14,8 @@ import {FocusMonitor} from "@angular/cdk/a11y";
 import {MSF_CHECKBOX_DEFAULT_OPTIONS, MsfCheckboxDefaultOptions} from "./checkbox-options";
 import {CheckboxItemsMap} from "./checkbox-items-map";
 import {AssertHelpers} from "@positon/collections/dist/helpers/assert-helpers";
+import {CheckboxItems} from "./checkbox-items";
+import {coerceBooleanProperty} from "@angular/cdk/coercion";
 
 
 
@@ -110,6 +112,23 @@ export class MsfCheckbox extends _MsfCheckboxMixinBase implements ControlValueAc
   private _checked: boolean = false;
 
   /**
+   * The css selector of the HTML label of the radio.
+   */
+  private _forLabel: string;
+
+
+  /**
+   * The html label of the input radio?
+   */
+  private _label: HTMLElement;
+
+  /** Name value will be applied to the input element if present */
+  private _name: string = this._uniqueId;
+
+  /** A unique id for the checkbox input. If none is supplied, it will be auto-generated. */
+  private _id: string = this._uniqueId;
+
+  /**
    * Called when the checkbox is blurred. Needed to properly implement ControlValueAccessor.
    * @docs-private
    */
@@ -121,8 +140,7 @@ export class MsfCheckbox extends _MsfCheckboxMixinBase implements ControlValueAc
 
   private _controlValueAccessorChangeFn: (value: any) => void = () => {};
 
-  /** Name value will be applied to the input element if present */
-  private _name: string = this._uniqueId;
+
 
   /**
    * Attached to the aria-label attribute of the host element. In most cases, aria-labelledby will
@@ -137,7 +155,7 @@ export class MsfCheckbox extends _MsfCheckboxMixinBase implements ControlValueAc
   @Input( )
   ariaLabelledby: string | null = null;
 
-  /** Whether this radio button is disabled. */
+  /** Whether this checkbox button is disabled. */
   @Input()
   disabled: boolean = false;
 
@@ -145,9 +163,7 @@ export class MsfCheckbox extends _MsfCheckboxMixinBase implements ControlValueAc
   /** Whether the checkbox is required. */
   public required: boolean;
 
-  /** A unique id for the checkbox input. If none is supplied, it will be auto-generated. */
-  @Input()
-  id: string = this._uniqueId;
+
 
   @Input()
   rounded: boolean = false;
@@ -195,6 +211,14 @@ export class MsfCheckbox extends _MsfCheckboxMixinBase implements ControlValueAc
 
   ngOnInit(): void {
     this._itemsMap.add(this);
+
+    if(!this.theme && this._defaultOptions && this._defaultOptions.theme) {
+      this.theme = this._defaultOptions.theme;
+    }
+
+    if(!this.rounded && this._defaultOptions && this._defaultOptions.rounded) {
+      this.rounded = this._defaultOptions.rounded;
+    }
   }
 
   ngOnDestroy(): void {
@@ -221,9 +245,17 @@ export class MsfCheckbox extends _MsfCheckboxMixinBase implements ControlValueAc
   }
 
   set checked(state: boolean) {
-    if (state != this.checked) {
-      this._checked = state;
-      this._changeDetectorRef.markForCheck();
+    state = coerceBooleanProperty(state);
+    if (state === this.checked) {
+      return;
+    }
+    this._checked = state;
+    this._changeDetectorRef.markForCheck();
+
+    if(state){
+      this.items.select(this);
+    }else {
+      this.items.unselect(this);
     }
   }
 
@@ -243,6 +275,41 @@ export class MsfCheckbox extends _MsfCheckboxMixinBase implements ControlValueAc
     }
   }
 
+  @Input()
+  get id(): string { return this._id; }
+
+  set id( value: string) {
+    this._id = value;
+    this.forLabel = `label[for='${value}']`;
+  }
+
+  @Input()
+  get forLabel() {
+    return this._forLabel;
+  }
+
+  set forLabel(value: string) {
+
+    if (this._label) {
+      this._label.removeEventListener("click", this._forLabelEvent);
+    }
+    this._forLabel = value;
+    this._label = document.querySelector(value);
+
+    if (this._label) {
+      this._label.addEventListener("click", this._forLabelEvent);
+    }
+  }
+
+
+  get label(): HTMLElement {
+    return this._label;
+  }
+
+
+  private _forLabelEvent = (event:Event) => {
+    this.onClick(event);
+  };
 
 
   @HostListener("click")
@@ -300,6 +367,11 @@ export class MsfCheckbox extends _MsfCheckboxMixinBase implements ControlValueAc
 
   get _changeDetector() {
     return this._changeDetectorRef;
+  }
+
+
+  get items(): CheckboxItems {
+    return this._itemsMap.get(this.name);
   }
 
 }

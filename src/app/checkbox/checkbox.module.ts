@@ -5,7 +5,13 @@ import {RouterModule, Routes} from '@angular/router';
 import {AppLayoutModule} from "../layout/app.layout.module";
 
 import {CheckboxComponent} from "./checkbox.component";
-import {MsfButtonModule, MsfIconModule, MsfCheckboxModule} from "../../components/public_api";
+import {
+  MsfButtonModule,
+  MsfIconModule,
+  MsfCheckboxModule,
+  MsfRadioGroup,
+  MsfRadioModule
+} from "../../components/public_api";
 import {FormsModule} from "@angular/forms";
 
 
@@ -20,7 +26,7 @@ const routes: Routes = [
   declarations: [ CheckboxComponent ],
   imports: [
     CommonModule, RouterModule.forChild(routes), AppLayoutModule, MsfButtonModule,
-    MsfCheckboxModule, FormsModule, MsfIconModule
+    MsfCheckboxModule, FormsModule, MsfIconModule, MsfRadioModule
   ]
 })
 export class CheckboxModule {

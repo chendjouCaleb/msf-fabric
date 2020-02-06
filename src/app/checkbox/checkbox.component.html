@@ -91,14 +91,38 @@
       <h5 class="component-usage-section-title">Basic Checkbox Group</h5>
 
       <div class="component-usage-section-content">
-        <MsfCheckboxGroup >
+        <MsfCheckboxGroup [(ngModel)]="groupValue" (change)="onChange($event)"
+                          [theme]="groupTheme"
+                          [rounded]="groupRounded"
+                          [disabled]="groupDisabled">
           <label for="group-option-1"><MsfCheckbox id="group-option-1" value="Option 1"></MsfCheckbox> Option 1 </label>
           <label for="group-option-2"><MsfCheckbox id="group-option-2" value="Option 2"></MsfCheckbox> Option 2 </label>
           <label for="group-option-3"><MsfCheckbox id="group-option-3" value="Option 3"></MsfCheckbox> Option 3 </label>
           <label for="group-option-4"><MsfCheckbox id="group-option-4" value="Option 4"></MsfCheckbox>Option 4 </label>
         </MsfCheckboxGroup>
         <div>
+        X:  {{groupValue.toArray() }}
+        </div>
 
+        <div>
+          <MsfRadioGroup [(ngModel)]="groupTheme">
+            <label for="primary-theme"><MsfRadio value="primary" id="primary-theme" theme="primary"></MsfRadio> Primary</label>
+            <label for="warning-theme"><MsfRadio value="warning" id="warning-theme" theme="warning"></MsfRadio> Warning</label>
+            <label for="error-theme"><MsfRadio value="error" id="error-theme" theme="error"></MsfRadio> Error</label>
+            <label for="success-theme"><MsfRadio value="success" id="success-theme" theme="success"></MsfRadio> Success</label>
+          </MsfRadioGroup>
+        </div>
+
+        <div>
+          <label for="rounded">
+            <MsfCheckbox id="rounded" [(ngModel)]="groupRounded"></MsfCheckbox> Rounded
+          </label>
+        </div>
+
+        <div>
+          <label for="disabledGroup">
+            <MsfCheckbox id="disabledGroup" [(ngModel)]="groupDisabled"></MsfCheckbox> Disabled
+          </label>
         </div>
       </div>
     </div>
@@ -146,7 +170,7 @@
         </MsfCheckboxGroup>
 
         <div>
-          Selection value: {{group1Value}}
+
         </div>
       </div>
     </div>

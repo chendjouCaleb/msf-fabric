@@ -47,7 +47,7 @@ export const MSF_CHECKBOX_GROUP_CONTROL_VALUE_ACCESSOR: any = {
 })
 export class MsfCheckboxGroup implements AfterContentInit, ControlValueAccessor, OnDestroy {
 
-  /** Whether the `value` has been set to its initial value. */
+  /** Whether the component is initialized. */
   private _isInitialized: boolean = false;
 
 
@@ -59,16 +59,14 @@ export class MsfCheckboxGroup implements AfterContentInit, ControlValueAccessor,
    */
   private _theme: ColorTheme;
 
-  /** Whether the radio group is disabled. */
-  private _disabled: boolean;
 
 
   /**
    * Event emitted when the group value changes.
    * Change events are only emitted when the value changes due to user interaction with
-   * a radio button (the same behavior as `<input type-"radio">`).
+   * a checkbox button (the same behavior as `<input type-"checkbox">`).
    */
-  @Output() readonly change: EventEmitter<MsfRadioChange> = new EventEmitter<MsfRadioChange>();
+  @Output() readonly change: EventEmitter<MsfCheckboxGroup> = new EventEmitter<MsfCheckboxGroup>();
 
   /** Child radio buttons. */
   @ContentChildren(forwardRef(() => MsfCheckbox), {descendants: true})
@@ -89,8 +87,8 @@ export class MsfCheckboxGroup implements AfterContentInit, ControlValueAccessor,
     this._checkboxChildren.forEach(item => {
       item._changeDetector.detach();
       item.name = this._name;
-      item.change.subscribe((data) => {
-        this.change.next(data);
+      item.change.subscribe(( ) => {
+        this.change.next(this);
         this._controlValueAccessorChangeFn(this.values);
       });
       item._changeDetector.detectChanges();
@@ -103,6 +101,8 @@ export class MsfCheckboxGroup implements AfterContentInit, ControlValueAccessor,
       });
 
     this._isInitialized = true;
+
+    console.log(this.checkboxItems.size())
   }
 
   ngOnDestroy(): void {
@@ -148,13 +148,28 @@ export class MsfCheckboxGroup implements AfterContentInit, ControlValueAccessor,
   /** Whether the radio group is disabled. */
   @Input()
   get disabled(): boolean {
-    return this.checkboxItems.trueForAll(item => item.disabled);
+    return this.checkboxItems.items.trueForAll(item => item.disabled);
   }
 
   set disabled(state: boolean) {
     if (this._isInitialized) {
       state = coerceBooleanProperty(state);
-      this.checkboxItems.forEach(item => item.disabled = state);
+      this.checkboxItems.items.forEach(item => item.disabled = state);
+    }
+  }
+
+
+
+  /** Whether the checkbox group is rounded. */
+  @Input()
+  get rounded(): boolean {
+    return this.checkboxItems.items.trueForAll(item => item.rounded);
+  }
+
+  set rounded(state: boolean) {
+    if (this._isInitialized) {
+      state = coerceBooleanProperty(state);
+      this.checkboxItems.items.forEach(item => item.rounded = state);
     }
 
   }
@@ -182,7 +197,7 @@ export class MsfCheckboxGroup implements AfterContentInit, ControlValueAccessor,
   }
 
   writeValue(obj: any): void {
-    console.log("Write value: " + obj);
+    console.log("Write value: " );
   }
 
   /**

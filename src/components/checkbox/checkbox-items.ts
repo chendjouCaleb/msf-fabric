@@ -46,6 +46,15 @@ export class CheckboxItems extends AbstractCollection<MsfCheckbox> {
     return true;
   }
 
+  unselect(item: MsfCheckbox):boolean {
+    if(!this.isSelected(item)){
+      return false;
+    }
+
+    this._selected.remove(item);
+    return true;
+  }
+
   remove(item: MsfCheckbox): boolean {
     if (!this.contains(item)) {
       return false;
@@ -101,6 +110,11 @@ export class CheckboxItems extends AbstractCollection<MsfCheckbox> {
 
   get selected(): List<MsfCheckbox> {
     return this._selected;
+  }
+
+
+  get items(): List<MsfCheckbox> {
+    return this._items;
   }
 
   trueForAll(param: (item) => boolean) {
