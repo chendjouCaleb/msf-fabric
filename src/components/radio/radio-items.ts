@@ -18,8 +18,6 @@ export class RadioItems {
   /** Whether the radio group is disabled. */
   private _disabled: boolean = false;
 
-  /** Whether the radio group is required. */
-  private _required: boolean = false;
 
   /** The method to be called in order to update ngModel */
   _controlValueAccessorChangeFn: (value: any) => void = () => {
@@ -77,7 +75,6 @@ export class RadioItems {
 
     if (this.selected.value !== this.value) {
       this._value = this.selected.value;
-
     }
   }
 

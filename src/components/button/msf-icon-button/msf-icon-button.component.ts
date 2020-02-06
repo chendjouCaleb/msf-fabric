@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ElementRef } from '@angular/core';
 import { Strings } from '../../utils/string-utils';
-import { MsfButtonBaseComponent } from '../button-base';
+import { MsfButtonBase } from '../button-base';
 
 @Component({
   selector: 'MsfIconButton, [MsfIconButton]',
@@ -11,13 +11,13 @@ import { MsfButtonBaseComponent } from '../button-base';
     'class': 'msf-icon-button'
   }
 })
-export class MsfIconButtonComponent extends MsfButtonBaseComponent {
+export class MsfIconButtonComponent extends MsfButtonBase {
 
   @Input()
   Icon: string;
 
 
-  constructor(protected _elementRef: ElementRef<HTMLElement>) {
+  constructor(public _elementRef: ElementRef<HTMLElement>) {
     super(_elementRef);
   }
   ngOnInit() {
@@ -28,7 +28,7 @@ export class MsfIconButtonComponent extends MsfButtonBaseComponent {
       this.Icon = Strings.upperFirst(this.hostElement.textContent);
       console.log(this.hostElement.textContent)
     }
-    
+
 
     if(this.IsRounded){
       this._elementRef.nativeElement.classList.add("msf-rounded-button");

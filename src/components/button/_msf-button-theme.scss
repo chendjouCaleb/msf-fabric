@@ -13,22 +13,22 @@ $msf-button-outline-size: 1;
   $warning: map-get($theme, warning);
   $error: map-get($error, primary);
 
-  &.msf-standard {
+  &.msf-theme-standard {
     outline: $msf-button-outline-size solid $standard;
   }
 
-  &.msf-primary {
+  &.msf-theme-primary {
     outline: $msf-button-outline-size solid $primary;
   }
 
-  &.msf-success {
+  &.msf-theme-success {
     outline: $msf-button-outline-size solid $success;
   }
 
-  &.msf-warning {
+  &.msf-theme-warning {
     outline: $msf-button-outline-size solid $warning;
   }
-  &.msf-error {
+  &.msf-theme-error {
     outline: $msf-button-outline-size solid $error;
   }
 }

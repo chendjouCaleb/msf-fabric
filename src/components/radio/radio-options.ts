@@ -13,6 +13,6 @@ export const MSF_RADIO_DEFAULT_OPTIONS =
 
 export function MSF_RADIO_DEFAULT_OPTIONS_FACTORY(): MsfRadioDefaultOptions {
   return {
-    color: 'error'
+    color: null
   };
 }

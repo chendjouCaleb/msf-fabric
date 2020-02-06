@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, ElementRef, Input, ViewEncapsulation} from '@angular/core';
 
-import { MsfButtonBaseComponent } from '../button-base';
+import { MsfButtonBase } from '../button-base';
 
 export type ButtonSize = "1x" | "2x" | "3x";
 
@@ -13,16 +13,17 @@ export type ButtonSize = "1x" | "2x" | "3x";
   host: {
     '[attr.aria-disabled]': 'disabled.toString()',
     '[attr.tabindex]': 'disabled ? -1 : 0'
-  }
+  },
+  inputs: [ 'theme', 'depth']
 })
-export class MsfButtonComponent extends MsfButtonBaseComponent{
+export class MsfButtonComponent extends MsfButtonBase{
   @Input()
   Icon: string;
 
   @Input()
   LeftIcon: string;
 
-  constructor(protected _elementRef: ElementRef<HTMLElement>) {
+  constructor(public _elementRef: ElementRef<HTMLElement>) {
     super(_elementRef);
   }
 

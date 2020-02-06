@@ -1,26 +1,19 @@
 import { Input, ElementRef, OnInit } from '@angular/core';
 import {ButtonSize} from "./msf-button/msf-button.component";
 import {ColorTheme} from "../helpers/theme";
+import {CanColor, CanColorCtor, mixinColor} from "../helpers/behaviors/theme";
+import {CanDepth, CanDepthCtor, mixinDepth} from "../helpers/behaviors/depth";
 
-export class MsfButtonBaseComponent implements OnInit{
+class ButtonBase {
+  constructor(public _elementRef: ElementRef) {}
+}
 
-  private _theme: ColorTheme;
+const _MsfButtonMixinBase:
+  CanColorCtor & CanDepthCtor & typeof ButtonBase = mixinDepth(mixinColor(ButtonBase),8 );
 
-  @Input()
-  set theme(theme: ColorTheme) {
-    this._theme= theme;
-    if(theme){
-      if(this.Outline){
-        this._elementRef.nativeElement.classList.add(`msf-button-outline-${this.theme}`);
-      }else{
-        this._elementRef.nativeElement.classList.add(`msf-button-${this.theme}`);
-      }
-    }
-  }
+export abstract class MsfButtonBase extends _MsfButtonMixinBase implements CanColor, CanDepth, OnInit{
 
-  get theme(): ColorTheme {
-    return this._theme;
-  }
+
   @Input()
   Size: ButtonSize = "2x";
 
@@ -34,7 +27,9 @@ export class MsfButtonBaseComponent implements OnInit{
     return this._elementRef.nativeElement.hasAttribute("disabled");
   }
 
-  constructor(protected _elementRef: ElementRef<HTMLElement>) { }
+  constructor(public _elementRef: ElementRef<HTMLElement>) {
+      super(_elementRef);
+  }
 
   ngOnInit() {
     this._elementRef.nativeElement.classList.add("msf-button");

@@ -10,7 +10,7 @@ import {
   ContentChild, AfterContentInit, ChangeDetectorRef
 } from '@angular/core';
 import {ColorTheme} from '../../helpers/theme';
-import { MsfButtonBaseComponent } from '../button-base';
+import { MsfButtonBase } from '../button-base';
 import { ButtonSize } from '../msf-button/msf-button.component';
 
 @Component({
@@ -25,10 +25,10 @@ import { ButtonSize } from '../msf-button/msf-button.component';
 export class MsfSplitButtonComponent implements OnInit, AfterContentInit{
 
   @ContentChild("LeftButton", {static: false})
-  leftButton: MsfButtonBaseComponent;
+  leftButton: MsfButtonBase;
 
   @ContentChild("RightButton", {static: false})
-  rightButton: MsfButtonBaseComponent;
+  rightButton: MsfButtonBase;
 
 
 

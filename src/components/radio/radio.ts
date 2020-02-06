@@ -17,6 +17,7 @@ import {coerceBooleanProperty} from "@angular/cdk/coercion";
 import {RadioItems} from "./radio-items";
 import {CanColor, CanColorCtor, mixinColor} from "../helpers/behaviors/theme";
 import {MSF_RADIO_DEFAULT_OPTIONS, MsfRadioDefaultOptions} from "./radio-options";
+import {CanDepth, CanDepthCtor, mixinDepth} from "../helpers/behaviors/depth";
 
 let nextUniqueId = 0;
 
@@ -35,7 +36,7 @@ class MsfRadioInputBase {
 }
 
 const _MsfCheckboxMixinBase:
-  CanColorCtor & typeof MsfRadioInputBase = mixinColor(MsfRadioInputBase);
+  CanColorCtor & CanDepthCtor & typeof MsfRadioInputBase = mixinDepth(mixinColor(MsfRadioInputBase) );
 
 
 
@@ -56,7 +57,7 @@ const _MsfCheckboxMixinBase:
     '[attr.aria-label]': 'ariaLabel'
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
-  inputs: [ 'theme']
+  inputs: [ 'theme', 'depth']
 })
 
 /**
@@ -67,7 +68,7 @@ const _MsfCheckboxMixinBase:
  * @author Chendjou Caleb deGrace
  * @version 1.
  */
-export class MsfRadioInput extends _MsfCheckboxMixinBase implements CanColor, AfterContentInit, OnInit, OnDestroy{
+export class MsfRadioInput extends _MsfCheckboxMixinBase implements CanColor, CanDepth, AfterContentInit, OnInit, OnDestroy{
   /**
    * ID of the native input element inside `<MsfRadioInput>`
    * This Id should be different to id property which is used for the MsfRadioInput

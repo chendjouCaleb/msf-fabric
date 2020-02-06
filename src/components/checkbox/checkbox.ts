@@ -100,8 +100,6 @@ export class MsfCheckbox extends _MsfCheckboxMixinBase implements ControlValueAc
 
   private _uniqueId: string = "msf_Checkbox-${++nextUniqueId}";
 
-  /** Returns the unique id for the visual hidden input. */
-  private _inputId: string;
 
 
   /** Whether the checkbox is required. */
@@ -134,10 +132,6 @@ export class MsfCheckbox extends _MsfCheckboxMixinBase implements ControlValueAc
 
 
 
-  /**
-   * Returns the unique id for the visual hidden input.
-   */
-  get inputId(): string { return `${this.id || this._uniqueId}-input`; }
 
 
 
@@ -158,10 +152,6 @@ export class MsfCheckbox extends _MsfCheckboxMixinBase implements ControlValueAc
   readonly change: EventEmitter<MsfCheckboxChange> = new EventEmitter<MsfCheckboxChange>();
 
 
-  /** The native `<input type="checkbox">` element */
-  @ViewChild('input', {static: false})
-  _inputElement: ElementRef<HTMLInputElement>;
-
 
   constructor(public _elementRef: ElementRef<HTMLElement>) {
     super(_elementRef);
@@ -176,16 +166,6 @@ export class MsfCheckbox extends _MsfCheckboxMixinBase implements ControlValueAc
     this._checked = state;
   }
 
-  // @Input()
-  // get theme(): ColorTheme {
-  //   return this._theme
-  // }
-  //
-  // set theme(value: ColorTheme) {
-  //   AssertHelpers.isNotNull(value);
-  //   applyThemeClass(this.element, this._theme, value);
-  //   this._theme = value;
-  // }
 
   @HostListener("click")
   onClick(event: Event) {
@@ -203,9 +183,6 @@ export class MsfCheckbox extends _MsfCheckboxMixinBase implements ControlValueAc
     return this._elementRef.nativeElement;
   }
 
-  get inputElement(): HTMLInputElement {
-    return this._inputElement.nativeElement;
-  }
 
   /** Dispatch change event with current value. */
   private _emitChangeEvent(event: Event): void {
@@ -229,7 +206,7 @@ export class MsfCheckbox extends _MsfCheckboxMixinBase implements ControlValueAc
   }
 
   writeValue(value: any): void {
-    console.log('value writing')
+
     this.checked = !!value;
   }
 
