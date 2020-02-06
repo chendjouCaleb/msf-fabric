@@ -2,7 +2,7 @@ import {InjectionToken} from "@angular/core";
 import {ColorTheme} from "../helpers/theme";
 
 export interface MsfRadioDefaultOptions {
-  color: ColorTheme;
+  theme: ColorTheme;
 }
 
 export const MSF_RADIO_DEFAULT_OPTIONS =
@@ -13,6 +13,6 @@ export const MSF_RADIO_DEFAULT_OPTIONS =
 
 export function MSF_RADIO_DEFAULT_OPTIONS_FACTORY(): MsfRadioDefaultOptions {
   return {
-    color: null
+    theme: null
   };
 }

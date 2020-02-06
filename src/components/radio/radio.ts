@@ -159,8 +159,8 @@ export class MsfRadioInput extends _MsfCheckboxMixinBase implements CanColor, Ca
 
 
   ngOnInit() {
-    if(!this.theme && this._providerOverride && this._providerOverride.color) {
-      this.theme = this._providerOverride.color;
+    if(!this.theme && this._providerOverride && this._providerOverride.theme) {
+      this.theme = this._providerOverride.theme;
     }
   }
 

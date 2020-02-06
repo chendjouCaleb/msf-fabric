@@ -11,6 +11,10 @@ export class CheckboxItems extends AbstractCollection<MsfCheckbox> {
     super();
   }
 
+  get(index: number) {
+    return this._items.get(index);
+  }
+
   /**
    * Add a item in the group.
    * @param item The item to add.
@@ -34,7 +38,7 @@ export class CheckboxItems extends AbstractCollection<MsfCheckbox> {
       throw Error("The item does not belong to the group");
     }
 
-    if (this.selected(item)) {
+    if (this.isSelected(item)) {
       return false;
     }
 
@@ -47,7 +51,7 @@ export class CheckboxItems extends AbstractCollection<MsfCheckbox> {
       return false;
     }
 
-    if (this.selected(item)) {
+    if (this.isSelected(item)) {
       this._selected.remove(item);
     }
     this._items.remove(item);
@@ -55,7 +59,7 @@ export class CheckboxItems extends AbstractCollection<MsfCheckbox> {
     return true;
   }
 
-  selected(item: MsfCheckbox) {
+  isSelected(item: MsfCheckbox) {
     return this._selected.contains(item);
   }
 
@@ -95,4 +99,11 @@ export class CheckboxItems extends AbstractCollection<MsfCheckbox> {
     return this._selected.convertAll(t => t.value);
   }
 
+  get selected(): List<MsfCheckbox> {
+    return this._selected;
+  }
+
+  trueForAll(param: (item) => boolean) {
+    return this._items.trueForAll(param);
+  }
 }
