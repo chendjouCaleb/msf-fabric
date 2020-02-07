@@ -4,6 +4,8 @@ import {InjectionToken} from "@angular/core";
 
 export type PersonnaPresence = "away" | "blocked" | "busy" | "dnd" | "none" | "offline" | "online" | "progress";
 
+export const PersonnaPresences = ["away" , "blocked" , "busy" , "dnd" , "none" , "offline" , "online" , "progress"];
+
 export const DefaultPersonnaPresenceIcon = {
   "away": "AwayStatus",
   "blocked": "Blocked",

@@ -166,7 +166,7 @@ export class MsfCheckbox extends _MsfCheckboxMixinBase implements ControlValueAc
 
 
   @Input()
-  rounded: boolean = false;
+  rounded: boolean | null = null;
 
 
 
@@ -216,7 +216,7 @@ export class MsfCheckbox extends _MsfCheckboxMixinBase implements ControlValueAc
       this.theme = this._defaultOptions.theme;
     }
 
-    if(!this.rounded && this._defaultOptions && this._defaultOptions.rounded) {
+    if(this.rounded == null && this._defaultOptions && this._defaultOptions.rounded != null) {
       this.rounded = this._defaultOptions.rounded;
     }
   }

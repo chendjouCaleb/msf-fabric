@@ -1,0 +1,19 @@
+<div class="component-usage-section">
+  <h5 class="component-usage-section-title">PersonaCoin colors</h5>
+
+  <div class="component-usage-section-content">
+
+
+    <div *ngFor="let personna of personnas">
+
+      <MsfPersonna>
+        <MsfPersonnaFigure [textInitial]="personna.initial" size="size100" [color]="personna.color"></MsfPersonnaFigure>
+        <MsfPersonnaText>
+          <span class="msf-personna-primaryText">{{personna.text}}</span>
+        </MsfPersonnaText>
+      </MsfPersonna>
+    </div>
+
+
+  </div>
+</div>

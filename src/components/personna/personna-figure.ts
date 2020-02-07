@@ -1,4 +1,4 @@
-import {Component, ElementRef} from "@angular/core";
+import {Component, ElementRef, Input} from "@angular/core";
 import {CanColorCtor, mixinColor} from "../helpers/behaviors/theme";
 import {PersonnaSize} from "./personna-size";
 import {PersonnaPresence} from "./personna-options";
@@ -21,27 +21,42 @@ const _MsfPersonnaFigureMixinBase:
   }
 })
 export class MsfPersonnaFigure {
-  rounded: boolean;
+  @Input()
+  rounded: boolean = true;
 
 
 
+  @Input()
   /** Decides the size of the control. */
   size: PersonnaSize;
 
+
+  @Input()
   coinSize: number;
 
+
+  @Input()
   presence: PersonnaPresence;
 
+  @Input()
   showIcon: boolean;
 
+
+  @Input()
   imageUrl: string;
 
+  @Input()
   textInitial: string;
 
+  @Input()
   color: MsfColor;
 
+
+  @Input()
   unknown: boolean;
 
+
+  @Input()
   showPresence: boolean;
 
 

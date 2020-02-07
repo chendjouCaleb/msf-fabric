@@ -11,6 +11,13 @@ import {
   MsfPersonnaModule
 } from "../../components/public_api";
 import {PersonnaComponent} from "./personna.component";
+import {ColorPersonnaComponent} from "./color/color-personna.component";
+import {InitialPersonnaComponent} from "./initial/initial-personna.component";
+import {PresencePersonnaComponent} from "./presence/presence-personna.component";
+import {SmallPersonnaComponent} from "./small/small-personna.component";
+import {UnknownPersonnaComponent} from "./unknown/unknown-personna.component";
+import {VariousPersonnaComponent} from "./various/various-personna.component";
+import {FormsModule} from "@angular/forms";
 
 const routes: Routes = [
   {path: "", component: PersonnaComponent}
@@ -18,10 +25,11 @@ const routes: Routes = [
 
 
 @NgModule({
-  declarations: [PersonnaComponent],
+  declarations: [PersonnaComponent, ColorPersonnaComponent, InitialPersonnaComponent, PresencePersonnaComponent,
+  SmallPersonnaComponent, UnknownPersonnaComponent, VariousPersonnaComponent],
   imports: [
     CommonModule, RouterModule.forChild(routes), AppLayoutModule, MsfIconModule,
-    MsfButtonModule, MsfCheckboxModule, MsfRadioModule, MsfPersonnaModule
+    MsfButtonModule, MsfCheckboxModule, MsfRadioModule, MsfPersonnaModule, FormsModule
   ],
   providers: []
 })

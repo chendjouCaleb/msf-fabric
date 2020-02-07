@@ -1,0 +1,22 @@
+<div class="component-usage-section">
+  <h5 class="component-usage-section-title">Persona with initials</h5>
+
+  <div class="component-usage-section-content">
+
+
+    <div *ngFor="let personna of personnas">
+
+      <MsfPersonna>
+        <MsfPersonnaFigure [textInitial]="personna.initial" [size]="personna.size" [color]="personna.color"></MsfPersonnaFigure>
+        <MsfPersonnaText>
+          <span class="msf-personna-primaryText">{{personna.text}}</span>
+          <span class="msf-personna-secondaryText">{{personna.secondaryText}}</span>
+          <span class="msf-personna-secondaryText">{{personna.tertiaryText}}</span>
+          <span class="msf-personna-secondaryText">{{personna.optionalText}}</span>
+        </MsfPersonnaText>
+      </MsfPersonna>
+    </div>
+
+
+  </div>
+</div>
