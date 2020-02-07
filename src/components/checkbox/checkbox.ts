@@ -312,11 +312,13 @@ export class MsfCheckbox extends _MsfCheckboxMixinBase implements ControlValueAc
   };
 
 
-  @HostListener("click")
+  @HostListener("click", ["$event"])
   onClick(event: Event) {
     if(this.disabled){
       return;
     }
+
+    event.stopPropagation();
 
     if(this.indeterminate) {
       this.indeterminate = false;

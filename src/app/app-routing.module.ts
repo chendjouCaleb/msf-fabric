@@ -14,6 +14,7 @@ const routes: Routes = [
   {path: "pivot", loadChildren: () => import('./pivot/pivot.module').then(m => m.PivotModule)},
   {path: "callout", loadChildren: () => import('./callout/callout.module').then(m => m.CalloutModule)},
   {path: "dialog", loadChildren: () => import('./dialog/dialog.module').then(m => m.DialogModule)},
+  {path: "personna", loadChildren: () => import('./personna/personna.module').then(m => m.PersonnaModule)},
 ];
 
 @NgModule({

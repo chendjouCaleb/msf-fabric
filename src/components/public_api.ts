@@ -13,3 +13,4 @@ export * from "./dialog/public_api";
 export * from "./radio/public_api";
 export * from "./icon/public_api";
 export * from "./checkbox/public_api";
+export * from "./personna/public_api";

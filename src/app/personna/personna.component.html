@@ -1,0 +1,107 @@
+<style>
+  .component-usage-section-content MsfIcon, .component-usage-section-content MsfIconImage {
+    margin-left: 20px;
+    margin-right: 20px}
+</style>
+
+<app-layout title="Icons">
+  <h1>Personna</h1>
+
+  <div class="component-overview">
+    <h3 class="component-overview-title">Overview</h3>
+    <div class="component-overview-content">
+      Personas are used for rendering an individual's avatar and presence.
+      They are used within the PeoplePicker components.
+    </div>
+  </div>
+
+
+  <div class="component-usage mt-5">
+    <h3 class="component-usage-title">Usage</h3>
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">Icon</h5>
+
+      <div class="component-usage-section-content">
+        <MsfIcon iconName="plus"></MsfIcon>
+        <MsfIcon iconName="Cancel"></MsfIcon>
+        <MsfIcon iconName="Upload"></MsfIcon>
+      </div>
+    </div>
+
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">Theming</h5>
+
+      <div class="component-usage-section-content">
+        <MsfIcon iconName="plus" theme="standard"></MsfIcon>
+        <MsfIcon iconName="Cancel" theme="primary"></MsfIcon>
+        <MsfIcon iconName="Upload" theme="error"></MsfIcon>
+        <MsfIcon iconName="CircleFill" theme="success"></MsfIcon>
+        <MsfIcon iconName="AlertSolid" theme="warning"></MsfIcon>
+      </div>
+    </div>
+
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">Size</h5>
+
+      <div class="component-usage-section-content">
+        <MsfIcon iconName="CircleFill" size="sm"></MsfIcon>
+        <MsfIcon iconName="CircleFill" size="md"></MsfIcon>
+        <MsfIcon iconName="CircleFill" size="lg"></MsfIcon>
+        <MsfIcon iconName="CircleFill" size="xl"></MsfIcon>
+        <MsfIcon iconName="CircleFill" size="xxl" ></MsfIcon>
+      </div>
+    </div>
+
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">Use other provider(Material Design Icon)</h5>
+
+      <div class="component-usage-section-content">
+        <MsfIcon iconName="plus" theme="standard" providerName="MdiIcon"></MsfIcon>
+        <MsfIcon iconName="Cancel" theme="primary" providerName="MdiIcon"></MsfIcon>
+        <MsfIcon iconName="cancel" theme="error" providerName="MdiIcon"></MsfIcon>
+        <MsfIcon iconName="cards-heart" theme="success" providerName="MdiIcon"></MsfIcon>
+        <MsfIcon iconName="alert-circle" theme="warning" providerName="MdiIcon"></MsfIcon>
+      </div>
+    </div>
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">Icon with image</h5>
+
+      <div class="component-usage-section-content">
+        <MsfIconImage source="/assets/icon/archive.png"></MsfIconImage>
+        <MsfIconImage source="/assets/icon/atom.png"></MsfIconImage>
+        <MsfIconImage source="/assets/icon/code.png"></MsfIconImage>
+        <MsfIconImage source="/assets/icon/save.svg"></MsfIconImage>
+      </div>
+    </div>
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">Sizing icon image</h5>
+
+      <div class="component-usage-section-content">
+        <MsfIconImage source="/assets/icon/archive.png" size="sm"></MsfIconImage>
+        <MsfIconImage source="/assets/icon/archive.png" size="md"></MsfIconImage>
+        <MsfIconImage source="/assets/icon/archive.png" size="lg"></MsfIconImage>
+        <MsfIconImage source="/assets/icon/archive.png" size="xl"></MsfIconImage>
+        <MsfIconImage source="/assets/icon/archive.png" size="xxl"></MsfIconImage>
+      </div>
+    </div>
+
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">Use source mapping</h5>
+
+      <div class="component-usage-section-content">
+        <MsfIconImage source="document"></MsfIconImage>
+        <MsfIconImage source="cpu"></MsfIconImage>
+        <MsfIconImage source="neural"></MsfIconImage>
+        <MsfIconImage source="smartphone"></MsfIconImage>
+      </div>
+    </div>
+  </div>
+
+</app-layout>
