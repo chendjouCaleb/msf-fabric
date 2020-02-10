@@ -1,4 +1,4 @@
-export { MsfGridController } from "./grid-controller";
-export { MsfGridComponent } from "./grid.component";
-export { MsfGridItemComponent } from "./grid-item.component";
+
+export { MsfGrid } from "./grid";
+export { MsfGridItem } from "./grid-item";
 export { MsfGridModule } from "./grid.module";

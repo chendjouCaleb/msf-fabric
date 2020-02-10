@@ -7,8 +7,8 @@
     <div *ngFor="let presence of presences">
 
       <h6 class="text-capitalize">{{presence}}</h6>
-      <MsfPersonna *ngFor="let size of sizes">
-        <MsfPersonnaFigure [imageUrl]="imageUrl" [size]="size" [presence]="presence"></MsfPersonnaFigure>
+      <MsfPersonna *ngFor="let size of sizes" [size]="size" >
+        <MsfPersonnaFigure [imageUrl]="imageUrl" [presence]="presence"></MsfPersonnaFigure>
       </MsfPersonna>
     </div>
 

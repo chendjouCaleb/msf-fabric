@@ -1,12 +1,15 @@
+@import "msf-background";
+
 @import './Msf-Table';
 @import './Msf-Button';
 @import 'Msf-ContextualMenu';
 
 @import "../../dropdown/dropdown";
-@import "../../grid/grid";
+@import "msf-grid";
 @import "msf-icon";
 @import 'Msf-Pivot';
 @import 'Msf-Callout';
 @import "msf-dialog";
 @import "msf-radio";
 @import "msf-checkbox";
+@import "msf-personna";

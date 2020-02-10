@@ -36,20 +36,6 @@ export const MSF_CHECKBOX_CONTROL_VALUE_ACCESSOR: any = {
 };
 
 
-/**
- * Represents the different states that require custom transitions between them.
- * @docs-private
- */
-export enum TransitionCheckState {
-  /** The initial state of the component before any user interaction. */
-  Init,
-  /** The state representing the component when it's becoming checked. */
-  Checked,
-  /** The state representing the component when it's becoming unchecked. */
-  Unchecked,
-  /** The state representing the component when it's becoming indeterminate. */
-  Indeterminate
-}
 
 
 /**
@@ -133,11 +119,6 @@ export class MsfCheckbox extends _MsfCheckboxMixinBase implements ControlValueAc
    * @docs-private
    */
   private _onTouched: () => any = () => {};
-
-  private _currentAnimationClass: string = '';
-
-  private _currentCheckState: TransitionCheckState = TransitionCheckState.Init;
-
   private _controlValueAccessorChangeFn: (value: any) => void = () => {};
 
 

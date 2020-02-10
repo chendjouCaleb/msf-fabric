@@ -20,6 +20,11 @@ $msf-success-textColor:$ms-color-white;
 $msf-background-color: $ms-color-white;
 $msf-white-color: $ms-color-white;
 
+
+$msf-fontColor:$ms-color-sharedGray40;
+$msf-fontColor10:$ms-color-sharedGray30;
+$msf-fontColor20:$ms-color-sharedGray20;
+
 $msf-theme-colors: () !default;
 
 $msf-theme-colors: map-merge((
@@ -28,4 +33,48 @@ $msf-theme-colors: map-merge((
     "warning":  $msf-warning-color,
     "error":    $msf-error-color,
     "success":  $msf-success-color
-),$msf-theme-colors)
+),$msf-theme-colors);
+
+
+$ms-palette-colors: () !default;
+
+$ms-palette-colors: map_merge((
+  "yellow"        : $ms-color-yellow,
+  "yellowLight"   : $ms-color-yellowLight,
+  "orange"        : $ms-color-orange,
+  "orangeLight"   : $ms-color-orangeLight,
+  "orangeLighter" : $ms-color-orangeLighter,
+  "redDark"       : $ms-color-redDark,
+  "red"           : $ms-color-red,
+  "magentaDark"   : $ms-color-magentaDark,
+  "magenta"       : $ms-color-magenta,
+  "magentaLight"  : $ms-color-magentaLight,
+  "purpleDark"    : $ms-color-purpleDark,
+  "purple"        : $ms-color-purple,
+  "purpleLight"   : $ms-color-purpleLight,
+  "blueDark"      : $ms-color-blueDark,
+  "blueMid"       : $ms-color-blueMid,
+  "blue"          : $ms-color-blue,
+  "blueLight"     : $ms-color-blueLight,
+  "tealDark"      : $ms-color-tealDark,
+  "teal"          : $ms-color-teal,
+  "tealLight"     : $ms-color-tealLight,
+  "greenDark"     : $ms-color-greenDark,
+  "green"         : $ms-color-green,
+  "greenLight"    : $ms-color-greenLight,
+  "coolGray"      : $ms-color-sharedGray30,
+  "warmGray"      : $ms-color-sharedGray40,
+  "gold"          : $ms-color-sharedOrangeYellow10,
+  "rust"          : $ms-color-sharedOrange30,
+  "darkRed"       : $ms-color-sharedRed20,
+  "lightRed"      : $ms-color-sharedRed10,
+  "burgundy"      : $ms-color-sharedPinkRed10,
+  "pink"          : $ms-color-sharedMagentaPink10,
+  "lightPink"     : $ms-color-sharedMagenta10,
+  "lightBlue"     : $ms-color-communicationPrimary,
+  "violet"        : $ms-color-sharedBlueMagenta20,
+  "darkBlue"      : $ms-color-sharedCyanBlue20,
+  "cyan"          : $ms-color-sharedCyan30,
+  "darkGreen"     : $ms-color-sharedGreen10
+
+), $ms-palette-colors)

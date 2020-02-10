@@ -1,11 +1,11 @@
 import {NgModule} from "@angular/core";
-import {MsfGridComponent} from "./grid.component";
-import {MsfGridItemComponent} from "./grid-item.component";
+import {MsfGrid} from "./grid";
+import {MsfGridItem} from "./grid-item";
 import {CommonModule} from "@angular/common";
 
 @NgModule({
   imports: [ CommonModule ],
-  declarations: [ MsfGridComponent, MsfGridItemComponent],
-  exports: [ MsfGridComponent, MsfGridItemComponent],
+  declarations: [ MsfGrid, MsfGridItem],
+  exports: [ MsfGrid, MsfGridItem],
 })
 export class MsfGridModule {}

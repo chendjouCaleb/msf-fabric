@@ -7,7 +7,7 @@ import {PersonnaSize} from "../../../components/personna/personna-size";
   selector: "app-presence-personna"
 })
 export class PresencePersonnaComponent {
-    imageUrl = "/assets/image/personna.jpg";
-    presences = PersonnaPresences;
+    imageUrl = "/assets/images/personna.jpg";
+    presences = PersonnaPresences.filter(p => p != "none");
     sizes: PersonnaSize[] = [ "size24", "size48", "size72", "size100"];
 }

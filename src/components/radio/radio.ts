@@ -10,8 +10,7 @@ import {
   ViewChild
 } from "@angular/core";
 import {FocusMonitor} from "@angular/cdk/a11y";
-import {applyThemeClass, ColorTheme} from "../helpers/theme";
-import {AssertHelpers} from "@positon/collections/dist/helpers/assert-helpers";
+
 import {RadioItemsMap} from "./radio-items-map";
 import {coerceBooleanProperty} from "@angular/cdk/coercion";
 import {RadioItems} from "./radio-items";

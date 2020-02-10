@@ -1,0 +1,7 @@
+@import "../variables/Msf-Color";
+
+@each $name, $value in $ms-palette-colors {
+  .ms-bgColor-#{$name} {
+    background-color: $value;
+  }
+}

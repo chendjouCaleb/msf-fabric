@@ -2,8 +2,9 @@ import {Component} from "@angular/core";
 
 @Component({
   templateUrl: "small-personna.component.html",
-  selector: "app-small-personna"
+  selector: "app-small-personna",
+  styles: [ ".personna-item {margin-top: 20px}"]
 })
 export class SmallPersonnaComponent {
-  imgSrc = "/assets/image/personna.jpg";
+  imgSrc = "/assets/images/personna.jpg";
 }

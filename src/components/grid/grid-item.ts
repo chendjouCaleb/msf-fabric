@@ -1,35 +1,50 @@
 import {
-  AfterViewInit,
+  AfterContentInit,
   Component,
+  ContentChild,
   ElementRef,
+  forwardRef,
+  Input,
   OnChanges,
   OnDestroy,
   OnInit,
   SimpleChanges,
   ViewChild
 } from "@angular/core";
-import {AbstractGridItem} from "../abstract-grid/abstract-grid-item";
-import {MsfGridController} from "./grid-controller";
 import {ElementRect} from "../helpers/position";
+import {AbstractGridItem} from "../abstract-grid/abstract-grid-item";
+import {MsfGrid} from "./grid";
+import {MsfCheckbox} from "../checkbox/checkbox";
 
 @Component({
-  templateUrl: "grid-item.component.html",
-  selector: "MsfGridItem, [MsfGridItem]"
-})
-export class MsfGridItemComponent extends AbstractGridItem implements OnInit, OnDestroy, OnChanges{
-  constructor(private elementRef: ElementRef<HTMLElement>, public controller: MsfGridController) {
-    super(controller);
-    this.elementRef.nativeElement.classList.add("msf_GridItem");
-
+  templateUrl: "grid-item.html",
+  selector: "MsfGridItem, [MsfGridItem]",
+  host: {
+    "class": "msf-gridItem"
   }
+})
+export class MsfGridItem implements OnInit, OnDestroy, OnChanges,AfterContentInit{
+
+  _x: number;
+  _y: number;
+  _sortOrder: number;
+
+  _lastRect: ElementRect;
+
+  _grid: MsfGrid;
+
+  @Input()
+  value: any;
+
+  @Input()
+  selectable: boolean = false;
+
+  @ContentChild(forwardRef(() => MsfCheckbox), {static: false} )
+  _checkbox: MsfCheckbox;
+
+  constructor(private elementRef: ElementRef<HTMLElement> ) { }
 
   ngOnInit(): void {
-
-
-    setTimeout(() => {
-      this.tempRect = this.rect;
-      this.controller.add(this);
-    }, 100)
 
   }
 
@@ -41,7 +56,7 @@ export class MsfGridItemComponent extends AbstractGridItem implements OnInit, On
   selectorElement: ElementRef<HTMLInputElement>;
 
 
-  index: number;
+  _index: number;
   tempRect: ElementRect;
   /**
    * Gets the index of the elementRef in the DOM list element of the direct parent.
@@ -60,12 +75,15 @@ export class MsfGridItemComponent extends AbstractGridItem implements OnInit, On
   }
 
   ngOnDestroy(): void {
-    console.log("bye");
-    this.controller.remove(this);
+    this._grid.preplay();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes)
+
+  }
+
+  ngAfterContentInit(): void {
+    this._lastRect = this.rect;
   }
 
 

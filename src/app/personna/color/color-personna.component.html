@@ -4,10 +4,10 @@
   <div class="component-usage-section-content">
 
 
-    <div *ngFor="let personna of personnas">
+    <div *ngFor="let personna of personnas" class="personna-item">
 
-      <MsfPersonna>
-        <MsfPersonnaFigure [textInitial]="personna.initial" size="size100" [color]="personna.color"></MsfPersonnaFigure>
+      <MsfPersonna size="size100">
+        <MsfPersonnaFigure [text]="personna.text"  [color]="personna.color"></MsfPersonnaFigure>
         <MsfPersonnaText>
           <span class="msf-personna-primaryText">{{personna.text}}</span>
         </MsfPersonnaText>

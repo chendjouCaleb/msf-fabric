@@ -1,15 +1,16 @@
-import {ColorTheme} from "../helpers/theme";
+import {ColorTheme, MsfColor} from "../helpers/theme";
 import {InjectionToken} from "@angular/core";
+import {PersonnaSize} from "./personna-size";
 
 
 export type PersonnaPresence = "away" | "blocked" | "busy" | "dnd" | "none" | "offline" | "online" | "progress";
 
 export const PersonnaPresences = ["away" , "blocked" , "busy" , "dnd" , "none" , "offline" , "online" , "progress"];
 
-export const DefaultPersonnaPresenceIcon = {
-  "away": "AwayStatus",
+export const defaultPersonnaPresenceIcons = {
+  "away": "SkypeClock",
   "blocked": "Blocked",
-  "busy": "StatusCircleInner",
+  "busy": "CircleFill",
   "dnd": "SkypeMinus",
   "none": "",
   "offline": "StatusCircleRing",
@@ -24,7 +25,13 @@ export const DefaultPersonnaPresenceColor = {};
 export interface MsfPersonnaDefaultOptions {
   theme: ColorTheme;
   rounded: boolean;
-  coinSize: number
+  coinSize: number;
+  color: MsfColor;
+  personIconName: string;
+  unknownIconName: string;
+  size: PersonnaSize;
+
+  presenceIconNames: {};
 }
 
 export const MSF_PERSONNA_DEFAULT_OPTIONS =
@@ -36,7 +43,12 @@ export const MSF_PERSONNA_DEFAULT_OPTIONS =
 export function MSF_PERSONNA_DEFAULT_OPTIONS_FACTORY(): MsfPersonnaDefaultOptions {
   return {
     theme: null,
+    color: "darkRed",
+    size: "size56",
     rounded: true,
-    coinSize: 3
+    coinSize: 3,
+    personIconName: "Contact",
+    unknownIconName: "StatusCircleQuestionMark",
+    presenceIconNames: defaultPersonnaPresenceIcons
   };
 }

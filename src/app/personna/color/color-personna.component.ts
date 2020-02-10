@@ -7,7 +7,8 @@ const sharedPersonaProps: IPersonnaProps = {
 
 @Component({
   templateUrl: "color-personna.component.html",
-  selector: "app-color-personna"
+  selector: "app-color-personna",
+  styles: [".personna-item {margin-top: 20px}"]
 })
 export class ColorPersonnaComponent {
   personnas: IPersonnaProps[] = [

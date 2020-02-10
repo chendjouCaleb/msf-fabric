@@ -1,0 +1,13 @@
+.msf-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  border: 1px solid red;
+  padding: 0;
+}
+
+.msf-gridItem {
+  display: block;
+  margin: 5px;
+
+}

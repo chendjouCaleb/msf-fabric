@@ -1,10 +1,7 @@
 export type PersonnaSize =
 
-/** Renders a 100px PersonaCoin. */
-  "size100" |
-
-  /** Renders a 120px PersonaCoin. */
-  "size120" |
+/** No PersonaCoin is rendered. */
+  "size8" |
 
   /** Renders a 24px PersonaCoin. */
   "size24" |
@@ -24,5 +21,10 @@ export type PersonnaSize =
   /** Renders a 72px PersonaCoin. */
   "size72" |
 
-  /** No PersonaCoin is rendered. */
-  "size8";
+
+  /** Renders a 100px PersonaCoin. */
+  "size100" |
+
+  /** Renders a 120px PersonaCoin. */
+  "size120" ;
+

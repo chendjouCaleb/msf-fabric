@@ -1,0 +1,214 @@
+@import '../../msf-core/variables/Msf-Variable';
+@import "../variables/Msf-Color";
+
+
+$msf-personna-size: () !default;
+
+$msf-personna-size: map-merge((
+  "size8"   :   0,
+  "size24"  :   24,
+  "size32"  :   32,
+  "size40"  :   40,
+  "size48"  :   48,
+  "size56"  :   56,
+  "size72"  :   72,
+  "size100" :   100,
+  "size120" :   120,
+), $msf-personna-size);
+
+
+$msf-personna-fontSize: () !default;
+$msf-personna-fontSize: map-merge((
+  "size8"   :   14,
+  "size24"  :   14,
+  "size32"  :   14,
+  "size40"  :   14,
+  "size48"  :   16,
+  "size56"  :   16,
+  "size72"  :   16,
+  "size100" :   20,
+  "size120" :   20,
+), $msf-personna-fontSize);
+
+$msf-personna-secondaryFontSize: () !default;
+$msf-personna-secondaryFontSize: map-merge((
+  "size8"   :   12,
+  "size24"  :   12,
+  "size32"  :   12,
+  "size40"  :   12,
+  "size48"  :   12,
+  "size56"  :   12,
+  "size72"  :   14,
+  "size100" :   14,
+  "size120" :   14,
+), $msf-personna-secondaryFontSize);
+
+$msf-personna-initialFontSize: () !default;
+$msf-personna-initialTextSize: map-merge((
+  "size8"   :   14,
+  "size24"  :   14,
+  "size32"  :   14,
+  "size40"  :   14,
+  "size48"  :   28,
+  "size56"  :   28,
+  "size72"  :   32,
+  "size100" :   42,
+  "size120" :   42,
+), $msf-personna-initialFontSize);
+
+$msf-personna-presenceSizes: (
+  "size8"   :   4,
+  "size24"  :   8,
+  "size32"  :   8,
+  "size40"  :   10,
+  "size48"  :   12,
+  "size56"  :   14,
+  "size72"  :   20,
+  "size100" :   20,
+  "size120" :   20,
+);
+
+
+$msf-personna-presenceColors: (
+  "online": $ms-color-sharedYellowGreen10,
+  "dnd": $ms-color-redDark,
+  "away": $ms-color-orangeLighter,
+  "busy": $ms-color-red,
+  "blocked": $ms-color-red,
+  "progress": $ms-color-sharedBlue10,
+  "offline": $ms-color-neutralSecondaryAlt
+) !default;
+
+
+$msf-personna-figure-fontColor: #FFF;
+$msf-personna-presence-fontColor: #FFF;
+$msf-personna-primaryFontColor: $msf-fontColor;
+$msf-personna-secondaryFontColor: $msf-fontColor10;
+
+.msf-personna {
+  display: inline-block;
+}
+
+.msf-personna-container {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+}
+
+.msf-personna-figure {
+  border-radius: 50%;
+  position: relative;
+
+  & img, & .msf-personna-figure-initial, & .msf-personna-figure-person, & .msf-personna-figure-unknown {
+    border-radius: 50%;
+    display: inline-block;
+
+    text-align: center;
+    width: 100%;
+    height: 100%;
+
+    margin:0;
+    vertical-align: top;
+  }
+}
+
+
+.msf-personna-figure-initial {
+  font-weight: 500;
+  font-family: $msf-font-family-base;
+  color: $msf-personna-figure-fontColor;
+  vertical-align: middle;
+}
+.msf-personna-figure-person{
+  color: $msf-personna-figure-fontColor;
+  vertical-align: middle;
+}
+.msf-personna-figure-unknown{
+  background-color: $ms-color-gray40;
+  color: $ms-color-sharedPinkRed10;
+  vertical-align: middle;
+}
+
+
+@each $size, $value in $msf-personna-size {
+  .msf-personna-figure-#{$size}  {
+    width: $value + px;
+    height: $value + px;
+
+  }
+}
+
+
+@each $size, $value in $msf-personna-initialTextSize {
+  .msf-personna-figure-#{$size} .msf-personna-figure-initial{
+    font-size: $value + px;
+  }
+}
+
+.msf-personna-text {
+  margin-left: 10px;
+}
+
+.msf-personna-primaryText, .msf-personna-secondaryText {
+  display: block;
+  color: $msf-personna-primaryFontColor;
+  font-family: inherit;
+
+}
+
+.msf-personna-secondaryText {
+  color: $msf-personna-secondaryFontColor
+}
+
+@each $size, $value in $msf-personna-fontSize {
+  .msf-personna-text-#{$size} .msf-personna-primaryText{
+    font-size: $value + px;
+  }
+}
+
+@each $size, $value in $msf-personna-secondaryFontSize{
+  .msf-personna-text-#{$size} .msf-personna-secondaryText {
+    font-size: $value + px;
+  }
+}
+
+
+.msf-personna-presence {
+  position: absolute;
+  display: inline-block;
+
+  border-radius: 50%;
+  right: -2px;
+  bottom: -2px;
+
+  margin: 0;
+  padding: 0;
+
+  border: 2px solid $msf-personna-presence-fontColor;
+
+  top: auto;
+
+  text-align: center;
+
+  box-sizing: content-box;
+  background-clip: content-box;
+
+
+  border-image: initial;
+
+}
+
+@each $size, $value in $msf-personna-presenceSizes{
+  .msf-personna-figure-#{$size} .msf-personna-presence{
+    width: $value + px;
+    height: $value + px;
+  }
+}
+
+
+
+@each $presence, $color in $msf-personna-presenceColors{
+  .msf-personna-presence-#{$presence} {
+    background: $color;
+  }
+}

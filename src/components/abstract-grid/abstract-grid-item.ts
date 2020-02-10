@@ -4,7 +4,7 @@ import {AbstractGridController} from "./abstract-grid-controller";
 
 export abstract class AbstractGridItem implements ISelectable{
 
-  constructor(protected controller: AbstractGridController<AbstractGridItem>) {}
+  constructor( ) {}
 
   private _selectable: boolean = false;
   private _selected: boolean = false;
@@ -44,16 +44,16 @@ export abstract class AbstractGridItem implements ISelectable{
    * Add the grid item to the grid selection collection.
    */
   addToSelection() {
-    this.controller.selection.add(this);
+
   }
 
   /**
    * Removes the grid item to the grid selection collection.
    */
   removeToSelection() {
-    this.controller.selection.remove(this);
+
   }
 
 
-  
+
 }
