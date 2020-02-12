@@ -11,3 +11,8 @@
   margin: 5px;
 
 }
+
+.msf-gridItem.msf-selected {
+  background: red;
+  user-select: none;
+}

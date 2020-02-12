@@ -103,12 +103,13 @@ export class MsfGrid implements AfterContentInit {
     });
 
 
-    this._items.changes.subscribe(change => {
-      setTimeout(() => {
-        this.play();
-      }, 100)
 
-    })
+  }
+
+
+  /** Whether the item is correctly selected. */
+  isSelected(item: MsfGridItem) {
+    return item && item.selected && this._selection.contains(item) && item.element.classList.contains("msf-selected");
   }
 
 
@@ -342,7 +343,7 @@ export class MsfGrid implements AfterContentInit {
   _defaultClick(item: MsfGridItem) {
     this.sortedItems.forEach(el => {
       if (item !== el) {
-        el.selected = false;
+        this.unselect(el)
       }
     });
 
@@ -371,10 +372,11 @@ export class MsfGrid implements AfterContentInit {
     if (startIndex > endIndex) {
       //permute index.
       let tmp = endIndex;
-      startIndex = endIndex;
-      endIndex = tmp;
+      endIndex = startIndex;
+      startIndex= tmp;
     }
 
+    console.log(`${startIndex}, ${endIndex}`)
 
     if (startIndex > 0) {
       this.sortedItems.slice(0, startIndex - 1).forEach(item => this._unselect(item));
@@ -383,45 +385,12 @@ export class MsfGrid implements AfterContentInit {
     this.sortedItems.slice(startIndex, endIndex).forEach(item => this._select(item));
 
     if (endIndex < this.sortedItems.size() - 1) {
-      this.sortedItems.slice(endIndex + 1, this.sortedItems.size() - 1).forEach(item => this._unselect(item));
+      this.sortedItems.slice(endIndex + 1 ).forEach(item => this._unselect(item));
     }
   }
 
-  _getNearestSelectedIndex(index: number): number {
-    if (this._selection.size() == 1) {
-      return -1;
-    }
-    let after = this._getNearestSelectedIndexAfter(index);
-    let before = this._getNearestSelectedIndexBefore(index);
-
-    if (after === -1) {
-      return before;
-    }
-    if (before === -1) {
-      return after;
-    }
-
-    return Math.min(after, before);
-  }
-
-  _getNearestSelectedIndexBefore(index: number): number {
-    for (let i = index - 1; i >= 0; i--) {
-      if (this.sortedItems.get(i).selected) {
-        return i;
-      }
-    }
-    return -1;
-  }
 
 
-  _getNearestSelectedIndexAfter(index: number): number {
-    for (let i = index + 1; i < this.sortedItems.size(); i--) {
-      if (this.sortedItems.get(i).selected) {
-        return i;
-      }
-    }
-    return -1;
-  }
 
   get items(): QueryList<MsfGridItem> {
     return this._items;
@@ -471,7 +440,7 @@ export class MsfGrid implements AfterContentInit {
   /**
    * The list of selected items.
    */
-  get selections(): List<MsfGridItem> {
+  get selection(): List<MsfGridItem> {
     return this.sortedItems.findAll(item => item.selected);
   }
 

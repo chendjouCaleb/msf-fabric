@@ -107,7 +107,7 @@ describe("MsfGrid", () => {
 
       fixture.detectChanges();
 
-      checkItemSelectionState(item);
+      gridInstance.isSelected(item);
 
     });
 
@@ -144,9 +144,8 @@ describe("MsfGrid", () => {
       gridInstance.select(item);
       fixture.detectChanges();
 
-      expect(item.selected).toBeFalsy();
-      expect(item.element.classList.contains("msf-selected")).toBeFalsy();
-      expect(gridInstance.selection.size()).toBe(0);
+      expect(gridInstance.isSelected(item)).toBeFalsy();
+
     });
 
 
@@ -156,7 +155,7 @@ describe("MsfGrid", () => {
       fixture.detectChanges();
       expect(gridInstance.selection.size()).toBe(gridInstance.length);
       gridItemInstances.forEach((item, index) => {
-        expect(item.selected).toBeTruthy();
+        expect(gridInstance.isSelected(item)).toBeTruthy();
 
         expect(gridInstance.selection.get(index)).toBe(item);
       });
@@ -174,7 +173,7 @@ describe("MsfGrid", () => {
       fixture.detectChanges();
 
       gridInstance.sortedItems.getRange(start, count).forEach((item, index) => {
-        expect(item.selected).toBeTruthy();
+        expect(gridInstance.isSelected(item)).toBeTruthy();
         expect(gridInstance.selection.get(index)).toBe(item);
       });
 
@@ -198,7 +197,7 @@ describe("MsfGrid", () => {
 
       gridInstance.sortedItems.getRange(0, start).forEach((item, index) => {
 
-        expect(item.selected).toBeTruthy();
+        expect(gridInstance.isSelected(item)).toBeTruthy();
         expect(gridInstance.selection.get(index)).toBe(item);
       });
 
@@ -207,22 +206,20 @@ describe("MsfGrid", () => {
       });
 
       gridInstance.sortedItems.getRange(end + 1).forEach((item, index) => {
-        expect(item.selected).toBeTruthy();
+        expect(gridInstance.isSelected(item)).toBeTruthy();
         expect(gridInstance.selection.get(index + start)).toBe(item);
       });
-
 
       expect(gridInstance.selection.size()).toBe(gridItemInstances.length - (end - start + 1));
     });
 
 
     it('click on item should select it', () => {
-      let item = gridItemInstances[2];
+      gridInstance.selectable = true;
       gridItemElements[2].click();
-
       fixture.detectChanges();
 
-      expect(item.selected).toBeTruthy();
+      expect(gridInstance.isSelected(gridItemInstances[2])).toBeTruthy();
     });
 
 
@@ -237,7 +234,7 @@ describe("MsfGrid", () => {
       let nonSelectedItems = gridInstance.sortedItems.getRange();
       nonSelectedItems.remove(gridItemInstances[3]);
       expect(nonSelectedItems.trueForAll(item => !item.selected)).toBeTruthy();
-      expect(gridItemInstances[3].selected).toBeTruthy();
+      expect(gridInstance.isSelected(gridItemInstances[3])).toBeTruthy();
     });
 
 
@@ -253,9 +250,9 @@ describe("MsfGrid", () => {
 
       expect(gridInstance.selection.size()).toBe(3);
 
-      expect(gridItemInstances[0].selected).toBeTruthy();
-      expect(gridItemInstances[3].selected).toBeTruthy();
-      expect(gridItemInstances[4].selected).toBeTruthy();
+      expect(gridInstance.isSelected(gridItemInstances[0])).toBeTruthy();
+      expect(gridInstance.isSelected(gridItemInstances[3])).toBeTruthy();
+      expect(gridInstance.isSelected(gridItemInstances[4])).toBeTruthy();
     });
 
 
@@ -273,34 +270,78 @@ describe("MsfGrid", () => {
 
       expect(gridInstance.selection.size()).toBe(2);
 
-      expect(gridItemInstances[0].selected).toBeTruthy();
-      expect(gridItemInstances[3].selected).toBeTruthy();
-      expect(gridItemInstances[4].selected).toBeFalsy();
+      expect(gridInstance.isSelected(gridItemInstances[0])).toBeTruthy();
+      expect(gridInstance.isSelected(gridItemInstances[3])).toBeTruthy();
+      expect(gridInstance.isSelected(gridItemInstances[4])).toBeFalsy();
     });
 
-
-    it("click with shift key will select all item between the nearest selected item and the target item", () => {
+    it("click to item with shift key will select all item between 0 and the target item", () => {
       gridInstance.selectable = true;
-
-      gridInstance.select(gridItemInstances[0]);
 
 
       let clickEvent = new MouseEvent("click", {shiftKey: true});
       gridItemElements[4].dispatchEvent(clickEvent);
       fixture.detectChanges();
 
-      expect(gridInstance.sortedItems.slice(0, 4).trueForAll(item => item.selected)).toBeTruthy();
-      expect(gridInstance.sortedItems.slice(5).trueForAll(item => item.selected)).toBeFalsy();
+      expect(gridInstance.sortedItems.slice(0, 4).trueForAll(item => gridInstance.isSelected(item))).toBeTruthy();
+      expect(gridInstance.sortedItems.slice(5).trueForAll(item => !gridInstance.isSelected(item))).toBeTruthy();
+
+    });
+
+    it("click to the tem with shift key will select all item between the last non-shift selected item and the target item", () => {
+      gridInstance.selectable = true;
+
+      //select it to make sure that all item outside the range us unselected.
+      gridItemElements[0].click();
+      gridItemElements[9].click();
+
+      //Last non shift selected item.
+      gridItemElements[3].click();
+
+
+      let clickEvent = new MouseEvent("click", {shiftKey: true});
+      gridItemElements[7].dispatchEvent(clickEvent);
+      fixture.detectChanges();
+
+      expect(gridInstance.sortedItems.slice(0, 2).trueForAll(item => !item.selected)).toBeTruthy();
+      expect(gridInstance.sortedItems.slice(3, 7).trueForAll(item => item.selected)).toBeTruthy();
+      expect(gridInstance.sortedItems.slice(8).trueForAll(item => !item.selected)).toBeTruthy();
 
     });
 
 
-    function checkItemSelectionState(item: MsfGridItem) {
-      expect(item.selected).toBeTruthy();
-      expect(item.element.classList.contains("msf-selected")).toBeTruthy();
-      expect(gridInstance.selection.size()).toBe(1);
-      expect(gridInstance.selection.get(0)).toBe(item);
-    }
+    it("click to the last item with shift key will select all items", () => {
+      gridInstance.selectable = true;
+
+      let clickEvent = new MouseEvent("click", {shiftKey: true});
+      gridItemElements[9].dispatchEvent(clickEvent);
+      fixture.detectChanges();
+
+      expect(gridInstance.sortedItems.trueForAll(item => gridInstance.isSelected(item))).toBeTruthy();
+    });
+
+
+    it("click with shift always item between the last non-shift item and the target item", () => {
+      gridInstance.selectable = true;
+
+      //Last non shift selected item.
+      gridItemElements[5].click();
+
+
+      let clickEvent = new MouseEvent("click", {shiftKey: true});
+      gridItemElements[7].dispatchEvent(clickEvent);
+
+      gridItemElements[2].dispatchEvent(clickEvent);
+      fixture.detectChanges();
+
+      expect(gridInstance.sortedItems.slice(0, 1).trueForAll(item => !gridInstance.isSelected(item))).toBeTruthy();
+      expect(gridInstance.sortedItems.slice(2, 5).trueForAll(item => gridInstance.isSelected(item))).toBeTruthy();
+      expect(gridInstance.sortedItems.getRange(6).trueForAll(item => !gridInstance.isSelected(item))).toBeTruthy();
+
+    });
+
+
+
 
 
     it("select item without activate selection should do nothing", () => {

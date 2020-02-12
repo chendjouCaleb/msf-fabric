@@ -1,6 +1,6 @@
 <MsfButton Icon="Add" theme="primary" (click)="addRandom()">Add Random</MsfButton>
-<div MsfGrid  [width]="184" height="400">
-  <div MsfGridItem class="border ms-depth-4" *ngFor="let item of movies" [value]="item" style="position: relative">
+<div MsfGrid  [width]="184" height="400" [selectable]="true" >
+  <div MsfGridItem class="border ms-depth-4" [selectable]="true" *ngFor="let item of movies" [value]="item" style="position: relative">
     <img [src]="item.imgUrl" alt="Movie image">
     <MsfIconButton theme="error" Rounded class="mr-1" Icon="Delete" style="position: absolute; left: 10px; top: 10px" (click)="remove(item)"></MsfIconButton>
 
