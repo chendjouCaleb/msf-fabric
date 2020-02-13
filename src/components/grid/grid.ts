@@ -1,19 +1,28 @@
 import {
   AfterContentInit,
-  Component,
+  Component, ContentChild,
   ContentChildren,
   ElementRef, EventEmitter,
-  forwardRef, Input,
-  QueryList,
+  forwardRef, HostListener, Input, OnChanges, OnDestroy, OnInit, Optional,
+  QueryList, SimpleChanges, ViewChild,
 
 } from "@angular/core";
-import {MsfGridItem} from "./grid-item";
-import {List} from "@positon/collections";
 
+import {List} from "@positon/collections";
+import {MsfCheckbox, MsfCheckboxChange} from "../checkbox/checkbox";
+import {ElementRect} from "../helpers/position";
+
+
+export interface MsfGridUserEvent {
+  ctrlKey: boolean;
+  shiftKey: boolean;
+}
 
 let uniqueId: number = 0;
 
 
+//todo Add keyboard EventListener method.
+//todo implement items per line.
 @Component({
   selector: "MsfGrid, [MsfGrid]",
   templateUrl: "grid.html",
@@ -97,11 +106,10 @@ export class MsfGrid implements AfterContentInit {
       this.height = this._height;
     }
     this._items.forEach((item, index) => {
-      item._grid = this;
+
       item._index = index;
       item._lastRect = item.rect;
     });
-
 
 
   }
@@ -131,6 +139,10 @@ export class MsfGrid implements AfterContentInit {
     }
 
     item.selected = true;
+
+    if (item._checkbox) {
+      item._checkbox.checked = true;
+    }
     this._selection.add(item);
 
   }
@@ -154,6 +166,9 @@ export class MsfGrid implements AfterContentInit {
     }
 
     item.selected = false;
+    if (item._checkbox) {
+      item._checkbox.checked = false;
+    }
     this._selection.remove(item);
   }
 
@@ -322,10 +337,33 @@ export class MsfGrid implements AfterContentInit {
 
   _sort(sortFn: (a: any, b: any) => number = (a, b) => a - b) {
     this._sortedItems.sort((a, b) => sortFn(a.value, b.value));
+    this.translate();
   }
 
   _sortBy(param: string) {
+    //this._sortedItems.sort((a, b) => (''+ a.value[param]).localeCompare( b.value[param]));
     this._sortedItems.sort((a, b) => a.value[param] - b.value[param]);
+    this.translate();
+  }
+
+  _invertSorting() {
+    this._sortedItems.reverse();
+    this.translate();
+  }
+
+  translate() {
+    let items = this._items.toArray();
+    this._sortedItems.forEach((item, i) => {
+      let opposite = items[i];
+
+
+      const deltaX = item._lastRect.left - opposite._lastRect.left;
+      const deltaY = item._lastRect.top - opposite._lastRect.top;
+
+      console.log(`translate(${-deltaX}, ${-deltaY})`);
+
+      item.element.style.transform = `translate(${-deltaX}px, ${-deltaY}px)`
+    });
   }
 
 
@@ -340,6 +378,14 @@ export class MsfGrid implements AfterContentInit {
   }
 
 
+  _checkboxEvent(item: MsfGridItem, shiftKey: boolean) {
+    if (shiftKey) {
+      this._shiftClick(item);
+    } else {
+      this._defaultCheckboxClick(item);
+    }
+  }
+
   _defaultClick(item: MsfGridItem) {
     this.sortedItems.forEach(el => {
       if (item !== el) {
@@ -347,6 +393,11 @@ export class MsfGrid implements AfterContentInit {
       }
     });
 
+    this.select(item);
+    this._lastNonShiftSelected = item;
+  }
+
+  _defaultCheckboxClick(item: MsfGridItem) {
     this.select(item);
     this._lastNonShiftSelected = item;
   }
@@ -365,7 +416,7 @@ export class MsfGrid implements AfterContentInit {
     let startIndex = this.sortedItems.indexOf(startItem);
     let endIndex = this.sortedItems.indexOf(item);
 
-    if(startIndex == endIndex) {
+    if (startIndex == endIndex) {
       return;
     }
 
@@ -373,10 +424,9 @@ export class MsfGrid implements AfterContentInit {
       //permute index.
       let tmp = endIndex;
       endIndex = startIndex;
-      startIndex= tmp;
+      startIndex = tmp;
     }
 
-    console.log(`${startIndex}, ${endIndex}`)
 
     if (startIndex > 0) {
       this.sortedItems.slice(0, startIndex - 1).forEach(item => this._unselect(item));
@@ -385,11 +435,9 @@ export class MsfGrid implements AfterContentInit {
     this.sortedItems.slice(startIndex, endIndex).forEach(item => this._select(item));
 
     if (endIndex < this.sortedItems.size() - 1) {
-      this.sortedItems.slice(endIndex + 1 ).forEach(item => this._unselect(item));
+      this.sortedItems.slice(endIndex + 1).forEach(item => this._unselect(item));
     }
   }
-
-
 
 
   get items(): QueryList<MsfGridItem> {
@@ -399,28 +447,6 @@ export class MsfGrid implements AfterContentInit {
 
   get sortedItems(): List<MsfGridItem> {
     return this._sortedItems;
-  }
-
-  play() {
-
-    this._items.forEach(item => {
-      console.log(`${item._lastRect.left} => ${item.rect.left}`);
-
-      const deltaX = item._lastRect.left - item.rect.left;
-      const deltaY = item._lastRect.top - item.rect.top;
-      item._lastRect = item.rect;
-      item.element.style.opacity = "1"
-
-      item.element.animate([{
-        transform: `translate(${deltaX}px, ${deltaY}px)`
-      }, {
-        transform: 'none'
-      }], {
-        duration: 200,
-        easing: 'ease-in-out',
-        fill: "both"
-      });
-    });
   }
 
   /**
@@ -448,3 +474,115 @@ export class MsfGrid implements AfterContentInit {
     this.selectionChange.emit(this._selection);
   }
 }
+
+
+
+@Component({
+  templateUrl: "grid-item.html",
+  selector: "MsfGridItem, [MsfGridItem]",
+  host: {
+    "class": "msf-gridItem",
+    "[class.msf-selected]": "selected"
+  }
+})
+export class MsfGridItem implements OnInit, OnDestroy, OnChanges, AfterContentInit {
+  private _uniqueId = `msf-gridItem-${uniqueId++}`;
+
+  /** Whether the item is selected */
+  private _selected: boolean;
+
+  _x: number;
+  _y: number;
+  _sortOrder: number;
+
+  _lastRect: ElementRect;
+
+
+  @Input()
+  value: any;
+
+  @Input()
+  selectable: boolean = true;
+
+  @ContentChild(forwardRef(() => MsfCheckbox), {static: false})
+  _checkbox: MsfCheckbox;
+
+  constructor(private elementRef: ElementRef<HTMLElement>, @Optional() private _grid: MsfGrid) {
+  }
+
+  ngOnInit(): void {
+
+  }
+
+  ngAfterViewInit(): void {
+    //console.log(this.rect)
+  }
+
+  @ViewChild("msfGridItemSelector", {static: false})
+  selectorElement: ElementRef<HTMLInputElement>;
+
+
+  _index: number;
+  tempRect: ElementRect;
+
+  @Input()
+  get selected(): boolean {
+    return this._selected;
+  }
+
+  set selected(value: boolean) {
+    if (this.selectable) {
+      this._selected = value;
+    }
+
+  }
+
+  /**
+   * Gets the index of the elementRef in the DOM list element of the direct parent.
+   */
+  get domIndex(): number {
+    return Array.from(this.elementRef.nativeElement.parentNode.children)
+      .indexOf(this.elementRef.nativeElement);
+  }
+
+  get rect(): ElementRect {
+    return this.element.getBoundingClientRect();
+  }
+
+  get element(): HTMLElement {
+    return this.elementRef.nativeElement;
+  }
+
+  ngOnDestroy(): void {
+
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+
+  }
+
+  ngAfterContentInit(): void {
+    this._lastRect = this.rect;
+
+    if(this._checkbox){
+      this._checkbox.change.subscribe(event => {
+        if(event.checked){
+          this._grid._checkboxEvent(this, event.nativeEvent.shiftKey);
+        }
+      })
+    }
+  }
+
+  @HostListener("click", ["$event"])
+  _clickEvent(event: MouseEvent) {
+    if(this._grid){
+      this._grid._clickEvent(this, event);
+    }
+  }
+
+}
+
+
+
+
+

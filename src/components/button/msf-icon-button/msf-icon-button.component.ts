@@ -9,7 +9,8 @@ import { MsfButtonBase } from '../button-base';
     '[attr.aria-disabled]': 'disabled.toString()',
     '[attr.tabindex]': 'disabled ? -1 : 0',
     'class': 'msf-icon-button'
-  }
+  },
+  inputs: [ 'theme']
 })
 export class MsfIconButtonComponent extends MsfButtonBase {
 

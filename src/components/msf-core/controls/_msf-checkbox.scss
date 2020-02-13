@@ -13,6 +13,7 @@ $msf-checkbox-border-color: $ms-color-sharedGray30;
   display: inline-block;
   //vertical-align: middle;
   margin: 0;
+  user-select: none;
 
   height: $msf-checkbox-radius;
   width: $msf-checkbox-radius;

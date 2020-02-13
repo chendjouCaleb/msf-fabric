@@ -63,7 +63,7 @@ describe("MsfGrid", () => {
         expect(item._grid).toBe(gridInstance);
         expect(item.value).toBe(index + 1);
         expect(item._index).toBe(index);
-        expect(item.selectable).toBeFalsy();
+        expect(item.selectable).toBeTruthy();
         expect(item._checkbox).toBeUndefined();
       });
     });

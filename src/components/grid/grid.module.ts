@@ -1,6 +1,6 @@
 import {NgModule} from "@angular/core";
-import {MsfGrid} from "./grid";
-import {MsfGridItem} from "./grid-item";
+import {MsfGrid, MsfGridItem} from "./grid";
+
 import {CommonModule} from "@angular/common";
 
 @NgModule({

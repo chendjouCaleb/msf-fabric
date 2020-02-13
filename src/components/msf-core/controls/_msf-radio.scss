@@ -11,6 +11,7 @@ $msf-radio-border-color: $ms-color-sharedGray30;
 
 .msf-radio{
   display: inline-block;
+  user-select: none;
 
   &.msf-disabled {
     opacity: 0.6;

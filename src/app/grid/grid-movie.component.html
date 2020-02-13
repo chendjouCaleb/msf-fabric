@@ -1,9 +1,18 @@
 <MsfButton Icon="Add" theme="primary" (click)="addRandom()">Add Random</MsfButton>
-<div MsfGrid  [width]="184" height="400" [selectable]="true" >
+<MsfButton (click)="ad._invertSorting()">Invert order</MsfButton>
+
+<MsfButton (click)="ad._sortBy('date')">Release date</MsfButton>
+<MsfButton (click)="ad._sortBy('name')">Name</MsfButton>
+<MsfButton (click)="ad._sortBy('rating')">Rating</MsfButton>
+<MsfButton (click)="ad._sortBy('duration')">Duration</MsfButton>
+
+
+<div MsfGrid  [width]="184" height="400" [selectable]="true" #ad>
   <div MsfGridItem class="border ms-depth-4" [selectable]="true" *ngFor="let item of movies" [value]="item" style="position: relative">
     <img [src]="item.imgUrl" alt="Movie image">
     <MsfIconButton theme="error" Rounded class="mr-1" Icon="Delete" style="position: absolute; left: 10px; top: 10px" (click)="remove(item)"></MsfIconButton>
 
+    <MsfCheckbox></MsfCheckbox>
     <div class="p-2">
 
       <h6 class="ms-fontWeight-semibold">{{item.name}}</h6>
