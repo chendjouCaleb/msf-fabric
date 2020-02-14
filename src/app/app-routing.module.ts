@@ -15,6 +15,7 @@ const routes: Routes = [
   {path: "callout", loadChildren: () => import('./callout/callout.module').then(m => m.CalloutModule)},
   {path: "dialog", loadChildren: () => import('./dialog/dialog.module').then(m => m.DialogModule)},
   {path: "personna", loadChildren: () => import('./personna/personna.module').then(m => m.PersonnaModule)},
+  {path: "command-bar", loadChildren: () => import('./command-bar/command-bar.module').then(m => m.CommandBarModule)},
 ];
 
 @NgModule({
