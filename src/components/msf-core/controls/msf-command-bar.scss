@@ -1,0 +1,88 @@
+@import "../msf-core/variables/Msf-Variable";
+@import "../msf-core/fabric-core/variables/Font.Variables";
+@import "../msf-core/fabric-core/variables/Animation.Variables";
+@import "../utils/styles/button_common";
+
+// Flat and raised button standards
+$msf-button-padding: 0 16px !default;
+$msf-button-min-width: 64px !default;
+$msf-button-margin: 0 !default;
+$msf-button-line-height: 32px !default;
+$msf-button-border-radius: 2px !default;
+
+$msf-button-focus-transition: opacity $ms-motion-duration-3, background-color $ms-motion-duration-3 !default;
+
+// Outline button padding is 1px less horizontally than default
+// button's padding.
+$msf-outline-button-line-height: $msf-button-line-height - 2;
+$msf-outline-button-padding: 0 15px;
+$msf-outline-button-border-width: 1px;
+
+// Icon Button standards
+$msf-icon-button-size: 40px !default;
+$msf-icon-button-border-radius: 50% !default;
+$msf-icon-button-line-height: 24px !default;
+
+// Applies base styles to all button types.
+@mixin msf-button-base {
+  box-sizing: border-box;
+  position: relative;
+
+  // Reset browser <button> styles.
+  @include mat-button-reset();
+
+  // Make anchors render like buttons.
+  display: inline-block;
+  white-space: nowrap;
+  text-decoration: none;
+  vertical-align: baseline;
+  text-align: center;
+
+  // Sizing.
+  margin: $msf-button-margin;
+  min-width: $msf-button-min-width;
+  line-height: $msf-button-line-height;
+  padding: $msf-button-padding;
+  border-radius: $msf-button-border-radius;
+
+  // Background.
+  transition: background-color $ms-motion-duration-3;
+
+  // Explicitly set the default overflow to `visible`. It is already set
+  // on most browsers except on IE11 where it defaults to `hidden`.
+  overflow: visible;
+
+  &[disabled] {
+    cursor: default;
+    pointer-events: none;
+  }
+
+  &.cdk-keyboard-focused,
+  &.cdk-program-focused {
+    .msf-button-focus-overlay {
+      opacity: 0.12;
+    }
+  }
+
+  &::-moz-focus-inner {
+    border: 0;
+  }
+}
+
+@mixin msf-icon($size, $padding) {
+  @include msf-button-base;
+  min-width: 0;
+
+  width: $size;
+  height: $size;
+
+  padding: 0;
+
+  flex-shrink: 0;
+
+  .msf-button-wrapper {
+    padding: $padding 0;
+    display: inline-block;
+    line-height: $msf-icon-button-line-height;
+  }
+}
