@@ -48,6 +48,8 @@ export class MsfGrid implements AfterContentInit {
   private _yMargin: number = 10;
 
 
+  private _selectedClassNames: string | string[];
+
   /** Items per line. The width item is obtained
    * by dividing the grid width by this value
    */
@@ -490,6 +492,8 @@ export class MsfGridItem implements OnInit, OnDestroy, OnChanges, AfterContentIn
 
   /** Whether the item is selected */
   private _selected: boolean;
+
+  private _selectedClassNames: string | string[];
 
   _x: number;
   _y: number;

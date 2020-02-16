@@ -1,5 +1,5 @@
 <div class="d-flex">
-  <div id="app-sidebar" style="height: 100vh; ">
+  <div id="app-sidebar" style="height: 100vh; position: fixed">
     <MsfContextualMenu style="width: 250px; height: 100%; overflow-y: auto; border-radius: 0; box-shadow: none">
       <a MsfContextualMenuItem routerLink="/button">Button</a>
       <a MsfContextualMenuItem routerLink="/radio">Radio</a>
@@ -24,7 +24,7 @@
     </MsfContextualMenu>
   </div>
 
-  <div class="px-2 documentation-body">
+  <div class="px-2 documentation-body" style="position: fixed; height: 100vh; left: 250px; overflow: auto">
     <ng-content></ng-content>
   </div>
 </div>

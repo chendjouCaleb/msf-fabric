@@ -1,1 +1,7 @@
-<ng-content></ng-content>
+<span class="msf-button-flex-layout">
+    <span class="msf-button-icon ms-Icon ms-Icon--{{iconProps.name}}" *ngIf="iconProps"></span>
+    <span class="msf-button-label">
+        <ng-content></ng-content>
+    </span>
+    <span class="msf-button-icon ms-Icon ms-Icon--{{secondaryIconProps.name}}" *ngIf="secondaryIconProps"></span>
+</span>

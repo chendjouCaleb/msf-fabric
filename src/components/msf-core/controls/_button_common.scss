@@ -1,7 +1,7 @@
 @import './vendor-prefixes';
 
 // Mixin overriding default button styles like the gray background, the border, and the outline.
-@mixin mat-button-reset {
+@mixin button-reset {
   @include user-select(none);
   cursor: pointer;
   outline: none;
@@ -13,5 +13,17 @@
   // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#Firefox
   &::-moz-focus-inner {
     border: 0;
+  }
+}
+
+@mixin a-reset() {
+  @include user-select(none);
+  cursor: pointer;
+  outline: none;
+  border: none;
+  color: inherit;
+
+  &:hover {
+    text-decoration: none;
   }
 }

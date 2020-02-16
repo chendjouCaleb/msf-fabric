@@ -13,7 +13,7 @@ import {CanDisable, CanDisableCtor, mixinDisabled} from "../helpers/behaviors/di
 import {CanDepth, CanDepthCtor, mixinDepth} from "../helpers/behaviors/depth";
 import {IconImageProps, IconProps} from "../icon/icon-props";
 import {ColorTheme} from "../helpers/theme";
-import {MsfGridItem} from "../grid/grid";
+
 
 class MsfCommandBarButtonBase {
   constructor(public _elementRef: ElementRef) {}

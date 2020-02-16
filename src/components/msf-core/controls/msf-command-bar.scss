@@ -1,88 +1,124 @@
-@import "../msf-core/variables/Msf-Variable";
-@import "../msf-core/fabric-core/variables/Font.Variables";
-@import "../msf-core/fabric-core/variables/Animation.Variables";
-@import "../utils/styles/button_common";
+@import '../../msf-core/fabric-core/variables/Font.Variables';
+@import '../../msf-core/fabric-core/variables/Animation.Variables';
+@import '../../msf-core/variables/Msf-Variable';
 
-// Flat and raised button standards
-$msf-button-padding: 0 16px !default;
-$msf-button-min-width: 64px !default;
-$msf-button-margin: 0 !default;
-$msf-button-line-height: 32px !default;
-$msf-button-border-radius: 2px !default;
 
-$msf-button-focus-transition: opacity $ms-motion-duration-3, background-color $ms-motion-duration-3 !default;
+$smsf-x: var(--x);
 
-// Outline button padding is 1px less horizontally than default
-// button's padding.
-$msf-outline-button-line-height: $msf-button-line-height - 2;
-$msf-outline-button-padding: 0 15px;
-$msf-outline-button-border-width: 1px;
+$msf-command-bar-button-padding-y:               0 !default;
+$msf-command-bar-button-padding-x:               16px !default;
+$msf-command-bar-button-font-family:             $msf-font-family-base !default;
+$msf-command-bar-button-font-size:               14px !default;
+$msf-command-bar-button-height:                  32px !default;
 
-// Icon Button standards
-$msf-icon-button-size: 40px !default;
-$msf-icon-button-border-radius: 50% !default;
-$msf-icon-button-line-height: 24px !default;
+$msf-command-bar-button-line-height:             $msf-command-bar-button-height  !default;
 
-// Applies base styles to all button types.
-@mixin msf-button-base {
-  box-sizing: border-box;
-  position: relative;
+$msf-command-bar-button-padding-y-small:            0 !default;
+$msf-command-bar-button-padding-x-small:            8px !default;
+$msf-command-bar-button-font-size-small:            11px !default;
 
-  // Reset browser <button> styles.
-  @include mat-button-reset();
+$msf-command-bar-button-height-small:               22px !default;
+$msf-command-bar-button-line-height-small:          $msf-command-bar-button-height-small  !default;
 
-  // Make anchors render like buttons.
+$msf-command-bar-button-padding-y-large:            0 !default;
+$msf-command-bar-button-padding-x-large:            32px !default;
+$msf-command-bar-button-font-size-large:            18px !default;
+
+$msf-command-bar-button-height-large:               64px !default;
+$msf-command-bar-button-line-height-large:          $msf-command-bar-button-height-large  !default;
+
+
+
+
+.msf-command-button {
+  font-family: $msf-font-family-base;
+  font-size: $msf-command-bar-button-font-size;
   display: inline-block;
-  white-space: nowrap;
-  text-decoration: none;
-  vertical-align: baseline;
-  text-align: center;
+  position: relative;
+  vertical-align: top;
+  cursor: pointer;
+  padding: $msf-command-bar-button-padding-y $msf-command-bar-button-padding-x;
 
-  // Sizing.
-  margin: $msf-button-margin;
-  min-width: $msf-button-min-width;
-  line-height: $msf-button-line-height;
-  padding: $msf-button-padding;
+  height: $msf-command-bar-button-height;
+
+  user-select: none;
+  outline: transparent;
+  border: none;
+  text-decoration: none;
   border-radius: $msf-button-border-radius;
 
-  // Background.
-  transition: background-color $ms-motion-duration-3;
+  background-color: transparent;
 
-  // Explicitly set the default overflow to `visible`. It is already set
-  // on most browsers except on IE11 where it defaults to `hidden`.
-  overflow: visible;
+  box-sizing: border-box;
 
-  &[disabled] {
-    cursor: default;
+  transition: background-color $ms-motion-duration-2;
+
+  &:disabled, &[disabled], &.msf-disabled {
+    opacity: 0.6;
     pointer-events: none;
   }
 
-  &.cdk-keyboard-focused,
-  &.cdk-program-focused {
-    .msf-button-focus-overlay {
-      opacity: 0.12;
-    }
+
+  &.msf-theme-primary {
+    color: $msf-primary-color;
   }
 
-  &::-moz-focus-inner {
-    border: 0;
+  &.msf-theme-warning {
+    color:$msf-warning-color;
   }
+
+  &.msf-theme-error {
+    color: $msf-error-color;
+  }
+
+  &.msf-theme-success {
+    color: $msf-success-color;
+  }
+
 }
 
-@mixin msf-icon($size, $padding) {
-  @include msf-button-base;
-  min-width: 0;
-
-  width: $size;
-  height: $size;
-
+.msf-command-bar-button.msf-command-bar-icon-button{
+  min-width: $msf-command-bar-button-height !important;
   padding: 0;
-
+  text-align: center;
+  font-size: 18px;
+  vertical-align: middle;
   flex-shrink: 0;
-
-  .msf-button-wrapper {
-    padding: $padding 0;
-    display: inline-block;
-    line-height: $msf-icon-button-line-height;
-  }
+  line-height: $msf-button-height;
 }
+
+
+.msf-button .msf-button-flex-layout{
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+
+
+
+
+
+.msf-command-bar-split-button-leftPart{
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.msf-command-bar-split-button-rightPart{
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+
+.msf-command-bar-button .msf-button-label{
+  margin: 0 4px;
+  line-height: 100%;
+  display: block;
+  font-weight: normal;
+}
+
+
+
+
