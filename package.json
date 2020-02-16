@@ -30,7 +30,7 @@
       "@angular/platform-browser",
       "@angular/platform-browser-dynamic",
       "@angular/router",
-      "@everest/collections",
+      
       "rxjs",
       "tslib",
       "zone.js"
