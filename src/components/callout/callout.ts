@@ -1,10 +1,11 @@
 import {ConnectionPositionPair, Overlay, OverlayConfig, OverlayRef, PositionStrategy} from "@angular/cdk/overlay";
-import {Injector, TemplateRef, Type, ViewChild} from "@angular/core";
+import { Injector, TemplateRef, Type, ViewChild, Injectable } from "@angular/core";
 import {MsCalloutRef, MsfCalloutRef} from "./callout-ref";
 import {ComponentPortal, Portal, PortalInjector, TemplatePortal} from "@angular/cdk/portal";
 import {MsfCalloutComponent} from "./callout.component";
 
 
+@Injectable()
 export class MsfCallout {
 
   constructor(private overlay: Overlay, private injector: Injector) {}

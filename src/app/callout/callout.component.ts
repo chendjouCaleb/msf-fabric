@@ -8,7 +8,7 @@ import {MsfCallout} from "../../components/callout/callout";
 export class CalloutComponent {
   constructor(private msfCallout: MsfCallout) {}
 
-  @ViewChild("templateCalloutView", {static: false})
+  @ViewChild("templateCalloutView")
   templateCalloutContent: TemplateRef<any>;
 
   componentCallout(event: MouseEvent) {

@@ -10,7 +10,7 @@ export class MsfTableHeadComponent implements OnInit {
   selectable: boolean = false;
   selectedAll: boolean = false;
 
-  @ViewChild("msfTableSelectAllCheckbox", { static: false})
+  @ViewChild("msfTableSelectAllCheckbox")
   selectCheckbox: ElementRef<HTMLInputElement>;
 
   constructor(private msfTable: MsfTable,private elementRef: ElementRef<HTMLElement>) {

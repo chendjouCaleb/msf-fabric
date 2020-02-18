@@ -1,10 +1,21 @@
-import {Input} from "@angular/core";
+import {AfterContentInit, Component, ContentChild, Input} from "@angular/core";
 import {IconImageProps, IconProps} from "../icon/icon-props";
 import {ColorTheme} from "../helpers/theme";
+import {MsfInput} from "./input/msf-input";
+import {MsfInputLabel} from "./input-label";
 
-export type TextFieldStyle = "outline" | "default"
+export type TextFieldStyle = "outline" | "default";
 
-export class TextField {
+let nextUniqueId = 0;
+
+@Component({
+  templateUrl: "text-field.html",
+  selector: "MsfTexField",
+  host: {
+    "class": "msf-text-field"
+  }
+})
+export class MsfTextField implements AfterContentInit{
 
   /**
    * Attached to the aria-label attribute of the host element. In most cases, aria-labelledby will
@@ -19,10 +30,8 @@ export class TextField {
   @Input( )
   ariaLabelledby: string | null = null;
 
-  private _uniqueId: string = "msf_Checkbox-${++nextUniqueId}";
+  private _uniqueId: string = `msf-text-field-${++nextUniqueId}`;
 
-  /** Returns the unique id for the visual hidden input. */
-  private _inputId: string;
 
 
   /** Whether the checkbox is required. */
@@ -33,60 +42,21 @@ export class TextField {
    */
   private _disabled: boolean = false;
 
-  /**
-   * Whether or not the text field is borderless.
-   */
-  private _borderless: boolean;
-
-  /**
-   * Only used by MaskedTextField: The masking string that defines the mask's behavior.
-   * A backslash will escape any character.
-   * Special format characters are: '9': [0-9] 'a': [a-zA-Z] '*': [a-zA-Z0-9]
-   */
-  private _mask: string;
-
-  /**
-   * Only used by MaskedTextField: The character to show in place of unfilled characters of the mask.
-   */
-  private _maskChar: string = '_';
-
-
-  /**
-   * Only used by MaskedTextField: An object defining the format characters and corresponding regexp values.
-   * Default format characters: { '9': /[0-9]/, 'a': /[a-zA-Z]/, '*': /[a-zA-Z0-9]/ }
-   */
-  private _maskFormat: string;
 
 
   /**
    * Prefix displayed before the text field contents. This is not included in the value.
    * Ensure a descriptive label is present to assist screen readers, as the value does not include the prefix.
    */
-  private prefix: string;
+  @Input()
+  prefix: string;
 
   /**
    * Suffix displayed after the text field contents. This is not included in the value.
    * Ensure a descriptive label is present to assist screen readers, as the value does not include the suffix.
    */
-  private suffix: string;
-
-  /**
-   * If true, the text field is readonly.
-   */
-  private readOnly: boolean;
-
-  /**
-   * The color theme of the component.
-   */
-  private _theme: ColorTheme;
-
-
-  /**
-   * Current value of the text field. Only provide this if the text field is a
-   * controlled component where you are maintaining its current state;
-   * otherwise, use the defaultValue property.
-   */
-  private _value: string;
+  @Input()
+  suffix: string;
 
 
 
@@ -95,6 +65,7 @@ export class TextField {
   /**
    * Props for an optional icon, displayed in the far right end of the text field.
    */
+  @Input()
   prefixIconProps: IconProps;
 
   /**
@@ -105,6 +76,7 @@ export class TextField {
   /**
    * Props for an optional icon, displayed in the far right end of the text field.
    */
+  @Input()
   suffixIconProps: IconProps;
 
   /**
@@ -112,13 +84,6 @@ export class TextField {
    */
   suffixIconImageProps: IconImageProps;
 
-
-  /**
-   * Whether the input field should have autocomplete enabled.
-   * This tells the browser to display options based on earlier typed values.
-   * Common values are 'on' and 'off'.
-   */
-  autoComplete:string;
 
   /**
    * The function which checks if char is allowed.
@@ -131,10 +96,6 @@ export class TextField {
    */
   maxSize: number | null = null;
 
-  /**
-   * The classname of the native input element.
-   */
-  inputClassname: string;
 
 
   /**
@@ -149,14 +110,22 @@ export class TextField {
   suffixClassname: string;
 
 
-  placeholder: string;
-
-  autofocus: boolean;
-
   required: boolean;
 
   tabindex: number = 0;
 
-  inputType: string;
+
+  @ContentChild(MsfInput, {static: false})
+  private _nativeInput: MsfInput;
+
+
+  ngAfterContentInit(): void {
+    if(!this._nativeInput){
+      throw new Error(`A text field must contains a html input with MsfInput directive.`)
+    }
+
+    this._nativeInput.id = this._uniqueId;
+
+  }
 
 }

@@ -47,11 +47,11 @@ export class MsfPersonna implements AfterContentInit{
 
   private _size: PersonnaSize = "size56";
 
-  @ContentChild(forwardRef(() => MsfPersonnaFigure), {static: false} )
+  @ContentChild(forwardRef(() => MsfPersonnaFigure))
   private _figure: MsfPersonnaFigure;
 
 
-  @ContentChild(forwardRef(() => MsfPersonnaText), {static: false} )
+  @ContentChild(forwardRef(() => MsfPersonnaText))
   private _text: MsfPersonnaFigure;
 
   @Input()

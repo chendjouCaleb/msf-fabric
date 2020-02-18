@@ -63,7 +63,7 @@ export class MsfPivotBody {
 
   }
 
-  @ViewChild("PivotBodyLayout", {static: false})
+  @ViewChild("PivotBodyLayout")
   public layout: ElementRef<HTMLElement>;
 
   bodyWidth: number;

@@ -1,0 +1,24 @@
+@import "../fabric-core/variables/Color.Variables";
+
+$msf-label-color: $ms-color-gray160;
+
+.msf-label {
+  font-family: inherit;
+  -webkit-font-smoothing: antialiased;
+  font-size: 14px;
+  font-weight: 600;
+  color: $msf-label-color;
+  box-sizing: border-box;
+  box-shadow: none;
+  margin: 0;
+  display: block;
+  padding: 5px 0;
+  overflow-wrap: break-word;
+
+  &:disabled, &.msf-disabled {
+    opacity: 0.6;
+    user-select: none;
+    pointer-events: none;
+  }
+}
+

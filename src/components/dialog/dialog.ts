@@ -10,12 +10,11 @@ import {
   ScrollStrategy
 } from "@angular/cdk/overlay";
 import {MsfDialogRef} from "./dialog-ref";
-import {Subject, of as observableOf} from "rxjs";
+import {Subject} from "rxjs";
 import {List} from "@positon/collections";
 import {ComponentPortal, PortalInjector, TemplatePortal} from "@angular/cdk/portal";
 import {MsfDialogContainer} from "./dialog-container";
 import {MSF_DIALOG_SCROLL_STRATEGY} from "./dialog-scrool";
-import {Directionality} from "@angular/cdk/bidi";
 
 /** Injection token that can be used to access the data that was passed in to a dialog. */
 export const MSF_DIALOG_DATA = new InjectionToken<any>('msf-dialog-data');
@@ -51,7 +50,7 @@ export class MsfDialog {
   constructor(private _overlay: Overlay,
               private _overlayContainer: OverlayContainer,
               private _injector: Injector,
-              @Optional() private _locator: Location,
+
               @Optional() @Inject(MSF_DIALOG_DEFAULT_OPTIONS) private _defaultOptions: MsfDialogOptions,
               @Inject(MSF_DIALOG_SCROLL_STRATEGY) scrollStrategy: any
   ) {

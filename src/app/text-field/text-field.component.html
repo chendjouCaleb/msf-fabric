@@ -1,0 +1,77 @@
+<app-layout title="Text-field">
+  <h1>Text field</h1>
+
+  <div class="component-overview">
+    <h3 class="component-overview-title">Overview</h3>
+    <div class="component-overview-content">
+      Dialogs are temporary, modal UI overlay that generally provide contextual app information or
+      require user confirmation/input. In most cases, Dialogs block interactions with the web page
+      or application until being explicitly dismissed, and often request action from the user.
+      They are primarily used for lightweight creation or edit tasks, and simple management tasks.
+    </div>
+  </div>
+
+
+  <div class="component-usage mt-5">
+    <h3 class="component-usage-title">Usage</h3>
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">Default text fields</h5>
+
+      <div class="component-usage-section-content">
+
+
+        <MsfFormControl>
+          <label MsfInputLabel>Standard</label>
+          <MsfTexField><input type="text" MsfInput/></MsfTexField>
+        </MsfFormControl>
+
+        <MsfFormControl [disabled]="true">
+          <label MsfInputLabel>Disabled</label>
+          <MsfTexField><input type="text" MsfInput/></MsfTexField>
+        </MsfFormControl>
+
+
+      </div>
+    </div>
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">TextField with prefix and/or suffix</h5>
+
+      <div class="component-usage-section-content">
+
+        <MsfFormControl label="Prefix">
+          <MsfTexField prefix="https://"><input type="text" MsfInput/></MsfTexField>
+        </MsfFormControl>
+
+        <MsfFormControl label="Prefix icon">
+          <MsfTexField [prefixIconProps]="{name: 'Contact', theme: 'primary'}"><input type="text" MsfInput>
+          </MsfTexField>
+        </MsfFormControl>
+
+        <div MsfFormControl label="Suffix">
+          <MsfTexField suffix=".com"><input type="text" MsfInput/></MsfTexField>
+        </div>
+
+        <MsfFormControl label="Suffix icon">
+          <MsfTexField [suffixIconProps]="{name: 'Add', theme: 'primary'}"><input type="text" MsfInput/></MsfTexField>
+        </MsfFormControl>
+
+
+        <MsfFormControl label="Suffix and prefix">
+          <MsfTexField prefix="https://" suffix=".com"><input type="text" MsfInput/></MsfTexField>
+        </MsfFormControl>
+
+        <MsfFormControl label="Suffix and prefixicon">
+          <MsfTexField [prefixIconProps]="{name: 'Contact' }" [suffixIconProps]="{name: 'Add', theme: 'primary'}"
+
+          ><input type="text" MsfInput></MsfTexField>
+        </MsfFormControl>
+
+      </div>
+    </div>
+
+
+  </div>
+
+</app-layout>

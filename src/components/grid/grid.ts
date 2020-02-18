@@ -508,7 +508,7 @@ export class MsfGridItem implements OnInit, OnDestroy, OnChanges, AfterContentIn
   @Input()
   selectable: boolean = true;
 
-  @ContentChild(forwardRef(() => MsfCheckbox), {static: false})
+  @ContentChild(forwardRef(() => MsfCheckbox))
   _checkbox: MsfCheckbox;
 
   constructor(private elementRef: ElementRef<HTMLElement>, @Optional() private _grid: MsfGrid) {
@@ -522,7 +522,7 @@ export class MsfGridItem implements OnInit, OnDestroy, OnChanges, AfterContentIn
     //console.log(this.rect)
   }
 
-  @ViewChild("msfGridItemSelector", {static: false})
+  @ViewChild("msfGridItemSelector")
   selectorElement: ElementRef<HTMLInputElement>;
 
 

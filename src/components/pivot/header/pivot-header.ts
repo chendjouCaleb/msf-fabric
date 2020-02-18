@@ -10,7 +10,7 @@ export class MsfPivotHeader implements AfterViewInit{
 
   constructor(private linker: MsfPivotLinker) {}
 
-  @ViewChild("PivotActiveBorder", {static: false})
+  @ViewChild("PivotActiveBorder")
   activeBorder: ElementRef<HTMLElement>;
 
   ngAfterViewInit(): void {

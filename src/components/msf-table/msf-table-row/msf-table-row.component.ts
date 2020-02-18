@@ -23,7 +23,7 @@ export class MsfTableRowComponent implements OnInit, OnDestroy {
   index: number;
 
 
-  @ViewChild("msfTableSelectCheckbox", { static: false })
+  @ViewChild("msfTableSelectCheckbox")
   selectCheckbox: ElementRef<HTMLInputElement>;
 
   constructor(private msfTable: MsfTable, public elementRef: ElementRef<HTMLElement>) {

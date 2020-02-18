@@ -1,0 +1,66 @@
+@import "../fabric-core/variables/Color.Variables";
+
+$msf-input-color: $ms-color-gray160;
+$msf-input-prefix-bgColor: $ms-color-gray30;
+$msf-text-field-height: 30px;
+
+.msf-input {
+  display: block;
+  background: transparent;
+  border: none;
+}
+
+.msf-form-control {
+  display: block;
+
+  &.msf-disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+}
+
+
+
+.msf-text-field {
+  border: 1px solid $msf-input-color;
+  color: $msf-input-color;
+  border-radius: 2px;
+  display: inline-block;
+  height: $msf-text-field-height;
+  min-width: 300px;
+}
+
+.msf-text-field-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+
+.msf-text-field .msf-input{
+  height: 100%;
+  flex-grow: 1;
+  color: $msf-input-color;
+
+  padding: 5px;
+  width: 100%;
+}
+
+
+
+
+
+.msf-text-field-suffix, .msf-text-field-prefix {
+  background-color: $msf-input-prefix-bgColor;
+  line-height: $msf-text-field-height;
+  padding: 0 5px;
+}
+
+.msf-text-field-suffix-icon, .msf-text-field-prefix-icon {
+
+  line-height: $msf-text-field-height;
+  display: inline-block;
+  height:$msf-text-field-height;
+
+  padding: 0 5px;
+}

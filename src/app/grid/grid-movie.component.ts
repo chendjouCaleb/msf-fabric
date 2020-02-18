@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
 import {Movie, movies} from "../models/movie";
-import {List} from "@everest/collections";
+import {List} from "@positon/collections";
 
 @Component({
   templateUrl: "grid-movie.component.html",
@@ -22,7 +22,7 @@ export class GridMovieComponent {
   }
 
   addRandom() {
-    let item = this.movies.get(Math.floor(Math.random() * this.movies.size));
+    let item = this.movies.get(Math.floor(Math.random() * this.movies.length));
     let p = Math.floor(Math.random() * 5);
 
     this.movies.insert(p, Object.assign({}, item));

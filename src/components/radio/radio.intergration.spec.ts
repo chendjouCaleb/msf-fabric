@@ -699,7 +699,7 @@ class RadioGroupWithNgModel {
       <MsfRadio>One</MsfRadio>`
 })
 class DisableableRadioButton {
-  @ViewChild(MsfRadioInput, {static: false}) matRadioButton: MsfRadioInput;
+  @ViewChild(MsfRadioInput) matRadioButton: MsfRadioInput;
 
   set disabled(value: boolean) {
     this.matRadioButton.disabled = value;

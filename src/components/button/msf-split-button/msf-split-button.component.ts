@@ -24,10 +24,10 @@ import { ButtonSize } from '../msf-button/msf-button.component';
 })
 export class MsfSplitButtonComponent implements OnInit, AfterContentInit{
 
-  @ContentChild("LeftButton", {static: false})
+  @ContentChild("LeftButton")
   leftButton: MsfButtonBase;
 
-  @ContentChild("RightButton", {static: false})
+  @ContentChild("RightButton")
   rightButton: MsfButtonBase;
 
 

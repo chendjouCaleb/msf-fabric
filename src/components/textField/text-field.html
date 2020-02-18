@@ -1,0 +1,15 @@
+<div class="msf-text-field-container">
+
+  <span class="msf-text-field-suffix" *ngIf="prefix">{{prefix}}</span>
+  <span MsfIcon *ngIf="prefixIconProps" [props]="prefixIconProps" class="msf-text-field-prefix-icon"></span>
+
+
+    <ng-content></ng-content>
+
+
+
+
+
+  <span class="msf-text-field-prefix" *ngIf="suffix"> {{suffix}}</span>
+  <span MsfIcon *ngIf="suffixIconProps" [props]="suffixIconProps" class="msf-text-field-suffix-icon"></span>
+</div>

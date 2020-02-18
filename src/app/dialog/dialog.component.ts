@@ -8,7 +8,7 @@ import {MsfDialog} from "../../components/dialog/dialog";
 export class DialogComponent {
   constructor(private msfDialog: MsfDialog) {}
 
-  @ViewChild("templateDialogView", {static: false})
+  @ViewChild("templateDialogView")
   templateDialogContent: TemplateRef<any>;
 
   componentDialog() {

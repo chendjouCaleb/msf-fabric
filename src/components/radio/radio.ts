@@ -135,7 +135,7 @@ export class MsfRadioInput extends _MsfCheckboxMixinBase implements CanColor, Ca
 
 
   /** The native `<input type=radio>` element */
-  @ViewChild("inputElement", {static: false})
+  @ViewChild("inputElement")
   private _inputElement: ElementRef<HTMLInputElement>;
 
 

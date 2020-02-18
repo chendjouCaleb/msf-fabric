@@ -1,4 +1,4 @@
-import { Input, ElementRef, OnInit } from '@angular/core';
+import { Input, ElementRef, OnInit, Directive } from '@angular/core';
 import {ButtonSize} from "./msf-button/msf-button.component";
 import {ColorTheme} from "../helpers/theme";
 import {CanColor, CanColorCtor, mixinColor} from "../helpers/behaviors/theme";
@@ -11,6 +11,7 @@ class ButtonBase {
 const _MsfButtonMixinBase:
   CanColorCtor & CanDepthCtor & typeof ButtonBase = mixinDepth(mixinColor(ButtonBase),8 );
 
+@Directive()
 export abstract class MsfButtonBase extends _MsfButtonMixinBase implements CanColor, CanDepth, OnInit{
 
 

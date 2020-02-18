@@ -37,7 +37,7 @@ export class MsfContextualMenuItemComponent implements OnInit, AfterViewInit{
   @Input()
   Disabled: boolean;
 
-  @ViewChild("msfContextualMenuItemLabel", {static: false})
+  @ViewChild("msfContextualMenuItemLabel")
   labelElement: ElementRef<HTMLElement>;
 
   maxLabelWidth: number;
