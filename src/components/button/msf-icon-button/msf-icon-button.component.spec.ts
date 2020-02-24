@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MsfIconButtonComponent } from './msf-icon-button.component';
+import { MsfIconButton } from './icon-button';
 
 describe('MsfIconButtonComponent', () => {
-  let component: MsfIconButtonComponent;
-  let fixture: ComponentFixture<MsfIconButtonComponent>;
+  let component: MsfIconButton;
+  let fixture: ComponentFixture<MsfIconButton>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MsfIconButtonComponent ]
+      declarations: [ MsfIconButton ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MsfIconButtonComponent);
+    fixture = TestBed.createComponent(MsfIconButton);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

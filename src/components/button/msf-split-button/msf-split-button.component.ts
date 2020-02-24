@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import {ColorTheme} from '../../helpers/theme';
 import { MsfButtonBase } from '../button-base';
-import { ButtonSize } from '../msf-button/msf-button.component';
+import { ButtonSize } from '../msf-button/button';
 
 @Component({
   selector: 'MsfSplitButton, [MsfSplitButton]',

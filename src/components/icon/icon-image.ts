@@ -7,7 +7,7 @@ import {IconImageProps} from "./icon-props";
 import {MSF_ICON_IMAGE_CONFIG, MsfIconImageConfig} from "./icon-image-config";
 
 
-export const MSF_ICON_IMAGE_CLASSNAME = "msf_IconImage";
+export const MSF_ICON_IMAGE_CLASSNAME = "msf-icon-image";
 
 @Component({
   selector: "MsfIconImage, [MsfIconImage]",

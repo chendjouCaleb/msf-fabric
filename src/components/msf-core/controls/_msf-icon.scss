@@ -1,16 +1,36 @@
 @import '../../msf-core/variables/Msf-Variable';
 
-MsfIcon, [MsfIcon], MsfIconImage, [MsfIconImage] {
+MsfIcon, [MsfIcon], .msf-icon-image {
   margin: 0;
   padding: 0;
-
-
+  display: inline-block;
+  vertical-align: middle;
+  overflow: hidden;
 }
 
-MsfIconImage img, [MsfIconImage] img {
+.msf-icon-image {
+  vertical-align: center;
+  display: inline-block;
+
+
   height: $msf-fontSize-md + px;
   width: $msf-fontSize-md + px;
+  position: relative;
+
+  & img {
+    position: absolute;
+    top:0;
+    left:0;
+
+    height: $msf-fontSize-md + px;
+    width: $msf-fontSize-md + px;
+    display: inline-block;
+    vertical-align: center !important;
+    padding: 0;
+    margin: 0;
+  }
 }
+
 
 @each $color, $value in $msf-theme-colors {
   MsfIcon.msf_Theme-#{$color}, [MsfIcon].msf_Theme-#{$color} {

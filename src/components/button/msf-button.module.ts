@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MsfButtonComponent } from './msf-button/msf-button.component';
+import { MsfButton } from './msf-button/button';
 import { MsfCommandButtonComponent } from './msf-command-button/msf-command-button.component';
-import { MsfIconButtonComponent } from './msf-icon-button/msf-icon-button.component';
+import { MsfIconButton } from './msf-icon-button/icon-button';
 import { MsfSplitButtonComponent } from './msf-split-button/msf-split-button.component';
+import {MsfIconModule} from "../icon/public_api";
 
 @NgModule({
-    imports: [ CommonModule ],
-    declarations: [ MsfButtonComponent, MsfCommandButtonComponent, MsfIconButtonComponent, MsfSplitButtonComponent ],
-    exports: [ MsfButtonComponent, MsfIconButtonComponent, MsfCommandButtonComponent, MsfSplitButtonComponent ]
+    imports: [ CommonModule, MsfIconModule ],
+    declarations: [ MsfButton, MsfCommandButtonComponent, MsfIconButton, MsfSplitButtonComponent ],
+    exports: [ MsfButton, MsfIconButton, MsfCommandButtonComponent, MsfSplitButtonComponent ]
 })
 export class MsfButtonModule {
 

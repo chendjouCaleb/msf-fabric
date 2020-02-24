@@ -3,36 +3,56 @@
 @import '../../msf-core/fabric-core/variables/Animation.Variables';
 @import 'Msf-Button.mixin';
 
-.msf-button {
+$msf-button-fontWeight: 600 !default;
+
+$msf-button-color: $ms-color-gray160 !default;
+$msf-button-backgroundColor: $ms-color-gray20 !default;
+
+
+
+.msf-button, button.msf-button {
   font-family: $msf-font-family-base;
   font-size: $msf-button-font-size;
+  font-weight: $msf-button-fontWeight;
   display: inline-block;
   position: relative;
   vertical-align: top;
   cursor: pointer;
-  padding: $msf-button-padding-y $msf-button-padding-x;
+
   min-width: $msf-button-minWidth;
   height: $msf-button-height;
+  margin:0;
+  padding: 0;
 
   user-select: none;
-  outline: transparent;
-  border-width: $msf-button-border-width;
-  border-style: solid;
-  border-color: transparent;
-  border-image: initial;
+
+  border: 1px solid transparent;
+  outline: none;
   text-decoration: none;
   border-radius: $msf-button-border-radius;
 
   background-color: transparent;
 
   box-sizing: border-box;
+  overflow: hidden;
 
-  transition: background-color $ms-motion-duration-3;
+  transition: background-color $ms-motion-duration-2;
 
-  &:disabled, &[disabled], &.disabled {
+  &.msf-button-outline {
+    background: transparent;
+    color: $msf-button-color;
+    border-color: $msf-button-color;
+  }
+
+  &:disabled, &[disabled], &.msf-disabled {
     opacity: 0.6;
     pointer-events: none;
   }
+  & div:hover {
+    backdrop-filter: brightness(75%);
+  }
+
+  &:focus { outline: none; backdrop-filter: brightness(130%);}
 }
 
 .msf-button.msf-icon-button{
@@ -45,13 +65,14 @@
   line-height: $msf-button-height;
 }
 
-.msf-button.msf-rounded-button{
+.msf-button.msf-rounded{
   border-radius: 50%;
 }
 
 .msf-button:focus::after {
   content: "";
   position: absolute;
+
   display: inline-block;
   left: 2px;
   top: 2px;
@@ -62,19 +83,27 @@
   border-style: none;
   border-color: initial;
   border-image: initial;
-  outline: 1px solid;
+  outline: 1px dashed;
   transition: background-color $ms-motion-duration-3;
 }
 
 
 @each $color, $value in $msf-theme-colors {
-  .msf-button-#{$color} {
-    @include button-variant($value);
+  .msf-button.msf-theme-#{$color} {
+    background-color: $value;
+    color: map_get($msf-theme-foregroundColors, $color);
+
+    &.msf-button-outline {
+      background-color: transparent;
+      color: $value;
+      border-color: $value;
+      &:hover{
+        background-color: $value;
+        color: map_get($msf-theme-foregroundColors, $color);
+      }
+    }
   }
 
-  .msf-button-outline-#{$color} {
-    @include button-outline-variant($value);
-  }
 }
 
 
@@ -85,15 +114,15 @@
   justify-content: center;
   align-items: center;
   height: 100%;
+  width: 100%;
+  padding: $msf-button-padding-y $msf-button-padding-x;
+
+  &:hover {
+    backdrop-filter: brightness(90%);
+  }
 }
 
 
-
-
-.msf-button-outline {
-  background-color: transparent !important;
-  border: 1px solid $msf-standard-color;
-}
 
 
 
@@ -138,10 +167,7 @@
 
 
 .msf-button .msf-button-label{
-  margin-top: 0px;
-  margin-right: 4px;
-  margin-bottom: 0px;
-  margin-left: 4px;
+  margin: 0 4px;
   line-height: 100%;
   display: block;
   font-weight: 500;

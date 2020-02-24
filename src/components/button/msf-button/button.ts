@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, ElementRef, Input, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, HostBinding, Input, ViewEncapsulation} from '@angular/core';
 
 import { MsfButtonBase } from '../button-base';
 
@@ -7,7 +7,7 @@ export type ButtonSize = "1x" | "2x" | "3x";
 @Component({
   selector: 'MsfButton, [MsfButton], MsfOutlineButton, [MsfOutlineButton], ' +
     'MsfCommandButton, [MsfCommandButton]]',
-  templateUrl: './msf-button.component.html',
+  templateUrl: './button.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
@@ -16,7 +16,19 @@ export type ButtonSize = "1x" | "2x" | "3x";
   },
   inputs: [ 'theme', 'depth']
 })
-export class MsfButtonComponent extends MsfButtonBase{
+export class MsfButton extends MsfButtonBase{
+  @HostBinding("class")
+  className: string = "msf-button";
+
+  @HostBinding("class.msf-button-outline")
+  get isOutline(): boolean {
+    return this.hostElement.tagName.toUpperCase() === "MSFOUTLINEBUTTON" || this.outline;
+  }
+
+  @Input()
+  outline: boolean = false;
+
+
   @Input()
   Icon: string;
 
@@ -30,7 +42,6 @@ export class MsfButtonComponent extends MsfButtonBase{
 
 
   ngOnInit() {
-    super.ngOnInit();
 
     if(this.CommandButton){
       this._elementRef.nativeElement.classList.add("msf-command-button");

@@ -1,5 +1,5 @@
 import { Input, ElementRef, OnInit, Directive } from '@angular/core';
-import {ButtonSize} from "./msf-button/msf-button.component";
+import {ButtonSize} from "./msf-button/button";
 import {ColorTheme} from "../helpers/theme";
 import {CanColor, CanColorCtor, mixinColor} from "../helpers/behaviors/theme";
 import {CanDepth, CanDepthCtor, mixinDepth} from "../helpers/behaviors/depth";
@@ -9,10 +9,10 @@ class ButtonBase {
 }
 
 const _MsfButtonMixinBase:
-  CanColorCtor & CanDepthCtor & typeof ButtonBase = mixinDepth(mixinColor(ButtonBase),8 );
+  CanColorCtor & CanDepthCtor & typeof ButtonBase = mixinDepth(mixinColor(ButtonBase)  );
 
-@Directive()
-export abstract class MsfButtonBase extends _MsfButtonMixinBase implements CanColor, CanDepth, OnInit{
+
+export abstract class MsfButtonBase extends _MsfButtonMixinBase implements CanColor, CanDepth {
 
 
   @Input()
@@ -31,13 +31,6 @@ export abstract class MsfButtonBase extends _MsfButtonMixinBase implements CanCo
   constructor(public _elementRef: ElementRef<HTMLElement>) {
       super(_elementRef);
   }
-
-  ngOnInit() {
-    this._elementRef.nativeElement.classList.add("msf-button");
-
-
-
-}
 
   get Outline() {
     return this._elementRef.nativeElement.hasAttribute("Outline")
