@@ -9,9 +9,7 @@ import {List} from "@positon/collections";
 export class GridMovieComponent {
   movies = List.fromArray<Movie>(movies);
 
-  constructor() {
-
-  }
+  constructor() { }
 
   floor(int: number){
     return Math.floor(int);

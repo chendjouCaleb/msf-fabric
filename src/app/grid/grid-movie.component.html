@@ -7,7 +7,7 @@
 <MsfButton (click)="ad._sortBy('duration')">Duration</MsfButton>
 
 <input type="number" [(ngModel)]="ad.itemsPerLine">
-<div MsfGrid itemsPerLine="4" height="400" [selectable]="true" #ad style="background: red">
+<div MsfGrid itemsPerLine="4" itemHeight="400" itemsPerColumn="2" [selectable]="true" #ad style="background: red">
   <div MsfGridItem class="border ms-depth-4" [selectable]="true" *ngFor="let item of movies" [value]="item" style="position: relative">
     <img [src]="item.imgUrl" alt="Movie image" style="max-width: 100%">
     <MsfIconButton theme="error" Rounded class="mr-1" icon="Delete" style="position: absolute; left: 10px; top: 10px" (click)="remove(item)"></MsfIconButton>

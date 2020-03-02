@@ -3,7 +3,7 @@ import {
   Component, ContentChild,
   ContentChildren,
   ElementRef, EventEmitter,
-  forwardRef, HostListener, Input, OnChanges, OnDestroy, OnInit, Optional,
+  forwardRef, HostBinding, HostListener, Input, OnChanges, OnDestroy, OnInit, Optional,
   QueryList, SimpleChanges, ViewChild,
 
 } from "@angular/core";
@@ -12,6 +12,7 @@ import {List} from "@positon/collections";
 import {MsfCheckbox} from "../checkbox/checkbox";
 import {ElementRect} from "../helpers/position";
 import {AssertHelpers} from "@positon/collections/dist/helpers/assert-helpers";
+import {toArray} from "../helpers/array";
 
 
 export interface MsfGridUserEvent {
@@ -34,19 +35,17 @@ let uniqueId: number = 0;
 })
 export class MsfGrid implements AfterContentInit {
 
+
   private _uniqueId = `msf-grid-${uniqueId++}`;
 
   /** Tells if the content view is totally initialised */
   private _isInitialized: boolean = false;
 
-  /** The width in px of grid */
-  private _gridWidth: number | null = null;
 
-  /** The width of item of the grid. */
-  private _width: number | null = 100;
-
-  /** The height of item of the grid. */
-  private _height: number | null = 100;
+  /** The height of item of the grid.
+   * To use if the grid dont have a fixed height.
+   * */
+  private _itemHeight: number | null = 100;
 
   /** The x margin between items */
   private _xMargin: number = 10;
@@ -57,10 +56,11 @@ export class MsfGrid implements AfterContentInit {
 
   private _selectedClassNames: string | string[];
 
-  /** Items per line. The width item is obtained
-   * by dividing the grid width by this value
-   */
+  /** Items per line. */
   private _itemsPerLine: number | null = null;
+
+  /** Items per column. */
+  private _itemsPerColumn: number | null = null;
 
 
   /**
@@ -105,28 +105,8 @@ export class MsfGrid implements AfterContentInit {
   ngAfterContentInit(): void {
     this._isReady = true;
 
-
     this._sortedItems = List.fromArray(this._items.toArray());
 
-
-    if (this._width) {
-      this.width = this._width;
-    }
-    if (this._height) {
-      this.height = this._height;
-    }
-
-    if(this._xMargin) {
-      this.xMargin = this._xMargin;
-    }
-
-    if(this._yMargin){
-      this.yMargin = this._yMargin;
-    }
-
-    if(this._itemsPerLine) {
-      this.itemsPerLine = this._itemsPerLine;
-    }
 
     this._items.forEach((item, index) => {
 
@@ -146,14 +126,13 @@ export class MsfGrid implements AfterContentInit {
   public _addNewItem(item: MsfGridItem) {
     AssertHelpers.isNotNull(item, `Require non null argument: 'item'`);
 
-    item.element.style.width = `${this.width}px`;
-    item.element.style.height = `${this.height}px`;
+    if(this._itemHeight){
+      item.element.style.height = `${this.itemHeight}px`;
+    }
 
-    item.element.style.marginRight = `${this.xMargin}px`;
-    item.element.style.marginLeft = `${this.xMargin}px`;
-
-    item.element.style.marginTop = `${this.yMargin}px`;
-    item.element.style.marginBottom = `${this.yMargin}px`;
+    if(!item.selectedClassNames){
+      item.selectedClassNames = this._selectedClassNames;
+    }
 
     this._sortedItems.add(item);
 
@@ -317,25 +296,12 @@ export class MsfGrid implements AfterContentInit {
 
 
   @Input()
-  get width(): number {
-    return this._width;
+  get itemHeight(): number {
+    return this._itemHeight;
   }
 
-  set width(value: number) {
-    this._width = value;
-    if (this._items) {
-      this._items.forEach(item => item.element.style.width = `${value}px`)
-    }
-  }
-
-
-  @Input()
-  get height(): number {
-    return this._height;
-  }
-
-  set height(value: number) {
-    this._height = value;
+  set itemHeight(value: number) {
+    this._itemHeight = value;
     if (this._items) {
       this._items.forEach(item => item.element.style.height = `${value}px`);
     }
@@ -350,10 +316,12 @@ export class MsfGrid implements AfterContentInit {
   set xMargin(value: number) {
     this._xMargin = value;
 
-    if (this._items) {
-      this._items.forEach(item => item.element.style.marginRight = `${value}px`);
-      this._items.forEach(item => item.element.style.marginLeft = `${value}px`);
-    }
+    // if (this._items) {
+    //   this._items.forEach(item => item.element.style.marginRight = `${value}px`);
+    //   this._items.forEach(item => item.element.style.marginLeft = `${value}px`);
+    // }
+
+    this.element.style.gridColumnGap = value.toString();
   }
 
 
@@ -364,11 +332,7 @@ export class MsfGrid implements AfterContentInit {
 
   set yMargin(value: number) {
     this._yMargin = value;
-
-    if (this._items) {
-      this._items.forEach(item => item.element.style.marginTop = `${value}px`);
-      this._items.forEach(item => item.element.style.marginBottom = `${value}px`);
-    }
+    this.element.style.gridRowGap = value.toString();
   }
 
 
@@ -379,30 +343,27 @@ export class MsfGrid implements AfterContentInit {
 
   set itemsPerLine(value: number) {
     this._itemsPerLine = value;
-    let margin = this._xMargin ? this.xMargin : 0;
-
-    if(!this.gridWidth){
-      this._gridWidth = this.element.getBoundingClientRect().width;
+    let fr = "";
+    for(let i = 0; i < value; i++){
+      fr += "1fr ";
     }
-
-    if(value === 1){
-      this.width = this._gridWidth - (2 * margin);
-    }else{
-      let itemWith = this._gridWidth / value;
-      itemWith = itemWith - (2 * margin);
-      this.width = itemWith;
-    }
-
+    this.element.style.gridTemplateColumns = fr.trim();
   }
 
   @Input()
-  get gridWidth(): number | null {
-    return this._gridWidth;
+  get itemsPerColumn(): number | null {
+    return this._itemsPerColumn;
   }
 
-  set gridWidth(value: number | null) {
-    this._gridWidth = value;
+  set itemsPerColumn(value: number) {
+    this._itemsPerColumn = value;
+    let fr = "";
+    for(let i = 0; i < value; i++){
+      fr += "1fr ";
+    }
+    this.element.style.gridTemplateRows = fr.trim();
   }
+
 
   _sort(sortFn: (a: any, b: any) => number = (a, b) => a - b) {
     this._sortedItems.sort((a, b) => sortFn(a.value, b.value));
@@ -550,6 +511,17 @@ export class MsfGrid implements AfterContentInit {
   get element(): HTMLElement {
     return this.elementRef.nativeElement;
   }
+
+  get uniqueId(): string {
+    return this._uniqueId;
+  }
+  set selectedClassNames(value: string | string[]) {
+    AssertHelpers.isNotNull(value);
+    if(this._isInitialized) {
+      this.items.forEach(item => item.selectedClassNames = value);
+    }
+    this._selectedClassNames = value;
+  }
 }
 
 
@@ -558,16 +530,26 @@ export class MsfGrid implements AfterContentInit {
   selector: "MsfGridItem, [MsfGridItem]",
   host: {
     "class": "msf-gridItem",
-    "[class.msf-selected]": "selected"
   }
 })
 export class MsfGridItem implements OnInit, OnDestroy, OnChanges, AfterContentInit {
+
   private _uniqueId = `msf-gridItem-${uniqueId++}`;
 
   /** Whether the item is selected */
   private _selected: boolean;
 
-  private _selectedClassNames: string | string[];
+  private _selectedClassNames: string | string[] = "msf-selected";
+
+  @Input()
+
+  get selectedClassNames(): string | string[] {
+    return this._selectedClassNames;
+  }
+
+  set selectedClassNames(value: string | string[]) {
+    this._selectedClassNames = value;
+  }
 
   _sortOrder: number;
 
@@ -602,6 +584,7 @@ export class MsfGridItem implements OnInit, OnDestroy, OnChanges, AfterContentIn
   tempRect: ElementRect;
 
   @Input()
+  @HostBinding("class.msf-selected")
   get selected(): boolean {
     return this._selected;
   }
@@ -609,6 +592,12 @@ export class MsfGridItem implements OnInit, OnDestroy, OnChanges, AfterContentIn
   set selected(value: boolean) {
     if (this.selectable) {
       this._selected = value;
+
+      if(value) {
+        toArray(this.selectedClassNames).forEach(v => this.element.classList.add(v));
+      }else{
+        toArray(this.selectedClassNames).forEach(v => this.element.classList.remove(v));
+      }
     }
 
   }

@@ -1,12 +1,10 @@
 @import '~office-ui-fabric-core/src/sass/variables/Color.Variables';
 
 .msf-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-
+  display: grid;
   padding: 0;
   position: relative;
+  transition: grid-template-columns .3s;
 }
 
 .msf-gridItem {
