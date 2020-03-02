@@ -1,6 +1,6 @@
 @import '../../msf-core/variables/Msf-Variable';
-@import '../../msf-core/fabric-core/variables/Font.Variables';
-@import '../../msf-core/fabric-core/variables/Animation.Variables';
+@import '~office-ui-fabric-core/src/sass/variables/Font.Variables';
+@import '~office-ui-fabric-core/src/sass/variables/Animation.Variables';
 @import "../variables/Msf-ContextMenu";
 
 $msf-checkbox-radius: 20px;

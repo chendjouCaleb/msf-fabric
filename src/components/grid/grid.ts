@@ -9,8 +9,9 @@ import {
 } from "@angular/core";
 
 import {List} from "@positon/collections";
-import {MsfCheckbox, MsfCheckboxChange} from "../checkbox/checkbox";
+import {MsfCheckbox} from "../checkbox/checkbox";
 import {ElementRect} from "../helpers/position";
+import {AssertHelpers} from "@positon/collections/dist/helpers/assert-helpers";
 
 
 export interface MsfGridUserEvent {
@@ -34,6 +35,12 @@ let uniqueId: number = 0;
 export class MsfGrid implements AfterContentInit {
 
   private _uniqueId = `msf-grid-${uniqueId++}`;
+
+  /** Tells if the content view is totally initialised */
+  private _isInitialized: boolean = false;
+
+  /** The width in px of grid */
+  private _gridWidth: number | null = null;
 
   /** The width of item of the grid. */
   private _width: number | null = 100;
@@ -76,7 +83,7 @@ export class MsfGrid implements AfterContentInit {
   selectionMode: boolean;
 
 
-  get values(): List<any> {
+  get selectedValues(): List<any> {
     return this._selection.convertAll(i => i.value);
   }
 
@@ -98,6 +105,7 @@ export class MsfGrid implements AfterContentInit {
   ngAfterContentInit(): void {
     this._isReady = true;
 
+
     this._sortedItems = List.fromArray(this._items.toArray());
 
 
@@ -107,6 +115,19 @@ export class MsfGrid implements AfterContentInit {
     if (this._height) {
       this.height = this._height;
     }
+
+    if(this._xMargin) {
+      this.xMargin = this._xMargin;
+    }
+
+    if(this._yMargin){
+      this.yMargin = this._yMargin;
+    }
+
+    if(this._itemsPerLine) {
+      this.itemsPerLine = this._itemsPerLine;
+    }
+
     this._items.forEach((item, index) => {
 
       item._index = index;
@@ -114,6 +135,30 @@ export class MsfGrid implements AfterContentInit {
     });
 
 
+    this._isInitialized = true;
+  }
+
+  /**
+   * Configures a new item when is added after the initialisation of the grid.
+   * @param item The new item.
+   * @private
+   */
+  public _addNewItem(item: MsfGridItem) {
+    AssertHelpers.isNotNull(item, `Require non null argument: 'item'`);
+
+    item.element.style.width = `${this.width}px`;
+    item.element.style.height = `${this.height}px`;
+
+    item.element.style.marginRight = `${this.xMargin}px`;
+    item.element.style.marginLeft = `${this.xMargin}px`;
+
+    item.element.style.marginTop = `${this.yMargin}px`;
+    item.element.style.marginBottom = `${this.yMargin}px`;
+
+    this._sortedItems.add(item);
+
+    this._sortedItems.forEach(item => item._lastRect = item.rect);
+    this.translate();
   }
 
 
@@ -334,8 +379,30 @@ export class MsfGrid implements AfterContentInit {
 
   set itemsPerLine(value: number) {
     this._itemsPerLine = value;
+    let margin = this._xMargin ? this.xMargin : 0;
+
+    if(!this.gridWidth){
+      this._gridWidth = this.element.getBoundingClientRect().width;
+    }
+
+    if(value === 1){
+      this.width = this._gridWidth - (2 * margin);
+    }else{
+      let itemWith = this._gridWidth / value;
+      itemWith = itemWith - (2 * margin);
+      this.width = itemWith;
+    }
+
   }
 
+  @Input()
+  get gridWidth(): number | null {
+    return this._gridWidth;
+  }
+
+  set gridWidth(value: number | null) {
+    this._gridWidth = value;
+  }
 
   _sort(sortFn: (a: any, b: any) => number = (a, b) => a - b) {
     this._sortedItems.sort((a, b) => sortFn(a.value, b.value));
@@ -362,7 +429,6 @@ export class MsfGrid implements AfterContentInit {
       const deltaX = item._lastRect.left - opposite._lastRect.left;
       const deltaY = item._lastRect.top - opposite._lastRect.top;
 
-      console.log(`translate(${-deltaX}, ${-deltaY})`);
 
       item.element.style.transform = `translate(${-deltaX}px, ${-deltaY}px)`
     });
@@ -475,8 +541,16 @@ export class MsfGrid implements AfterContentInit {
   _emitSelectionChange() {
     this.selectionChange.emit(this._selection);
   }
-}
 
+
+  get isInitialized(): boolean {
+    return this._isInitialized;
+  }
+
+  get element(): HTMLElement {
+    return this.elementRef.nativeElement;
+  }
+}
 
 
 @Component({
@@ -495,10 +569,11 @@ export class MsfGridItem implements OnInit, OnDestroy, OnChanges, AfterContentIn
 
   private _selectedClassNames: string | string[];
 
-  _x: number;
-  _y: number;
   _sortOrder: number;
 
+  /**
+   * The real position of the with without translation.
+   */
   _lastRect: ElementRect;
 
 
@@ -518,9 +593,6 @@ export class MsfGridItem implements OnInit, OnDestroy, OnChanges, AfterContentIn
 
   }
 
-  ngAfterViewInit(): void {
-    //console.log(this.rect)
-  }
 
   @ViewChild("msfGridItemSelector")
   selectorElement: ElementRef<HTMLInputElement>;
@@ -566,11 +638,15 @@ export class MsfGridItem implements OnInit, OnDestroy, OnChanges, AfterContentIn
   }
 
   ngAfterContentInit(): void {
+
+    if (this.grid.isInitialized) {
+      this.grid._addNewItem(this);
+    }
     this._lastRect = this.rect;
 
-    if(this._checkbox){
+    if (this._checkbox) {
       this._checkbox.change.subscribe(event => {
-        if(event.checked){
+        if (event.checked) {
           this._grid._checkboxEvent(this, event.nativeEvent.shiftKey);
         }
       })
@@ -579,11 +655,14 @@ export class MsfGridItem implements OnInit, OnDestroy, OnChanges, AfterContentIn
 
   @HostListener("click", ["$event"])
   _clickEvent(event: MouseEvent) {
-    if(this._grid){
+    if (this._grid) {
       this._grid._clickEvent(this, event);
     }
   }
 
+  get grid(): MsfGrid {
+    return this._grid;
+  }
 }
 
 

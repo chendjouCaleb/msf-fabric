@@ -12,6 +12,7 @@ import {
   MsfDropdownModule,
   MsfGridModule
 } from "../../components/public_api";
+import {FormsModule} from "@angular/forms";
 
 const routes: Routes = [
   {path: "", component: GridComponent }
@@ -19,8 +20,8 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [ GridComponent, GridMovieComponent ],
-  imports: [ CommonModule,  RouterModule.forChild(routes), AppLayoutModule, MsfCheckboxModule,
-    MsfButtonModule, MsfContextualMenuModule, MsfDropdownModule, MsfGridModule]
+  imports: [CommonModule, RouterModule.forChild(routes), AppLayoutModule, MsfCheckboxModule,
+    MsfButtonModule, MsfContextualMenuModule, MsfDropdownModule, MsfGridModule, FormsModule]
 })
 export class GridModule {
 

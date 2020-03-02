@@ -1,4 +1,5 @@
-@import '../fabric-core/variables/Color.Variables';
+@import '~office-ui-fabric-core/src/sass/variables/Color.Variables';
+
 $msf-standard-color:$ms-color-gray20;
 $msf-primary-color:$ms-color-communicationPrimary;
 $msf-warning-color:$ms-color-sharedOrange20;

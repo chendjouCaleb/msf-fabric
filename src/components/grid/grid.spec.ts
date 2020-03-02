@@ -31,6 +31,10 @@ describe("MsfGrid", () => {
       fixture = TestBed.createComponent(DefaultGrid);
       fixture.detectChanges();
 
+        resetVars();
+
+    }));
+    function resetVars() {
       testComponent = fixture.componentInstance;
 
       gridDebugElement = fixture.debugElement.query(By.directive(MsfGrid));
@@ -40,9 +44,7 @@ describe("MsfGrid", () => {
       gridItemDebugElements = fixture.debugElement.queryAll(By.directive(MsfGridItem));
       gridItemInstances = gridItemDebugElements.map(el => el.componentInstance);
       gridItemElements = gridItemDebugElements.map(el => el.nativeElement);
-
-    }));
-
+    }
 
     it("grid create", () => {
       expect(gridInstance.width).toBe(100);
@@ -58,10 +60,9 @@ describe("MsfGrid", () => {
       expect(gridItemInstances.length).toBe(10);
       expect(gridInstance.sortedItems.size()).toBe(10);
 
-
       gridItemInstances.forEach((item, index) => {
-        expect(item._grid).toBe(gridInstance);
-        expect(item.value).toBe(index + 1);
+        expect(item.grid).toBe(gridInstance);
+        expect(item.value).toBe(index);
         expect(item._index).toBe(index);
         expect(item.selectable).toBeTruthy();
         expect(item._checkbox).toBeUndefined();
@@ -83,6 +84,9 @@ describe("MsfGrid", () => {
     });
 
 
+
+
+
     it("set xMargin and yMargin should be reflected on items", () => {
       gridInstance.xMargin = 7;
       gridInstance.yMargin = 6;
@@ -97,6 +101,64 @@ describe("MsfGrid", () => {
         expect(item.style.marginTop).toBe("6px");
         expect(item.style.marginBottom).toBe("6px");
       });
+    });
+
+    it("Items added after contentInit should have the correct size and Margin", () => {
+      gridInstance.width = 50;
+      gridInstance.height = 50;
+      gridInstance.xMargin = 7;
+      gridInstance.yMargin = 6;
+
+      fixture.detectChanges();
+
+      testComponent.values.push(10, 11, 12, 13, 14, 15);
+
+
+      fixture.detectChanges();
+      resetVars();
+
+
+      expect(gridInstance.items.length).toBe(16);
+      expect(gridInstance.sortedItems.length).toBe(16);
+
+
+      gridItemElements.forEach(item => {
+        expect(item.style.width).toBe("50px");
+        expect(item.style.height).toBe("50px");
+
+        expect(item.style.marginLeft).toBe("7px");
+        expect(item.style.marginRight).toBe("7px");
+
+        expect(item.style.marginTop).toBe("6px");
+        expect(item.style.marginBottom).toBe("6px");
+      });
+    });
+
+
+    it("Set itemPerLine should set item.with = totalWith/itemPerLine", () => {
+        gridInstance.gridWidth = 1000;
+        gridInstance.itemsPerLine = 4;
+
+        fixture.detectChanges();
+
+        expect(gridInstance.width).toBe(250);
+        gridItemElements.forEach(item => {
+          expect(item.style.width).toBe("250px");
+        })
+    });
+
+
+    it("Set itemPerLine width grid xMargin should subtract margin from item width", () => {
+      gridInstance.gridWidth = 1000;
+      gridInstance.xMargin = 10;
+      gridInstance.itemsPerLine = 4;
+
+      fixture.detectChanges();
+
+      expect(gridInstance.width).toBe(250);
+      gridItemElements.forEach(item => {
+        expect(item.style.width).toBe("250px");
+      })
     });
 
     it("select item element should add selected state and msf-selected className", () => {
@@ -355,18 +417,10 @@ describe("MsfGrid", () => {
 @Component({
   template: `
       <MsfGrid>
-          <MsfGridItem [value]="1">1</MsfGridItem>
-          <MsfGridItem [value]="2">2</MsfGridItem>
-          <MsfGridItem [value]="3">3</MsfGridItem>
-          <MsfGridItem [value]="4">4</MsfGridItem>
-          <MsfGridItem [value]="5">5</MsfGridItem>
-          <MsfGridItem [value]="6">6</MsfGridItem>
-          <MsfGridItem [value]="7">7</MsfGridItem>
-          <MsfGridItem [value]="8">8</MsfGridItem>
-          <MsfGridItem [value]="9">9</MsfGridItem>
-          <MsfGridItem [value]="10">10</MsfGridItem>
+          <MsfGridItem *ngFor="let value of values" [value]=value>{{value}}</MsfGridItem>
       </MsfGrid>`
 })
 class DefaultGrid {
-
+  values = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ];
 }
+

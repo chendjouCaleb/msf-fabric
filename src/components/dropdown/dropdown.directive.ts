@@ -1,28 +1,26 @@
 import {
+  AfterContentInit,
   AfterViewInit,
-  ContentChildren,
   Directive,
   ElementRef,
   EventEmitter,
   HostListener,
-  Inject,
   Input,
   OnDestroy,
   OnInit,
-  Output, QueryList, ViewChildren
+  Output,
+  QueryList,
+  ViewChildren
 } from "@angular/core";
 import {MsfContextualMenuEvent, MsfDropdownCloseEvent, MsfDropdownOpenEvent} from "./menu-trigger-event";
-import {DomUtils} from "../utils/dom-utils";
-import {animate} from "@angular/animations";
 import {Position, relativePosition} from "../helpers/position";
-import {coerceBooleanProperty} from "../utils/boolean-property";
 
 export const NO_CLOSE_DROPDOWN_ATTR = "noCloseDropdown";
 
 @Directive({
   selector: "[MsfDropdown]"
 })
-export class MsfDropdown implements OnInit, OnDestroy, AfterViewInit {
+export class MsfDropdown implements OnInit, OnDestroy, AfterViewInit, AfterContentInit {
   private _isOpen: boolean = false;
   private _position: Position = new Position();
 
@@ -185,6 +183,7 @@ export class MsfDropdown implements OnInit, OnDestroy, AfterViewInit {
 
     this.target.classList.remove("msf_DropdownClose");
     this.target.classList.add("msf_DropdownOpen", "ms-motion-slideDownIn");
+    console.log(this._position.xFromPosition(this.xPosition))
     this.target.style.left = this._position.xFromPosition(this.xPosition) + document.documentElement.scrollLeft + "px";
     this.target.style.top = this._position.yFromPosition(this.yPosition) +document.documentElement.scrollTop + "px";
 
@@ -224,15 +223,18 @@ export class MsfDropdown implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
 
     this._position.landmarkRect = () => {return{
-      left: this.elementRef.nativeElement.getBoundingClientRect().left,
-      top: this.elementRef.nativeElement.getBoundingClientRect().top,
+      left: this.elementRef.nativeElement.offsetLeft,
+      top: this.elementRef.nativeElement.offsetTop,
       width: this.elementRef.nativeElement.offsetWidth,
       height: this.elementRef.nativeElement.offsetHeight
     }};
 
+
+
+
     this._position.elementRect = () => {return{
-      left: this.target.getBoundingClientRect().left,
-      top: this.target.getBoundingClientRect().top,
+      left: this.target.offsetLeft,
+      top: this.target.offsetTop,
       width: this.target.offsetWidth,
       height: this.target.offsetHeight
     }};
@@ -251,6 +253,7 @@ export class MsfDropdown implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
+    document.removeEventListener("click", this._onElementClick);
   }
 
 
@@ -282,6 +285,9 @@ export class MsfDropdown implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit(): void {
     console.log(this.children)
+  }
+
+  ngAfterContentInit(): void {
   }
 
 }

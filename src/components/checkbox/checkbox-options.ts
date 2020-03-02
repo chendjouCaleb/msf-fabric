@@ -15,6 +15,6 @@ export const MSF_CHECKBOX_DEFAULT_OPTIONS =
 export function MSF_CHECKBOX_DEFAULT_OPTIONS_FACTORY(): MsfCheckboxDefaultOptions {
   return {
     theme: null,
-    rounded: true
+    rounded: false
   };
 }

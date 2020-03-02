@@ -1,8 +1,10 @@
+@import '~office-ui-fabric-core/src/sass/variables/Color.Variables';
+
 .msf-grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  border: 1px solid red;
+
   padding: 0;
   position: relative;
 }
@@ -11,11 +13,11 @@
   display: block;
   position: relative;
   margin: 5px;
-  transition: transform .3s;
+  transition: transform .3s, width .3s;
 
 }
 
 .msf-gridItem.msf-selected {
-  background: red;
+  background: $ms-color-gray20;
   user-select: none;
 }
