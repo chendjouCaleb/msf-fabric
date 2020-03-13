@@ -1,76 +1,88 @@
 <app-layout title="Table">
-<h1>Table</h1>
+  <h1>Table</h1>
 
-<h3>Simple table</h3>
+  <h3>Simple table</h3>
 
-<MsfTable>
+  <MsfTable [selectable]="true">
     <MsfTableHead>
-        <MsfTableHeadCell>Position</MsfTableHeadCell>
-        <MsfTableHeadCell>Name</MsfTableHeadCell>
-        <MsfTableHeadCell>Weight</MsfTableHeadCell>
-        <MsfTableHeadCell>Symbol</MsfTableHeadCell>
+      <MsfTableHeadCell>Position</MsfTableHeadCell>
+      <MsfTableHeadCell>Name</MsfTableHeadCell>
+      <MsfTableHeadCell>Weight</MsfTableHeadCell>
+      <MsfTableHeadCell>Symbol</MsfTableHeadCell>
     </MsfTableHead>
 
     <MsfTableRow *ngFor="let item of elements">
-        <MsfTableCell>{{item.position}}</MsfTableCell>
-        <MsfTableCell>{{item.name}}</MsfTableCell>
-        <MsfTableCell>{{item.weight}}</MsfTableCell>
-        <MsfTableCell>{{item.symbol}}</MsfTableCell>
+      <MsfTableCell>{{item.position}}</MsfTableCell>
+      <MsfTableCell>{{item.name}}</MsfTableCell>
+      <MsfTableCell>{{item.weight}}</MsfTableCell>
+      <MsfTableCell>{{item.symbol}}</MsfTableCell>
     </MsfTableRow>
-</MsfTable>
+  </MsfTable>
 
-<div>
+  <div>
     <h2>Table with selection</h2>
 
     <div style="display: flex">
-        <div style="width: 500px">
-            <MsfTable [selectable]="true" (onselectionchange)="updateSelection($event)">
-                <MsfTableHead>
-                    <MsfTableHeadCell>Position</MsfTableHeadCell>
-                    <MsfTableHeadCell>Name</MsfTableHeadCell>
-                    <MsfTableHeadCell>Weight</MsfTableHeadCell>
-                    <MsfTableHeadCell>Symbol</MsfTableHeadCell>
-                </MsfTableHead>
+      <div style="width: 500px">
+        <MsfTable (selectionChange)="updateSelection($event)" [selectable]="true">
+          <MsfTableHead>
+            <MsfTableHeadCell>
+              <MsfCheckbox MsfCheckboxGrid></MsfCheckbox>
+            </MsfTableHeadCell>
+            <MsfTableHeadCell>Position</MsfTableHeadCell>
+            <MsfTableHeadCell>Name</MsfTableHeadCell>
+            <MsfTableHeadCell>Weight</MsfTableHeadCell>
+            <MsfTableHeadCell>Symbol</MsfTableHeadCell>
+          </MsfTableHead>
 
-                <MsfTableRow *ngFor="let item of elements" [value]="item">
-                    <MsfTableCell>{{item.position}}</MsfTableCell>
-                    <MsfTableCell>{{item.name}}</MsfTableCell>
-                    <MsfTableCell>{{item.weight}}</MsfTableCell>
-                    <MsfTableCell>{{item.symbol}}</MsfTableCell>
-                </MsfTableRow>
-            </MsfTable>
-        </div>
-
-        <div style="font-family: 'Courier New', Courier, monospace; width: 300px">
-            {{selection}}
-        </div>
-    </div>
-</div>
-
-
-<div>
-    <h2>Sortable table</h2>
-    <MsfTable>
-        <MsfTableHead>
-            <MsfTableHeadCell>#</MsfTableHeadCell>
-            <MsfTableHeadCell sortBy="position">Position</MsfTableHeadCell>
-            <MsfTableHeadCell sortBy="name">Name</MsfTableHeadCell>
-            <MsfTableHeadCell sortBy="weight">Weight</MsfTableHeadCell>
-            <MsfTableHeadCell sortBy="symbol">Symbol</MsfTableHeadCell>
-        </MsfTableHead>
-
-        <MsfTableRow *ngFor="let item of elements" [value]="item" #line>
-            <MsfTableCell>{{line.index+1}}</MsfTableCell>
+          <MsfTableRow *ngFor="let item of elements" [value]="item">
+            <MsfTableHeadCell>
+              <MsfCheckbox MsfCheckboxGrid></MsfCheckbox>
+            </MsfTableHeadCell>
             <MsfTableCell>{{item.position}}</MsfTableCell>
             <MsfTableCell>{{item.name}}</MsfTableCell>
             <MsfTableCell>{{item.weight}}</MsfTableCell>
             <MsfTableCell>{{item.symbol}}</MsfTableCell>
-        </MsfTableRow>
-    </MsfTable>
-</div>
+          </MsfTableRow>
+        </MsfTable>
+      </div>
 
-<div>
+      <div style="font-family: 'Courier New', Courier, monospace; width: 300px">
+        {{selection}}
+      </div>
+    </div>
+  </div>
+
+
+  <div>
+    <h2>Sortable table</h2>
+    <MsfTable>
+      <MsfTableHead>
+        <MsfTableHeadCell>
+          <MsfCheckbox MsfCheckboxGrid></MsfCheckbox>
+        </MsfTableHeadCell>
+        <MsfTableHeadCell>#</MsfTableHeadCell>
+        <MsfTableHeadCell sortBy="position">Position</MsfTableHeadCell>
+        <MsfTableHeadCell sortBy="name">Name</MsfTableHeadCell>
+        <MsfTableHeadCell sortBy="weight">Weight</MsfTableHeadCell>
+        <MsfTableHeadCell sortBy="symbol">Symbol</MsfTableHeadCell>
+      </MsfTableHead>
+
+      <MsfTableRow #line *ngFor="let item of elements" [value]="item">
+        <MsfTableHeadCell>
+          <MsfCheckbox MsfCheckboxGrid></MsfCheckbox>
+        </MsfTableHeadCell>
+        <MsfTableCell *ngIf="line.index"> {{line.index + 1}} </MsfTableCell>
+        <MsfTableCell>{{item.position}}</MsfTableCell>
+        <MsfTableCell>{{item.name}}</MsfTableCell>
+        <MsfTableCell>{{item.weight}}</MsfTableCell>
+        <MsfTableCell>{{item.symbol}}</MsfTableCell>
+      </MsfTableRow>
+    </MsfTable>
+  </div>
+
+  <div>
     <app-mutable-table></app-mutable-table>
-</div>
+  </div>
 
 </app-layout>

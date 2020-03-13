@@ -3,6 +3,7 @@
 import {Constructor} from "./constructor";
 import {ElementRef } from "@angular/core";
 import {DepthSize} from "../depth";
+import {HasElementRef} from "./element-ref";
 
 
 
@@ -16,10 +17,7 @@ export interface CanDepth {
 /** @docs-private */
 export type CanDepthCtor = Constructor<CanDepth>;
 
-/** @docs-private */
-export interface HasElementRef {
-  _elementRef: ElementRef;
-}
+
 
 
 /** Mixin to augment a directive with a `depth` property. */

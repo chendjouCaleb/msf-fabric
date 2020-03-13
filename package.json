@@ -35,7 +35,9 @@
       "tslib",
       "zone.js",
       "@mdi/font",
-      "@positon/collections"
+      "@positon/collections",
+      "node-sass",
+      "office-ui-fabric-core"
     ]
   },
   "private": true,

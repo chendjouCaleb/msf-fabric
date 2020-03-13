@@ -1,4 +1,4 @@
-import { Dictionary } from "@positon/collections";
+import {Dictionary, IDictionary} from "@positon/collections";
 import {IconProvider} from "./icon-provider";
 import {Injectable} from "@angular/core";
 
@@ -9,7 +9,55 @@ import {Injectable} from "@angular/core";
  * @version 1.
  */
 @Injectable()
-export class IconRegistry extends Dictionary<string, IconProvider>{
+export class IconRegistry implements IDictionary<string, IconProvider>{
+
+    private _items = new Dictionary<string, IconProvider>();
+
+
+    keys(): import("@positon/collections").ICollection<string> {
+        return this._items.keys();
+    }
+    values(): import("@positon/collections").ICollection<IconProvider> {
+      return this._items.values();
+    }
+    keyValues(): import("@positon/collections").ICollection<import("@positon/collections").KeyPairValue<string, IconProvider>> {
+      return this._items.keyValues();
+    }
+
+    containsKey(key: string): boolean {
+      return this._items.containsKey(key);
+    }
+
+    size(): number {
+      return this._items.size();
+    }
+    remove(key: string): boolean {
+      return this._items.remove(key);
+    }
+    isEmpty(): boolean {
+      return this._items.isEmpty();
+    }
+    containsValue(value: IconProvider): boolean {
+      return this._items.containsValue(value);
+    }
+    get(key: string): IconProvider {
+      return this._items.get(key);
+    }
+    clear(): void {
+        this._items.clear();
+    }
+
+    enumerator(): import("@positon/collections").IEnumerator<import("@positon/collections").KeyPairValue<string, IconProvider>> {
+      return this._items.enumerator();
+    }
+
+    [Symbol.iterator](): import("@positon/collections").EnumeratorIterator<import("@positon/collections").KeyPairValue<string, IconProvider>> {
+      return this._items[Symbol.iterator]();
+    }
+    forEach(action: (item: import("@positon/collections").KeyPairValue<string, IconProvider>) => void) {
+      return this._items.forEach(action);
+    }
+
 
   /**
    * The key of the default icon provider.
@@ -27,6 +75,6 @@ export class IconRegistry extends Dictionary<string, IconProvider>{
    * @param provider The description of the provider.
    */
   put(key: string, provider: IconProvider) {
-    super.put(key, provider);
+    this._items.put(key, provider);
   }
 }

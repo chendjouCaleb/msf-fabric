@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MsfTableRowComponent } from 'src/components/public_api';
+import { MsfTableRow } from 'src/components/public_api';
 import { ELEMENT_DATA } from '../element'
+import {List} from "@positon/collections";
 
 @Component({
   selector: 'app-table',
@@ -16,8 +17,8 @@ export class TableComponent implements OnInit {
   ngOnInit() {
   }
 
-  updateSelection(items: MsfTableRowComponent[]) {
-    const data = items.map(i => i.value);
+  updateSelection(items: List<MsfTableRow>) {
+    const data = items.convertAll(i => i.value);
     this.selection = JSON.stringify(data);
   }
 

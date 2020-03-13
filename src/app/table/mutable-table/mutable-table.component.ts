@@ -10,7 +10,7 @@ import { List } from "@positon/collections";
 export class MutableTableComponent implements OnInit {
   data = List.fromArray(ELEMENT_DATA);
   elements = List.fromArray(ELEMENT_DATA);
-  model: PeriodicElement = { }
+  model: PeriodicElement = { };
   constructor() { }
 
   ngOnInit() {

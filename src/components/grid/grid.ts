@@ -1,24 +1,17 @@
 import {
   AfterContentInit,
-  Component, ContentChild,
+  ChangeDetectionStrategy, ChangeDetectorRef,
+  Component,
   ContentChildren,
-  ElementRef, EventEmitter,
-  forwardRef, HostBinding, HostListener, Input, OnChanges, OnDestroy, OnInit, Optional,
-  QueryList, SimpleChanges, ViewChild,
-
+  ElementRef,
+  forwardRef,
+  HostBinding,
+  Input,
+  OnDestroy,
+  QueryList,
 } from "@angular/core";
+import {MsfAbstractGrid, MsfAbstractGridItem} from "./abstract-grid";
 
-import {List} from "@positon/collections";
-import {MsfCheckbox} from "../checkbox/checkbox";
-import {ElementRect} from "../helpers/position";
-import {AssertHelpers} from "@positon/collections/dist/helpers/assert-helpers";
-import {toArray} from "../helpers/array";
-
-
-export interface MsfGridUserEvent {
-  ctrlKey: boolean;
-  shiftKey: boolean;
-}
 
 let uniqueId: number = 0;
 
@@ -33,12 +26,11 @@ let uniqueId: number = 0;
   }
 
 })
-export class MsfGrid implements AfterContentInit {
+export class MsfGrid extends MsfAbstractGrid<MsfGridItem> implements AfterContentInit {
 
-
+  @HostBinding('attr.data-unique-id')
   private _uniqueId = `msf-grid-${uniqueId++}`;
 
-  /** Tells if the content view is totally initialised */
   private _isInitialized: boolean = false;
 
 
@@ -54,8 +46,6 @@ export class MsfGrid implements AfterContentInit {
   private _yMargin: number = 10;
 
 
-  private _selectedClassNames: string | string[];
-
   /** Items per line. */
   private _itemsPerLine: number | null = null;
 
@@ -63,57 +53,17 @@ export class MsfGrid implements AfterContentInit {
   private _itemsPerColumn: number | null = null;
 
 
-  /**
-   * The last item selected without shift keyPressed.
-   */
-  private _lastNonShiftSelected: MsfGridItem = null;
-
-
-  /**
-   * Whether the user can select a grid item.
-   */
-  @Input()
-  selectable: boolean = false;
-
-
-  /**
-   * When this mode is active, the item is selected when the click on it.
-   */
-  @Input()
-  selectionMode: boolean;
-
-
-  get selectedValues(): List<any> {
-    return this._selection.convertAll(i => i.value);
-  }
-
-  private _selection: List<MsfGridItem> = new List<MsfGridItem>();
-
-  selectionChange: EventEmitter<List<MsfGridItem>> = new EventEmitter<List<MsfGridItem>>();
-
-
   @ContentChildren(forwardRef(() => MsfGridItem), {descendants: true})
-  private _items: QueryList<MsfGridItem>;
+  _items: QueryList<MsfGridItem>;
 
-  private _sortedItems = new List<MsfGridItem>();
 
-  private _isReady: boolean = false;
-
-  constructor(private _elementRef: ElementRef<HTMLElement>) {
-  }
 
   ngAfterContentInit(): void {
-    this._isReady = true;
+    super.ngAfterContentInit();
 
-    this._sortedItems = List.fromArray(this._items.toArray());
-
-
-    this._items.forEach((item, index) => {
-
-      item._index = index;
-      item._lastRect = item.rect;
-    });
-
+    if(this._itemHeight){
+      this.itemHeight = this._itemHeight;
+    }
 
     this._isInitialized = true;
   }
@@ -124,175 +74,20 @@ export class MsfGrid implements AfterContentInit {
    * @private
    */
   public _addNewItem(item: MsfGridItem) {
-    AssertHelpers.isNotNull(item, `Require non null argument: 'item'`);
 
+    super._addNewItem(item);
     if(this._itemHeight){
       item.element.style.height = `${this.itemHeight}px`;
     }
 
-    if(!item.selectedClassNames){
-      item.selectedClassNames = this._selectedClassNames;
-    }
-
-    this._sortedItems.add(item);
-
-    this._sortedItems.forEach(item => item._lastRect = item.rect);
-    this.translate();
-  }
 
 
-  /** Whether the item is correctly selected. */
-  isSelected(item: MsfGridItem) {
-    return item && item.selected && this._selection.contains(item) && item.element.classList.contains("msf-selected");
-  }
-
-
-  /**
-   * Add a item to the user selection.
-   * @param item The item to select.
-   */
-  select(item: MsfGridItem) {
-    if (!this.selectable || !item.selectable || item.selected) {
-      return;
-    }
-    this._select(item);
-    this._emitSelectionChange();
-  }
-
-  _select(item: MsfGridItem) {
-    if (!this.selectable || !item.selectable || item.selected) {
-      return;
-    }
-
-    item.selected = true;
-
-    if (item._checkbox) {
-      item._checkbox.checked = true;
-    }
-    this._selection.add(item);
-
-  }
-
-  /**
-   * Removes a item from the user selection.
-   * @param item The item to select.
-   */
-  unselect(item: MsfGridItem) {
-    if (!item.selectable || !item.selectable || !item.selected) {
-      return;
-    }
-
-    this._unselect(item);
-    this._emitSelectionChange();
-  }
-
-  _unselect(item: MsfGridItem) {
-    if (!item.selectable || !item.selectable || !item.selected) {
-      return;
-    }
-
-    item.selected = false;
-    if (item._checkbox) {
-      item._checkbox.checked = false;
-    }
-    this._selection.remove(item);
-  }
-
-  selectAll() {
-    if (!this.selectable) {
-      return;
-    }
-
-    this._items.forEach(item => {
-      this._select(item);
-    });
-
-    this._emitSelectionChange();
-  }
-
-  selectRange(startIndex: number, endIndex: number = this._items.length - 1) {
-    if (!this.selectable) {
-      return;
-    }
-    this._selectRange(startIndex, endIndex);
-    this._emitSelectionChange();
-  }
-
-  _selectRange(startIndex: number, endIndex: number = this._items.length - 1) {
-    if (!this.selectable) {
-      return;
-    }
-    if (endIndex < startIndex) {
-      return;
-    }
-
-    if (startIndex < 0) {
-      startIndex = 0;
-    }
-
-    if (endIndex > this.length - 1) {
-      endIndex = this.length - 1
-    }
-
-    for (let i = startIndex; i <= endIndex; i++) {
-      this._select(this._sortedItems.get(i));
-    }
-
-  }
-
-
-  _unselectRange(startIndex: number, endIndex: number = this._items.length - 1) {
-    if (!this.selectable) {
-      return;
-    }
-    if (endIndex < startIndex) {
-      return;
-    }
-
-    if (startIndex < 0) {
-      startIndex = 0;
-    }
-
-    if (endIndex > this.length - 1) {
-      endIndex = this.length - 1
-    }
-
-    for (let i = startIndex; i <= endIndex; i++) {
-      this._unselect(this._sortedItems.get(i));
-    }
-
-  }
-
-
-  /**
-   * Invert the selection of the grid.
-   * All selected item will be unselected.
-   * And all unselected items will be selected.
-   */
-  invertSelection() {
-    if (!this.selectable) {
-      return;
-    }
-
-    this._sortedItems.forEach(item => {
-      if (!item.selected) {
-        this._select(item);
-      } else if (item.selected) {
-        this._unselect(item);
-      }
-    });
-
-    this._emitSelectionChange();
-  }
-
-  destroy(item: MsfGridItem) {
-
+    //this.translate();
   }
 
   sort(compareFn?: (a: MsfGridItem, b: MsfGridItem) => number) {
   }
 
-  private _lastLength;
 
 
   @Input()
@@ -315,12 +110,6 @@ export class MsfGrid implements AfterContentInit {
 
   set xMargin(value: number) {
     this._xMargin = value;
-
-    // if (this._items) {
-    //   this._items.forEach(item => item.element.style.marginRight = `${value}px`);
-    //   this._items.forEach(item => item.element.style.marginLeft = `${value}px`);
-    // }
-
     this.element.style.gridColumnGap = value.toString();
   }
 
@@ -366,24 +155,24 @@ export class MsfGrid implements AfterContentInit {
 
 
   _sort(sortFn: (a: any, b: any) => number = (a, b) => a - b) {
-    this._sortedItems.sort((a, b) => sortFn(a.value, b.value));
+    this.sortedItems.sort((a, b) => sortFn(a.value, b.value));
     this.translate();
   }
 
   _sortBy(param: string) {
     //this._sortedItems.sort((a, b) => (''+ a.value[param]).localeCompare( b.value[param]));
-    this._sortedItems.sort((a, b) => a.value[param] - b.value[param]);
+    this.sortedItems.sort((a, b) => a.value[param] - b.value[param]);
     this.translate();
   }
 
   _invertSorting() {
-    this._sortedItems.reverse();
+    this.sortedItems.reverse();
     this.translate();
   }
 
   translate() {
     let items = this._items.toArray();
-    this._sortedItems.forEach((item, i) => {
+    this.sortedItems.forEach((item, i) => {
       let opposite = items[i];
 
 
@@ -396,262 +185,32 @@ export class MsfGrid implements AfterContentInit {
   }
 
 
-  _clickEvent(item: MsfGridItem, event: MouseEvent) {
-    if (event.ctrlKey) {
-      this._ctrlClick(item);
-    } else if (event.shiftKey) {
-      this._shiftClick(item);
-    } else {
-      this._defaultClick(item);
-    }
-  }
-
-
-  _checkboxEvent(item: MsfGridItem, shiftKey: boolean) {
-    if (shiftKey) {
-      this._shiftClick(item);
-    } else {
-      this._defaultCheckboxClick(item);
-    }
-  }
-
-  _defaultClick(item: MsfGridItem) {
-    this.sortedItems.forEach(el => {
-      if (item !== el) {
-        this.unselect(el)
-      }
-    });
-
-    this.select(item);
-    this._lastNonShiftSelected = item;
-  }
-
-  _defaultCheckboxClick(item: MsfGridItem) {
-    this.select(item);
-    this._lastNonShiftSelected = item;
-  }
-
-  _ctrlClick(item: MsfGridItem) {
-    if (item.selected) {
-      this._unselect(item);
-    } else {
-      this.select(item);
-      this._lastNonShiftSelected = item;
-    }
-  }
-
-  _shiftClick(item: MsfGridItem) {
-    let startItem = this._lastNonShiftSelected || this.sortedItems.get(0);
-    let startIndex = this.sortedItems.indexOf(startItem);
-    let endIndex = this.sortedItems.indexOf(item);
-
-    if (startIndex == endIndex) {
-      return;
-    }
-
-    if (startIndex > endIndex) {
-      //permute index.
-      let tmp = endIndex;
-      endIndex = startIndex;
-      startIndex = tmp;
-    }
-
-
-    if (startIndex > 0) {
-      this.sortedItems.slice(0, startIndex - 1).forEach(item => this._unselect(item));
-    }
-
-    this.sortedItems.slice(startIndex, endIndex).forEach(item => this._select(item));
-
-    if (endIndex < this.sortedItems.size() - 1) {
-      this.sortedItems.slice(endIndex + 1).forEach(item => this._unselect(item));
-    }
-  }
-
-
-  get items(): QueryList<MsfGridItem> {
-    return this._items;
-  }
-
-
-  get sortedItems(): List<MsfGridItem> {
-    return this._sortedItems;
-  }
-
-  /**
-   * Gets the number of item of the grid.
-   */
-  get length(): number {
-    if (!this._items) {
-      return 0;
-    }
-    return this._items.length;
-  }
-
-  get elementRef(): ElementRef<HTMLElement> {
-    return this._elementRef;
-  }
-
-  /**
-   * The list of selected items.
-   */
-  get selection(): List<MsfGridItem> {
-    return this.sortedItems.findAll(item => item.selected);
-  }
-
-  _emitSelectionChange() {
-    this.selectionChange.emit(this._selection);
-  }
-
-
   get isInitialized(): boolean {
     return this._isInitialized;
   }
 
-  get element(): HTMLElement {
-    return this.elementRef.nativeElement;
-  }
-
-  get uniqueId(): string {
-    return this._uniqueId;
-  }
-  set selectedClassNames(value: string | string[]) {
-    AssertHelpers.isNotNull(value);
-    if(this._isInitialized) {
-      this.items.forEach(item => item.selectedClassNames = value);
-    }
-    this._selectedClassNames = value;
-  }
 }
 
 
 @Component({
   templateUrl: "grid-item.html",
   selector: "MsfGridItem, [MsfGridItem]",
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    "class": "msf-gridItem",
+    "class": "msf-gridItem"
   }
+
 })
-export class MsfGridItem implements OnInit, OnDestroy, OnChanges, AfterContentInit {
+export class MsfGridItem extends MsfAbstractGridItem implements OnDestroy, AfterContentInit {
 
-  private _uniqueId = `msf-gridItem-${uniqueId++}`;
+  @HostBinding('attr.data-unique-id')
+  public _uniqueId = `msf-gridItem-${uniqueId++}`;
 
-  /** Whether the item is selected */
-  private _selected: boolean;
-
-  private _selectedClassNames: string | string[] = "msf-selected";
-
-  @Input()
-
-  get selectedClassNames(): string | string[] {
-    return this._selectedClassNames;
+  constructor(_elementRef: ElementRef<HTMLElement>, protected _grid: MsfGrid, public changeDetectorRef: ChangeDetectorRef) {
+    super(_elementRef, _grid, changeDetectorRef);
   }
 
-  set selectedClassNames(value: string | string[]) {
-    this._selectedClassNames = value;
-  }
-
-  _sortOrder: number;
-
-  /**
-   * The real position of the with without translation.
-   */
-  _lastRect: ElementRect;
-
-
-  @Input()
-  value: any;
-
-  @Input()
-  selectable: boolean = true;
-
-  @ContentChild(forwardRef(() => MsfCheckbox))
-  _checkbox: MsfCheckbox;
-
-  constructor(private elementRef: ElementRef<HTMLElement>, @Optional() private _grid: MsfGrid) {
-  }
-
-  ngOnInit(): void {
-
-  }
-
-
-  @ViewChild("msfGridItemSelector")
-  selectorElement: ElementRef<HTMLInputElement>;
-
-
-  _index: number;
-  tempRect: ElementRect;
-
-  @Input()
-  @HostBinding("class.msf-selected")
-  get selected(): boolean {
-    return this._selected;
-  }
-
-  set selected(value: boolean) {
-    if (this.selectable) {
-      this._selected = value;
-
-      if(value) {
-        toArray(this.selectedClassNames).forEach(v => this.element.classList.add(v));
-      }else{
-        toArray(this.selectedClassNames).forEach(v => this.element.classList.remove(v));
-      }
-    }
-
-  }
-
-  /**
-   * Gets the index of the elementRef in the DOM list element of the direct parent.
-   */
-  get domIndex(): number {
-    return Array.from(this.elementRef.nativeElement.parentNode.children)
-      .indexOf(this.elementRef.nativeElement);
-  }
-
-  get rect(): ElementRect {
-    return this.element.getBoundingClientRect();
-  }
-
-  get element(): HTMLElement {
-    return this.elementRef.nativeElement;
-  }
-
-  ngOnDestroy(): void {
-
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-
-  }
-
-  ngAfterContentInit(): void {
-
-    if (this.grid.isInitialized) {
-      this.grid._addNewItem(this);
-    }
-    this._lastRect = this.rect;
-
-    if (this._checkbox) {
-      this._checkbox.change.subscribe(event => {
-        if (event.checked) {
-          this._grid._checkboxEvent(this, event.nativeEvent.shiftKey);
-        }
-      })
-    }
-  }
-
-  @HostListener("click", ["$event"])
-  _clickEvent(event: MouseEvent) {
-    if (this._grid) {
-      this._grid._clickEvent(this, event);
-    }
-  }
-
-  get grid(): MsfGrid {
-    return this._grid;
-  }
+  ngOnDestroy(): void { }
 }
 
 
