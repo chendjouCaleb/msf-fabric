@@ -1,0 +1,16 @@
+<div class="msf-persona-figure-flexbox {{_bgColor}}" >
+  <img *ngIf="imageUrl" [className]="'msf-persona-image' + size" [height]="width" [src]="imageUrl" [width]="width"
+       alt="">
+
+  <div *ngIf="textInitial" class="msf-persona-figure-initial "> {{textInitial}} </div>
+
+  <span *ngIf="unknown"  class="msf-persona-figure-unknown">?</span>
+  <span *ngIf="!unknown && !textInitial && !imageUrl" MsfIcon class="msf-persona-figure-person" iconName="Contact"></span>
+
+</div>
+
+
+<span *ngIf="presence && presence != 'none'" class="msf-persona-presence msf-persona-presence-{{presence}} ">
+<!--  <span class="ms-Icon ms-Icon&#45;&#45;{{presenceIconName}}"></span>-->
+  <!--  <span class="msf-persona-presence-icon" MsfIcon *ngIf="canShowIcon" [iconName]="presenceIconName"></span>-->
+</span>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ELEMENT_DATA, PeriodicElement } from '../element';
+import { ELEMENT_DATA, PeriodicElement } from '../../../element';
 import { List } from "@positon/collections";
 
 @Component({

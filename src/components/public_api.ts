@@ -13,6 +13,6 @@ export * from "./dialog/public_api";
 export * from "./radio/public_api";
 export * from "./icon/public_api";
 export * from "./checkbox/public_api";
-export * from "./personna/public_api";
+export * from "./persona/public_api";
 export * from "./command-bar/public_api";
 export * from "./textField/public_api";

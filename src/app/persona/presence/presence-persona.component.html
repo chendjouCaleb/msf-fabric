@@ -1,0 +1,17 @@
+<div class="component-usage-section">
+  <h5 class="component-usage-section-title">Persona Presence</h5>
+
+  <div class="component-usage-section-content">
+
+
+    <div *ngFor="let presence of presences">
+
+      <h6 class="text-capitalize">{{presence}}</h6>
+      <MsfPersona *ngFor="let size of sizes" [size]="size" >
+        <MsfPersonaFigure [imageUrl]="imageUrl" [presence]="presence"></MsfPersonaFigure>
+      </MsfPersona>
+    </div>
+
+
+  </div>
+</div>

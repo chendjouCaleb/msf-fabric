@@ -56,7 +56,9 @@ export class MsfGrid extends MsfAbstractGrid<MsfGridItem> implements AfterConten
   @ContentChildren(forwardRef(() => MsfGridItem), {descendants: true})
   _items: QueryList<MsfGridItem>;
 
-
+  constructor(protected _elementRef: ElementRef<HTMLElement>) {
+    super(_elementRef);
+  }
 
   ngAfterContentInit(): void {
     super.ngAfterContentInit();
@@ -79,10 +81,6 @@ export class MsfGrid extends MsfAbstractGrid<MsfGridItem> implements AfterConten
     if(this._itemHeight){
       item.element.style.height = `${this.itemHeight}px`;
     }
-
-
-
-    //this.translate();
   }
 
   sort(compareFn?: (a: MsfGridItem, b: MsfGridItem) => number) {
@@ -154,36 +152,6 @@ export class MsfGrid extends MsfAbstractGrid<MsfGridItem> implements AfterConten
   }
 
 
-  _sort(sortFn: (a: any, b: any) => number = (a, b) => a - b) {
-    this.sortedItems.sort((a, b) => sortFn(a.value, b.value));
-    this.translate();
-  }
-
-  _sortBy(param: string) {
-    //this._sortedItems.sort((a, b) => (''+ a.value[param]).localeCompare( b.value[param]));
-    this.sortedItems.sort((a, b) => a.value[param] - b.value[param]);
-    this.translate();
-  }
-
-  _invertSorting() {
-    this.sortedItems.reverse();
-    this.translate();
-  }
-
-  translate() {
-    let items = this._items.toArray();
-    this.sortedItems.forEach((item, i) => {
-      let opposite = items[i];
-
-
-      const deltaX = item._lastRect.left - opposite._lastRect.left;
-      const deltaY = item._lastRect.top - opposite._lastRect.top;
-
-
-      item.element.style.transform = `translate(${-deltaX}px, ${-deltaY}px)`
-    });
-  }
-
 
   get isInitialized(): boolean {
     return this._isInitialized;
@@ -210,7 +178,10 @@ export class MsfGridItem extends MsfAbstractGridItem implements OnDestroy, After
     super(_elementRef, _grid, changeDetectorRef);
   }
 
-  ngOnDestroy(): void { }
+
+  get grid(): MsfGrid {
+    return this._grid;
+  }
 }
 
 

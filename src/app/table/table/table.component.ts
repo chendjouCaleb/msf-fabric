@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MsfTableRow } from 'src/components/public_api';
-import { ELEMENT_DATA } from '../element'
+import {ELEMENT_DATA, PeriodicElement} from '../../../element'
 import {List} from "@positon/collections";
 
 @Component({
@@ -20,6 +20,15 @@ export class TableComponent implements OnInit {
   updateSelection(items: List<MsfTableRow>) {
     const data = items.convertAll(i => i.value);
     this.selection = JSON.stringify(data);
+  }
+
+  filter(value: string){
+    this.items = this.elements.filter( e => e.name.toLowerCase().indexOf(value.toLowerCase()) > -1);
+  }
+
+  remove(item: PeriodicElement){
+    this.elements = this.elements.filter(e => e.id !== item.id);
+    this.items = this.elements;
   }
 
 }

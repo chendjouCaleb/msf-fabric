@@ -1,6 +1,5 @@
-import { Component, OnInit, ElementRef, Input} from '@angular/core';
-import { MsfTable } from './msf-table';
-import {MsfTableComponent, MsfTableRow} from "./msf-table.component";
+import {Component, OnInit, ElementRef, Input, HostBinding, HostListener} from '@angular/core';
+import {MsfTable, MsfTableRow} from "./table";
 
 @Component({
   selector: 'MsfTableHeadCell',
@@ -27,10 +26,12 @@ export class MsfTableHeadCell implements OnInit{
   /**
    * Gets whether the cell the the current head cell sorter of the table.
    */
-  isCurrentSorter: boolean = false;
+  get isCurrentSorter(): boolean {
+    return this.msfTable._currentSorter === this;
+  }
 
 
-  constructor(private msfTable: MsfTableComponent, private elementRef: ElementRef<HTMLElement>) {
+  constructor(private msfTable: MsfTable, private elementRef: ElementRef<HTMLElement>) {
     //this.msfTable.addHeadCell(this);
   }
 
@@ -38,23 +39,22 @@ export class MsfTableHeadCell implements OnInit{
 
   }
 
+  @HostListener('click')
   sortTable() {
-    if (!this.isSortable) {
-      return;
-    }
 
     if (this.isCurrentSorter) {
-      // this.msfTable.reserveOrder();
+      this.msfTable.invertSorting();
       this.sortedAsc = !this.sortedAsc;
       return;
     }
 
     if (this.sortBy) {
-      // this.msfTable.sortTable(this._propertySortFn, this);
+     this.msfTable.sortBy(this.sortBy);
     } else {
-      // this.msfTable.sortTable(this.sortFn, this);
+     this.msfTable.sort(this.sortFn)
     }
     this.sortedAsc = true;
+    this.msfTable._currentSorter = this;
   }
 
   get isSortable() {

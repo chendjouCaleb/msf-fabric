@@ -1,6 +1,6 @@
 import {AfterContentInit, Component, ContentChild } from '@angular/core';
 import {MsfCheckboxGrid} from "../grid/checkbox-grid";
-import {MsfTableComponent} from "./msf-table.component";
+import {MsfTable} from "./table";
 
 @Component({
   selector: 'MsfTableHead',
@@ -14,13 +14,14 @@ export class MsfTableHead implements AfterContentInit{
   @ContentChild(MsfCheckboxGrid)
   _selector: MsfCheckboxGrid;
 
-  constructor(private msfTable: MsfTableComponent) {  }
+  constructor(private msfTable: MsfTable) {  }
 
 
   ngAfterContentInit(): void {
     if(!this._selector) {
       return;
     }
+    this.msfTable.selectable = true;
     this.msfTable.selectionChange.subscribe(() => {
       this._selector.checkbox.checked = this.msfTable.isSelectedAll;
     });

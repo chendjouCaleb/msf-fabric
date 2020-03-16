@@ -20,6 +20,7 @@ export type MsfColor =
   "darkRed" |
   "gold" |
   "gray" |
+  "gray40" |
   "green" |
   "lightBlue" |
   "lightGreen" |

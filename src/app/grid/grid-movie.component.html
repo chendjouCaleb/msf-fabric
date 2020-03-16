@@ -1,10 +1,10 @@
 <MsfButton Icon="Add" theme="primary" (click)="addRandom()">Add Random</MsfButton>
-<MsfButton (click)="ad._invertSorting()">Invert order</MsfButton>
+<MsfButton (click)="ad.invertSorting()">Invert order</MsfButton>
 
-<MsfButton (click)="ad._sortBy('date')">Release date</MsfButton>
-<MsfButton (click)="ad._sortBy('name')">Name</MsfButton>
-<MsfButton (click)="ad._sortBy('rating')">Rating</MsfButton>
-<MsfButton (click)="ad._sortBy('duration')">Duration</MsfButton>
+<MsfButton (click)="ad.sortBy('date')">Release date</MsfButton>
+<MsfButton (click)="ad.sortBy('name')">Name</MsfButton>
+<MsfButton (click)="ad.sortBy('rating')">Rating</MsfButton>
+<MsfButton (click)="ad.sortBy('duration')">Duration</MsfButton>
 
 <input type="number" [(ngModel)]="ad.itemsPerLine">
 <div MsfGrid itemsPerLine="4" itemHeight="400" itemsPerColumn="2" [selectable]="true" #ad style="background: #FFF">

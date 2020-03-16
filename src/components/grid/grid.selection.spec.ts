@@ -100,7 +100,7 @@ describe("MsfGrid", () => {
 
     it("selectAll() should select all grid item", () => {
       gridInstance.selectable = true;
-      gridInstance.selectAll();
+      gridInstance.selectRange();
       fixture.detectChanges();
       expect(gridInstance.selection.size()).toBe(gridInstance.length);
       gridItemInstances.forEach((item, index) => {
@@ -174,7 +174,7 @@ describe("MsfGrid", () => {
 
     it('click on item should unselect all items and select the target items', () => {
       gridInstance.selectable = true;
-      gridInstance.selectAll();
+      gridInstance.selectRange();
 
       gridItemElements[3].click();
 
@@ -275,7 +275,6 @@ describe("MsfGrid", () => {
       //Last non shift selected item.
       gridItemElements[5].click();
 
-
       let clickEvent = new MouseEvent("click", {shiftKey: true});
       gridItemElements[7].dispatchEvent(clickEvent);
 
@@ -284,7 +283,7 @@ describe("MsfGrid", () => {
 
       expect(gridInstance.sortedItems.slice(0, 1).trueForAll(item => !gridInstance.isSelected(item))).toBeTruthy();
       expect(gridInstance.sortedItems.slice(2, 5).trueForAll(item => gridInstance.isSelected(item))).toBeTruthy();
-      expect(gridInstance.sortedItems.getRange(6).trueForAll(item => !gridInstance.isSelected(item))).toBeTruthy();
+      expect(gridInstance.sortedItems.slice(6).trueForAll(item => !gridInstance.isSelected(item))).toBeTruthy();
 
     });
 

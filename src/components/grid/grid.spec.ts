@@ -70,6 +70,12 @@ describe("MsfGrid", () => {
       });
     });
 
+    it('ItemGrid should have grid selectedClassNames', () => {
+      gridInstance.selectedClassNames = 'abc-className';
+
+      expect(gridItemInstances.every(item => item.selectedClassNames === 'abc-className')).toBeTruthy();
+    });
+
 
     it("set height should be reflected on items", () => {
       gridInstance.itemHeight = 50;

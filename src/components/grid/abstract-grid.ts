@@ -6,7 +6,7 @@ import {
   EventEmitter,
   forwardRef,
   HostListener,
-  Input,
+  Input, OnDestroy, OnInit,
   Output,
   QueryList
 } from "@angular/core";
@@ -16,7 +16,7 @@ import {ElementRect} from "../helpers/position";
 import {AssertHelpers} from "@positon/collections/dist/helpers/assert-helpers";
 import {MsfCheckboxGrid} from "./checkbox-grid";
 
-export abstract class MsfAbstractGrid<T extends MsfAbstractGridItem> implements AfterContentInit{
+export abstract class MsfAbstractGrid<T extends MsfAbstractGridItem> implements AfterContentInit {
   /** Counter to add a index to item. This method is used to prevent a ExpressionChangedAfterItHasBeenCheckedError */
   _itemIndex = 0;
   protected abstract _items: QueryList<T>;
@@ -37,7 +37,6 @@ export abstract class MsfAbstractGrid<T extends MsfAbstractGridItem> implements 
   private _sortedItems = new List<T>();
 
 
-
   /**
    * Whether the user can select a grid item.
    */
@@ -54,32 +53,51 @@ export abstract class MsfAbstractGrid<T extends MsfAbstractGridItem> implements 
   selectionChange: EventEmitter<List<T>> = new EventEmitter<List<T>>();
 
 
-  constructor(protected _elementRef: ElementRef<HTMLElement>) {}
+  constructor(protected _elementRef: ElementRef<HTMLElement>) {
+  }
+
 
   ngAfterContentInit(): void {
-    this._sortedItems = List.fromArray(this._items.toArray());
-    this._items.forEach((item, index) => {
+    this._items.forEach(item => this._addNewItem(item));
+    this.items.changes.subscribe(() => {
+      setTimeout(() => {
+        this._translate();
+      }, 300)
 
-      item._lastRect = item.rect;
     });
-
   }
 
   public _addNewItem(item: T) {
     AssertHelpers.isNotNull(item, `Require non null argument: 'item'`);
-    if(!item.selectedClassNames){
+    if (!item.selectedClassNames) {
       item.selectedClassNames = this.selectedClassNames;
     }
 
     this.sortedItems.add(item);
 
+    if (item._checkbox) {
+      item._checkbox.checkbox.change.subscribe(event => {
+        if (event.checked) {
+          this._checkboxEvent(item, event.nativeEvent.shiftKey);
+        } else {
+          this.unselect(item);
+        }
+      })
+    }
+
     // the new item can change position of other items.
     this.sortedItems.forEach(_item => _item._lastRect = _item.rect);
+
+
   }
 
-  destroy(item: T) {
+  remove(item: T) {
     this._sortedItems.remove(item);
     this.sortedItems.forEach(_item => _item._lastRect = _item.rect);
+
+    if(this.isSelected(item)){
+      this.unselect(item);
+    }
   }
 
   /** Whether the item is correctly selected. */
@@ -140,7 +158,6 @@ export abstract class MsfAbstractGrid<T extends MsfAbstractGridItem> implements 
     }
     this._selection.remove(item);
   }
-
 
 
   selectRange(startIndex: number = 0, endIndex: number = this._sortedItems.length - 1) {
@@ -228,6 +245,7 @@ export abstract class MsfAbstractGrid<T extends MsfAbstractGridItem> implements 
   }
 
   _onItemClickEvent(item: T, event: MouseEvent) {
+
     if (event.ctrlKey) {
       this._ctrlClick(item);
     } else if (event.shiftKey) {
@@ -299,14 +317,60 @@ export abstract class MsfAbstractGrid<T extends MsfAbstractGridItem> implements 
     }
   }
 
+  _translate() {
+    let items = this._items.toArray();
+    items.forEach((item, i) => {
+      console.log(items.indexOf(item))
+      let opposite = this.sortedItems.get(i);
+
+
+      const deltaX = item.rect.left - opposite.rect.left;
+      const deltaY = item.rect.top - opposite.rect.top;
+
+      let transform = item.element.style.transform;
+      if(!transform) {
+        transform = 'none';
+      }
+
+      let anim = item.element.animate([
+        {transform:  transform },
+        {transform: `translate(${-deltaX}px, ${-deltaY}px)`}
+      ], {
+        duration: 200,
+        easing: 'ease-in-out',
+        fill: 'both'
+      });
+      //item.element.style.transform = `translate(${-deltaX}px, ${-deltaY}px)`;
+    });
+  }
+
+  sort(sortFn: (a: any, b: any) => number = (a, b) => a - b) {
+    this._sortedItems.sort((a, b) => sortFn(a.value, b.value));
+    this._translate();
+  }
+
+  sortBy(param: string) {
+
+    this._sortedItems.sort((a, b) => (''+ a.value[param]).localeCompare( b.value[param]));
+    //this._sortedItems.sort((a, b) => a.value[param] - b.value[param]);
+    this._translate();
+  }
+
+  invertSorting() {
+    this._sortedItems.reverse();
+    this._translate();
+  }
+
   @Input()
-  get selectedClassNames(): string | string[] { return this._selectedClassNames}
+  get selectedClassNames(): string | string[] {
+    return this._selectedClassNames
+  }
+
   set selectedClassNames(value: string | string[]) {
     AssertHelpers.isNotNull(value);
     this.sortedItems.forEach(item => item.selectedClassNames = value);
     this._selectedClassNames = value;
   }
-
 
 
   _emitSelectionChange() {
@@ -345,11 +409,14 @@ export abstract class MsfAbstractGrid<T extends MsfAbstractGridItem> implements 
   get isSelectedAll(): boolean {
     return this._selection.length === this._sortedItems.length;
   }
+
+  get selection(): List<T> {
+    return this._selection.getRange();
+  }
 }
 
 
-export abstract class MsfAbstractGridItem implements AfterContentInit{
-
+export abstract class MsfAbstractGridItem implements AfterContentInit, OnDestroy {
   /**
    * The real position of the with without translation.
    */
@@ -357,7 +424,7 @@ export abstract class MsfAbstractGridItem implements AfterContentInit{
 
   _sortOrder: number;
 
-  _index: number ;
+  _index: number;
 
   /** Whether the item is selected */
   private _selected: boolean;
@@ -386,17 +453,6 @@ export abstract class MsfAbstractGridItem implements AfterContentInit{
     if (this.parent.isInitialized) {
       this.parent._addNewItem(this);
     }
-
-
-    if (this._checkbox) {
-      this._checkbox.checkbox.change.subscribe(event => {
-        if (event.checked) {
-          this.parent._checkboxEvent(this, event.nativeEvent.shiftKey);
-        }else{
-          this.parent.unselect(this);
-        }
-      })
-    }
   }
 
   @HostListener("click", ["$event"])
@@ -415,9 +471,9 @@ export abstract class MsfAbstractGridItem implements AfterContentInit{
     if (this.selectable) {
       this._selected = value;
 
-      if(value) {
+      if (value) {
         toArray(this.selectedClassNames).forEach(v => this.element.classList.add(v));
-      }else{
+      } else {
         toArray(this.selectedClassNames).forEach(v => this.element.classList.remove(v));
       }
     }
@@ -434,10 +490,17 @@ export abstract class MsfAbstractGridItem implements AfterContentInit{
   }
 
   get rect(): ElementRect {
-    return this.element.getBoundingClientRect();
+    return {
+      top: this.element.offsetTop,
+      left: this.element.offsetLeft
+    }
   }
 
   get index(): number {
     return this._index;
+  }
+
+  ngOnDestroy(): void {
+    this._parent.remove(this);
   }
 }

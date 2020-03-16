@@ -1,0 +1,209 @@
+@import '../../msf-core/variables/Msf-Variable';
+@import "../variables/Msf-Color";
+
+
+$msf-persona-size: () !default;
+
+$msf-persona-size: map-merge((
+  "size8"   :   0,
+  "size24"  :   24,
+  "size32"  :   32,
+  "size40"  :   40,
+  "size48"  :   48,
+  "size56"  :   56,
+  "size72"  :   72,
+  "size100" :   100,
+  "size120" :   120,
+), $msf-persona-size);
+
+
+$msf-persona-fontSize: () !default;
+$msf-persona-fontSize: map-merge((
+  "size8"   :   14,
+  "size24"  :   14,
+  "size32"  :   14,
+  "size40"  :   14,
+  "size48"  :   16,
+  "size56"  :   16,
+  "size72"  :   16,
+  "size100" :   20,
+  "size120" :   20,
+), $msf-persona-fontSize);
+
+$msf-persona-secondaryFontSize: () !default;
+$msf-persona-secondaryFontSize: map-merge((
+  "size8"   :   12,
+  "size24"  :   12,
+  "size32"  :   12,
+  "size40"  :   12,
+  "size48"  :   12,
+  "size56"  :   12,
+  "size72"  :   14,
+  "size100" :   14,
+  "size120" :   14,
+), $msf-persona-secondaryFontSize);
+
+$msf-persona-initialFontSize: () !default;
+$msf-persona-initialTextSize: map-merge((
+  "size8"   :   14,
+  "size24"  :   14,
+  "size32"  :   14,
+  "size40"  :   20,
+  "size48"  :   28,
+  "size56"  :   32,
+  "size72"  :   32,
+  "size100" :   42,
+  "size120" :   42,
+), $msf-persona-initialFontSize);
+
+$msf-persona-presenceSizes: (
+  "size8"   :   4,
+  "size24"  :   8,
+  "size32"  :   8,
+  "size40"  :   10,
+  "size48"  :   12,
+  "size56"  :   14,
+  "size72"  :   20,
+  "size100" :   20,
+  "size120" :   20,
+);
+
+
+$msf-persona-presenceColors: (
+  "online": $ms-color-sharedYellowGreen10,
+  "dnd": $ms-color-redDark,
+  "away": $ms-color-orangeLighter,
+  "busy": $ms-color-red,
+  "blocked": $ms-color-red,
+  "progress": $ms-color-sharedBlue10,
+  "offline": $ms-color-neutralSecondaryAlt
+) !default;
+
+
+$msf-persona-figure-fontColor: #FFF;
+$msf-persona-presence-fontColor: #FFF;
+$msf-persona-primaryFontColor: $msf-fontColor;
+$msf-persona-secondaryFontColor: $msf-fontColor10;
+
+.msf-persona {
+  display: inline-block;
+}
+
+.msf-persona-container {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+}
+
+.msf-persona-figure {
+  position: relative;
+
+
+  & .msf-persona-figure-flexbox {
+    display: flex;
+    border-radius: 50%;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+
+.msf-persona-figure-initial {
+  font-weight: 600;
+  font-family: inherit;
+  color: $msf-persona-figure-fontColor;
+}
+.msf-persona-figure-person{
+  color: $msf-persona-figure-fontColor;
+}
+
+.msf-persona-figure-unknown{
+  color: $ms-color-sharedPinkRed10;
+}
+
+
+@each $size, $value in $msf-persona-size {
+  .msf-persona-figure-#{$size}  {
+    width: $value + px;
+    height: $value + px;
+
+  }
+}
+
+
+@each $size, $value in $msf-persona-initialTextSize {
+  .msf-persona-figure-#{$size}  {
+    font-size: $value + px;
+  }
+}
+
+.msf-persona-text {
+  margin-left: 10px;
+}
+
+.msf-persona-primaryText, .msf-persona-secondaryText {
+  display: block;
+  color: $msf-persona-primaryFontColor;
+  font-family: inherit;
+
+}
+
+.msf-persona-secondaryText {
+  color: $msf-persona-secondaryFontColor
+}
+
+@each $size, $value in $msf-persona-fontSize {
+  .msf-persona-text-#{$size} .msf-persona-primaryText{
+    font-size: $value + px;
+  }
+}
+
+@each $size, $value in $msf-persona-secondaryFontSize{
+  .msf-persona-text-#{$size} .msf-persona-secondaryText {
+    font-size: $value + px;
+  }
+}
+
+
+.msf-persona-presence {
+  position: absolute;
+  display: inline-block;
+
+  border-radius: 50%;
+  right: -2px;
+  bottom: -2px;
+
+  margin: 0;
+  padding: 0;
+
+  border: 2px solid $msf-persona-presence-fontColor;
+
+  top: auto;
+
+  text-align: center;
+
+  box-sizing: content-box;
+  background-clip: content-box;
+
+
+  border-image: initial;
+
+}
+
+@each $size, $value in $msf-persona-presenceSizes{
+  .msf-persona-figure-#{$size} .msf-persona-presence{
+    width: $value + px;
+    height: $value + px;
+  }
+}
+
+
+
+@each $presence, $color in $msf-persona-presenceColors{
+  .msf-persona-presence-#{$presence} {
+    background: $color;
+  }
+}
