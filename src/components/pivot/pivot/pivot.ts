@@ -1,18 +1,34 @@
-import {AfterViewInit, Component, EventEmitter, HostListener, Input, Output} from "@angular/core";
-
-import {MsfPivotLinker} from "../pivot-linker";
+import {
+  AfterContentInit,
+  AfterViewInit,
+  Component,
+  ContentChild,
+  ContentChildren,
+  EventEmitter,
+  forwardRef,
+  HostListener,
+  Input,
+  Output,
+  QueryList,
+  TemplateRef
+} from "@angular/core";
 import {MsfPivotLabel} from "../label/pivot-label";
-import {MsfPivotBody} from "../pivot-body/pivot-body";
+import {MsfPivotBody} from "../pivot-body";
 import {Keyboard} from "../../helpers/keyboard";
+import {MsfPivotHeader} from "../pivot-header";
+import {MsfPivotContent} from "../pivot-content";
+import {ArgumentOutOfRangeException} from "@positon/collections";
 
 @Component({
   templateUrl: "pivot.html",
-  selector: "MsfPivot",
-  providers: [ MsfPivotLinker ]
+  selector: "MsfPivot"
 })
-export class MsfPivot implements AfterViewInit{
+export class MsfPivot implements AfterViewInit, AfterContentInit{
 
   private keyboardKeyEvent = [Keyboard.End, Keyboard.Home, Keyboard.ArrowRight, Keyboard.ArrowLeft];
+
+  private _activeLabel: MsfPivotLabel;
+  private _activeContent: MsfPivotContent;
 
   @Input()
   public defaultSelectedIndex: number = 0;
@@ -23,18 +39,27 @@ export class MsfPivot implements AfterViewInit{
   @Output()
   public onchange:EventEmitter<MsfPivot> = new EventEmitter<MsfPivot>();
 
+  @ContentChildren(forwardRef(() => TemplateRef))
+  templates: QueryList<TemplateRef<any>>;
+
+  @ContentChild(forwardRef(() => MsfPivotHeader))
+  private _header: MsfPivotHeader;
+
+  @ContentChild(forwardRef(() => MsfPivotBody))
+  private _body: MsfPivotBody;
+
 
   /**
    * The index of the active pivot item.
    */
   public selectedItemIndex(): number{
-    return this.linker.activeIndex;
+    return this.activeIndex;
   }
   public get selectedItem(): MsfPivotLabel {
-    return this.linker.activeLabel;
+    return this._activeLabel;
   }
 
-  constructor(private linker: MsfPivotLinker) {}
+  constructor( ) {}
 
   @HostListener("keydown", ["$event"])
   public onkeydown(event: KeyboardEvent){
@@ -53,25 +78,94 @@ export class MsfPivot implements AfterViewInit{
     else if(event.key === Keyboard.Home){
       this.activateAt(0);
     }else if(event.key === Keyboard.End){
-      this.activateAt(this.linker.labels.size() - 1);
+      this.activateAt(this.labels.length - 1);
     }
 
   }
 
+
   ngAfterViewInit(): void {
-    console.log("Pivot initialised");
-    this.linker.activeAt(this.defaultSelectedIndex);
+    this.activateAt(this.defaultSelectedIndex);
+    this.labels.forEach(label => {
+      label._click.subscribe(() => this.activate(label));
+    });
+
+    this._header._labels.changes.subscribe(( ) => {
+      this.labels.forEach(label => {
+        label._click.subscribe(() => this.activate(label));
+      })
+    });
   }
 
+  ngAfterContentInit(): void { }
+
   selectNext(){
-    this.linker.activeNext();
+    if(this.activeIndex == this._header.labels.length -1){
+      this.activateAt(0);
+    }else{
+      this.activateAt(this.activeIndex + 1);
+    }
   }
 
   selectPrev() {
-    this.linker.activePrev();
+    if(this.activeIndex == 0){
+      this.activateAt(this._header.labels.length - 1);
+    }else{
+      this.activateAt(this.activeIndex - 1);
+    }
+  }
+
+  activate(label: MsfPivotLabel) {
+    let index = this.labels.indexOf(label);
+    this.activateAt(index);
   }
 
   activateAt(index: number) {
-    this.linker.activeAt(index);
+    if(index < 0 || index >= this.labels.length){
+      throw new ArgumentOutOfRangeException("The index is outside the limit of the pivot");
+    }
+
+
+    let label = this.labels[index];
+
+    this._header.labels.forEach(l  => l.host.removeAttribute("active"));
+
+    this._activeLabel = label;
+    label.host.setAttribute("active", "true");
+
+    let left = label.host.offsetLeft;
+    let width = label.host.offsetWidth;
+
+    this._header.activeBorder.style.left = left + 'px';
+    this._header.activeBorder.style.width = width + 'px';
+
+    this._activeContent = this.contents[index];
+    this.moveActiveContent(this._activeContent);
+  }
+
+  moveActiveContent(content: MsfPivotContent) {
+    let index = this._body.contents.toArray().indexOf(content);
+    console.log("Activate index: " + index);
+
+    let width = this._body.bodyWidth;
+    let left = width * index;
+
+    this._body.layoutHost.style.transform = `translateX(${-left}px)`
+  }
+
+
+  get activeIndex(): number {
+    if(!this._activeLabel){
+      return -1;
+    }
+    return this._header.labels.toArray().indexOf(this._activeLabel);
+  }
+
+  get labels(): MsfPivotLabel[] {
+    return this._header._labels.toArray();
+  }
+
+  get contents(): MsfPivotContent[] {
+    return this._body._contents.toArray();
   }
 }

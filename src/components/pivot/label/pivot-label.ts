@@ -1,13 +1,14 @@
-import {AfterViewInit, Component, ElementRef, HostListener, Input, OnDestroy, OnInit} from "@angular/core";
-import {MsfPivotLinker} from "../pivot-linker";
+import {Component, ElementRef, EventEmitter, HostListener, Input, Output} from "@angular/core";
 import {IconImageProps, IconProps} from "../../icon/icon-props";
+import {MsfPivot} from "../pivot/pivot";
 
 @Component({
   templateUrl: "pivot-label.html",
   selector: "MsfPivotLabel, [MsfPivotLabel]",
   host: {'class': 'msf_PivotItemLabel', '[attr.tabindex]': '0'}
 })
-export class MsfPivotLabel implements OnInit, OnDestroy, AfterViewInit{
+export class MsfPivotLabel  {
+  public _index;
   @Input()
   icon: IconProps;
 
@@ -20,35 +21,19 @@ export class MsfPivotLabel implements OnInit, OnDestroy, AfterViewInit{
   @Input()
   secondaryIconImage: IconImageProps;
 
+  @Output()
+  _click:EventEmitter<void> = new EventEmitter();
 
-  constructor(public linker: MsfPivotLinker, private elementRef: ElementRef<HTMLElement>) {}
+
+  constructor( private elementRef: ElementRef<HTMLElement>) {}
 
   @HostListener("click", ["$event"])
-  active(event: MouseEvent) {
-    this.linker.activate(this);
+  active( ) {
+    this._click.emit();
   }
 
   get host(): HTMLElement {
     return this.elementRef.nativeElement;
   }
 
-  ngOnInit(): void {
-    this.linker.addLabel(this);
-  }
-
-  get index(): number {
-    return this.linker.labels.indexOf(this);
-  }
-
-  get isActive(): boolean {
-    return this.linker.activeLabel == this;
-  }
-
-  ngOnDestroy(): void {
-    this.linker.remove(this);
-  }
-
-  ngAfterViewInit(): void {
-    console.log("Pivot label initialised")
-  }
 }

@@ -29,6 +29,7 @@ let uniqueId: number = 0;
 export class MsfGrid extends MsfAbstractGrid<MsfGridItem> implements AfterContentInit {
 
   @HostBinding('attr.data-unique-id')
+  get uniqueId(): string { return this._uniqueId }
   private _uniqueId = `msf-grid-${uniqueId++}`;
 
   private _isInitialized: boolean = false;

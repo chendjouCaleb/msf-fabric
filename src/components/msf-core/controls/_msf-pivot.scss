@@ -3,17 +3,17 @@
 @import '~office-ui-fabric-core/src/sass/variables/Animation.Variables';
 @import "../variables/Msf-Pivot";
 
-.msf_PivotHeader {
+.msf-pivot-header {
   display: block;
   position: relative;
 }
 
 
-.msf_PivotHeader .msf_PivotItemLabel:first-child {
+.msf-pivot-header .msf_PivotItemLabel:first-child {
   margin-left: 0 !important;
 }
 
-.msf_PivotHeader .msf_PivotItemLabel {
+.msf-pivot-header .msf_PivotItemLabel {
   margin-left: 15px;
 }
 

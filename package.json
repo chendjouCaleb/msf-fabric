@@ -1,9 +1,10 @@
 {
   "name": "fabric-docs",
-  "version": "0.0.0",
+  "version": "0.0.3",
   "scripts": {
     "ng": "ng",
     "package": "ng-packagr -p package.json",
+    "publish": "publish dist",
     "start": "ng serve",
     "build": "ng build",
     "test": "jest",
@@ -17,9 +18,10 @@
     ]
   },
   "ngPackage": {
+    "assets": ["src/components/msf-core"],
     "lib": {
-      "entryFile": "src/components/public_api.ts"
-    },
+      "entryFile": "src/components/public_api.ts"}
+  ,
     "dest": "dist",
     "whitelistedNonPeerDependencies": [
       "@angular/animations",
@@ -40,7 +42,7 @@
       "office-ui-fabric-core"
     ]
   },
-  "private": true,
+  "private": false,
   "dependencies": {
     "@angular/animations": "~9.0.1",
     "@angular/cdk": "~8.0.1",
