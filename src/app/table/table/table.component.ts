@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MsfTableRow } from 'src/components/public_api';
+import {Component, forwardRef, OnInit, ViewChild} from '@angular/core';
+import {MsfCheckbox, MsfTable, MsfTableRow} from 'src/components/public_api';
 import {ELEMENT_DATA, PeriodicElement} from '../../../element'
 import {List} from "@positon/collections";
 
@@ -17,18 +17,39 @@ export class TableComponent implements OnInit {
   ngOnInit() {
   }
 
+  delete(item: PeriodicElement) {
+    this.items = this.items.filter(i => i !== item);
+  }
   updateSelection(items: List<MsfTableRow>) {
     const data = items.convertAll(i => i.value);
     this.selection = JSON.stringify(data);
   }
 
-  filter(value: string){
-    this.items = this.elements.filter( e => e.name.toLowerCase().indexOf(value.toLowerCase()) > -1);
+  @ViewChild(forwardRef(() => MsfTable))
+  table: MsfTable;
+
+  check(checkbox: MsfCheckbox, type: string) {
+    if(checkbox.checked){
+      this.show(type);
+    }else{
+      this.hide(type);
+    }
   }
 
-  remove(item: PeriodicElement){
-    this.elements = this.elements.filter(e => e.id !== item.id);
-    this.items = this.elements;
+  filterItems = new List<MsfTableRow>();
+
+  filter(key: string) {
+    this.filterItems.forEach(i => i.show());
+    this.filterItems = this.table.items.findAll(i =>  i.value.name.toLowerCase().indexOf(key.toLowerCase()) < 0);
+    this.filterItems.forEach(i => i.hide())
+  }
+
+  hide(type: string) {
+    this.table.items.findAll(i => i.value.type === type).forEach(i => i.hide());
+  }
+
+  show(type: string) {
+    this.table.items.findAll(i => i.value.type === type).forEach(i => i.show());
   }
 
 }

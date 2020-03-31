@@ -16,6 +16,7 @@ import {CheckboxItemsMap} from "./checkbox-items-map";
 import {AssertHelpers} from "@positon/collections/dist/helpers/assert-helpers";
 import {CheckboxItems} from "./checkbox-items";
 import {coerceBooleanProperty} from "@angular/cdk/coercion";
+import {DOCUMENT} from "@angular/common";
 
 
 
@@ -165,15 +166,16 @@ export class MsfCheckbox extends _MsfCheckboxMixinBase implements ControlValueAc
   @Output() readonly indeterminateChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
 
-
-
-
   constructor(public _elementRef: ElementRef<HTMLElement>,
               private _changeDetectorRef: ChangeDetectorRef,
               private _focusMonitor: FocusMonitor,
               private _itemsMap: CheckboxItemsMap,
+              @Inject(DOCUMENT) private _document: Document,
               @Optional() @Inject(MSF_CHECKBOX_DEFAULT_OPTIONS) private _defaultOptions: MsfCheckboxDefaultOptions) {
     super(_elementRef);
+
+    this._itemsMap.add(this);
+
 
     this._focusMonitor.monitor(_elementRef, true).subscribe(focusOrigin => {
       if (!focusOrigin) {
@@ -191,7 +193,7 @@ export class MsfCheckbox extends _MsfCheckboxMixinBase implements ControlValueAc
   }
 
   ngOnInit(): void {
-    this._itemsMap.add(this);
+
 
     if(!this.theme && this._defaultOptions && this._defaultOptions.theme) {
       this.theme = this._defaultOptions.theme;
@@ -199,6 +201,10 @@ export class MsfCheckbox extends _MsfCheckboxMixinBase implements ControlValueAc
 
     if(this.rounded == null && this._defaultOptions && this._defaultOptions.rounded != null) {
       this.rounded = this._defaultOptions.rounded;
+    }
+
+    if(this._forLabel){
+      this.forLabel = this._forLabel;
     }
   }
 
@@ -275,7 +281,7 @@ export class MsfCheckbox extends _MsfCheckboxMixinBase implements ControlValueAc
       this._label.removeEventListener("click", this._forLabelEvent);
     }
     this._forLabel = value;
-    this._label = document.querySelector(value);
+    this._label = this._document.querySelector(value);
 
     if (this._label) {
       this._label.addEventListener("click", this._forLabelEvent);

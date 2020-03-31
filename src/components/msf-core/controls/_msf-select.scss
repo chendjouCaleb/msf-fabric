@@ -1,0 +1,72 @@
+@import "~office-ui-fabric-core/dist/sass/variables/Color.Variables";
+@import "../variables/Msf-Color";
+
+$msf-select-border-color: $ms-color-gray140 !default;
+$msf-select-optionGroup-borderColor:$ms-color-gray50 !default;
+$msf-select-width: 240px !default;
+$msf-select-height: 32px !default;
+$msf-select-option-panel-bgColor: #FFF !default;
+
+$msf-select-option-paddingY: 7px !default;
+
+
+.msf-select {
+
+  display: inline-block;
+}
+
+.msf-select-wrapper {
+  cursor: pointer;
+  border: 1px solid $msf-select-border-color;
+  border-radius: 2px;
+
+  display: flex;
+  align-items: center;
+  align-content: stretch;
+
+
+  width: $msf-select-width;
+  height: $msf-select-height;
+}
+
+.msf-select-trigger {
+
+  font-size: 18px;
+  height: $msf-select-height;
+  line-height: $msf-select-height;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.msf-select-placeholder {
+  flex-grow: 2;
+  height: $msf-select-height;
+}
+
+.msf-select-options {
+  background-color: $msf-select-option-panel-bgColor;
+  min-width: $msf-select-width;
+}
+
+.msf-select-optionGroup {
+  display: block;
+
+  border-bottom: 1px solid $msf-select-optionGroup-borderColor;
+}
+
+.msf-select-optionGroup-label {
+  font-weight: 600;
+  color: $msf-primary-color;
+  padding: $msf-select-option-paddingY 10px ;
+  display: block;
+  margin:0;
+}
+
+.msf-select-option {
+  display: block;
+  padding: $msf-select-option-paddingY 10px ;
+  cursor: pointer;
+  margin:0;
+  &:hover {
+    background-color: $msf-standard-color--hover;
+  }
+}

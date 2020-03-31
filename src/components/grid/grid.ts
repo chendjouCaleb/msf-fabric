@@ -55,7 +55,7 @@ export class MsfGrid extends MsfAbstractGrid<MsfGridItem> implements AfterConten
 
 
   @ContentChildren(forwardRef(() => MsfGridItem), {descendants: true})
-  _items: QueryList<MsfGridItem>;
+  _queryList: QueryList<MsfGridItem>;
 
   constructor(protected _elementRef: ElementRef<HTMLElement>) {
     super(_elementRef);
@@ -96,8 +96,8 @@ export class MsfGrid extends MsfAbstractGrid<MsfGridItem> implements AfterConten
 
   set itemHeight(value: number) {
     this._itemHeight = value;
-    if (this._items) {
-      this._items.forEach(item => item.element.style.height = `${value}px`);
+    if (this._queryList) {
+      this._queryList.forEach(item => item.element.style.height = `${value}px`);
     }
   }
 

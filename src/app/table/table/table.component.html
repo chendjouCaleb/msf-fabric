@@ -2,11 +2,30 @@
   <h1>Table</h1>
 
   <div>
-    <h2>Table with selection</h2>
+
+    <div class="d-flex">
+      <input (keyup)="filter($event.target.value)" placeholder="enter element Name" type="text"/>
+      <label class="msf-label" id="Reactive-nonmetal-filter">
+        <MsfCheckbox (change)="check($event.source,'Reactive nonmetal')" [checked]="true"
+                     forLabel="#Reactive-nonmetal-filter"> </MsfCheckbox>  Reactive nonmetal
+      </label>
+
+      <label class="msf-label" id="Noble-gas">
+        <MsfCheckbox (change)="check($event.source,'Noble gas')" [checked]="true" forLabel="#Noble-gas"></MsfCheckbox>
+        Noble gas
+      </label>
+
+      <label class="msf-label" id="Alkali-metal">
+        <MsfCheckbox (change)="check($event.source,'Alkali metal')" [checked]="true" forLabel="#Alkali-metal">
+
+        </MsfCheckbox>Alkali metal
+      </label>
+
+    </div>
 
     <div style="display: flex">
-      <div style="width: 500px">
-        <input type="text" (keyup)="filter($event.target.value)" placeholder="enter element Name" />
+      <div style="width: 700px">
+
         <MsfTable (selectionChange)="updateSelection($event)" [selectable]="true">
           <MsfTableHead>
             <MsfTableHeadCell>
@@ -18,21 +37,23 @@
             <MsfTableHeadCell sortBy="name">Name</MsfTableHeadCell>
             <MsfTableHeadCell sortBy="weight">Weight</MsfTableHeadCell>
             <MsfTableHeadCell sortBy="symbol">Symbol</MsfTableHeadCell>
-            <MsfTableHeadCell ></MsfTableHeadCell>
+            <MsfTableHeadCell sortBy="type">Type</MsfTableHeadCell>
+            <MsfTableHeadCell></MsfTableHeadCell>
           </MsfTableHead>
 
-          <MsfTableRow *ngFor="let item of items" [value]="item" #row>
+          <MsfTableRow #row *ngFor="let item of items" [value]="item">
             <MsfTableHeadCell>
               <MsfCheckbox MsfCheckboxGrid></MsfCheckbox>
             </MsfTableHeadCell>
-            <MsfTableCell>{{row.index + 1}}</MsfTableCell>
-            <MsfTableCell >{{item.id}}</MsfTableCell>
-            <MsfTableCell >{{item.position}}</MsfTableCell>
+            <MsfTableCell>{{row._sortOrder + 1}}</MsfTableCell>
+            <MsfTableCell>{{item.id}}</MsfTableCell>
+            <MsfTableCell>{{item.position}}</MsfTableCell>
             <MsfTableCell>{{item.name}}</MsfTableCell>
             <MsfTableCell>{{item.weight}}</MsfTableCell>
             <MsfTableCell>{{item.symbol}}</MsfTableCell>
+            <MsfTableCell>{{item.type}}</MsfTableCell>
             <MsfTableCell>
-              <MsfIconButton icon="Delete" theme="error" [rounded]="true" (click)="remove(item)"></MsfIconButton>
+              <MsfIconButton (click)="delete(item)" [rounded]="true" icon="Delete" theme="error"></MsfIconButton>
             </MsfTableCell>
           </MsfTableRow>
         </MsfTable>
@@ -43,7 +64,6 @@
       </div>
     </div>
   </div>
-
 
 
 </app-layout>

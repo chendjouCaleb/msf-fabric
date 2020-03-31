@@ -4,22 +4,25 @@ import {
   ContentChild,
   ElementRef,
   EventEmitter,
-  forwardRef,
+  forwardRef, HostBinding,
   HostListener,
-  Input, OnDestroy, OnInit,
+  Input,
+  OnDestroy,
   Output,
   QueryList
 } from "@angular/core";
 import {toArray} from "../helpers/array";
-import {List} from "@positon/collections";
+import {Dictionary, List} from "@positon/collections";
 import {ElementRect} from "../helpers/position";
 import {AssertHelpers} from "@positon/collections/dist/helpers/assert-helpers";
 import {MsfCheckboxGrid} from "./checkbox-grid";
+import {domIndex} from "../helpers/dom";
+
 
 export abstract class MsfAbstractGrid<T extends MsfAbstractGridItem> implements AfterContentInit {
   /** Counter to add a index to item. This method is used to prevent a ExpressionChangedAfterItHasBeenCheckedError */
-  _itemIndex = 0;
-  protected abstract _items: QueryList<T>;
+  _itemIndexCounter = 0;
+  protected abstract _queryList: QueryList<T>;
 
   /** Tells if the content view is totally initialised */
   abstract isInitialized: boolean;
@@ -34,7 +37,11 @@ export abstract class MsfAbstractGrid<T extends MsfAbstractGridItem> implements 
 
   protected _selection: List<T> = new List<T>();
 
+  protected _items = new List<T>();
+
   private _sortedItems = new List<T>();
+
+  private _hiddenItems = new Dictionary<number, MsfAbstractGridItem>();
 
 
   /**
@@ -45,6 +52,7 @@ export abstract class MsfAbstractGrid<T extends MsfAbstractGridItem> implements 
 
   /**
    * When this mode is active, the item is selected when the click on it.
+   * Otherwise, you must put a checkbox inside item to select it.
    */
   @Input()
   selectionMode: boolean;
@@ -58,13 +66,6 @@ export abstract class MsfAbstractGrid<T extends MsfAbstractGridItem> implements 
 
 
   ngAfterContentInit(): void {
-    this._items.forEach(item => this._addNewItem(item));
-    this.items.changes.subscribe(() => {
-      setTimeout(() => {
-        this._translate();
-      }, 300)
-
-    });
   }
 
   public _addNewItem(item: T) {
@@ -74,6 +75,7 @@ export abstract class MsfAbstractGrid<T extends MsfAbstractGridItem> implements 
     }
 
     this.sortedItems.add(item);
+    this._items.add(item);
 
     if (item._checkbox) {
       item._checkbox.checkbox.change.subscribe(event => {
@@ -92,12 +94,65 @@ export abstract class MsfAbstractGrid<T extends MsfAbstractGridItem> implements 
   }
 
   remove(item: T) {
+    this._items.remove(item);
     this._sortedItems.remove(item);
+    this._hiddenItems.remove(item._sortOrder);
     this.sortedItems.forEach(_item => _item._lastRect = _item.rect);
 
-    if(this.isSelected(item)){
+    if (this.isSelected(item)) {
       this.unselect(item);
     }
+    let counter = 0;
+    this._sortedItems.forEach((item, index) => {
+      item._sortOrder = index;
+      if (item.isVisible) {
+        item._visibleSortOrder = counter++;
+      }
+    });
+    setTimeout(() => this._translate(), 10)
+  }
+
+
+  async hide(item: MsfAbstractGridItem): Promise<void> {
+    item._isHidden = true;
+
+    this.sortedItems.forEach(_item => {
+      if (_item.isVisible) {
+        _item._visibleSortOrder--;
+      }
+    });
+    this._translate();
+
+    let transform = item.element.style.transform;
+
+    item.element.animate([{
+      transform: transform ? transform: `scaleY(1)`
+    }, {
+      transform: 'scaleY(0)'
+    }], {
+      duration: 200,
+      fill: 'both'
+    });
+  }
+
+  show(item: MsfAbstractGridItem) {
+    item._isHidden = false;
+    this.sortedItems.forEach(_item => {
+      if (_item.isVisible) {
+        _item._visibleSortOrder++;
+      }
+    });
+    item.element.animate([{
+      transform: `scaleY(0)`
+    }, {
+      transform: item._translate? item._translate : 'none'
+    }], {
+      duration: 200,
+      fill: 'both'
+    }).onfinish = () => this._translate();
+
+
+
   }
 
   /** Whether the item is correctly selected. */
@@ -318,46 +373,52 @@ export abstract class MsfAbstractGrid<T extends MsfAbstractGridItem> implements 
   }
 
   _translate() {
-    let items = this._items.toArray();
-    items.forEach((item, i) => {
-      console.log(items.indexOf(item))
-      let opposite = this.sortedItems.get(i);
-
-
+    this.visibleSortedItems.forEach((item, i) => {
+      let opposite = this.items.get(i);
       const deltaX = item.rect.left - opposite.rect.left;
       const deltaY = item.rect.top - opposite.rect.top;
 
-      let transform = item.element.style.transform;
-      if(!transform) {
-        transform = 'none';
-      }
-
-      let anim = item.element.animate([
-        {transform:  transform },
-        {transform: `translate(${-deltaX}px, ${-deltaY}px)`}
-      ], {
-        duration: 200,
-        easing: 'ease-in-out',
-        fill: 'both'
-      });
-      //item.element.style.transform = `translate(${-deltaX}px, ${-deltaY}px)`;
+      item._translate = `translate(${-deltaX}px, ${-deltaY}px)`;
+      item.element.style.transform = `translate(${-deltaX}px, ${-deltaY}px)`;
     });
   }
 
   sort(sortFn: (a: any, b: any) => number = (a, b) => a - b) {
     this._sortedItems.sort((a, b) => sortFn(a.value, b.value));
+    let counter = 0;
+    this._sortedItems.forEach((item, index) => {
+      item._sortOrder = index;
+      if (item.isVisible) {
+        item._visibleSortOrder = counter++;
+      }
+    });
     this._translate();
   }
 
   sortBy(param: string) {
+    console.log(this.sortedItems.get(0).value[param])
 
-    this._sortedItems.sort((a, b) => (''+ a.value[param]).localeCompare( b.value[param]));
+    this._sortedItems.sort((a, b) => ('' + a.value[param]).localeCompare(b.value[param]));
     //this._sortedItems.sort((a, b) => a.value[param] - b.value[param]);
+    let counter = 0;
+    this._sortedItems.forEach((item, index) => {
+      item._sortOrder = index;
+      if (item.isVisible) {
+        item._visibleSortOrder = counter++;
+      }
+    });
     this._translate();
   }
 
   invertSorting() {
     this._sortedItems.reverse();
+    let counter = 0;
+    this._sortedItems.forEach((item, index) => {
+      item._sortOrder = index;
+      if (item.isVisible) {
+        item._visibleSortOrder = counter++;
+      }
+    });
     this._translate();
   }
 
@@ -392,7 +453,19 @@ export abstract class MsfAbstractGrid<T extends MsfAbstractGridItem> implements 
     return this._sortedItems;
   }
 
-  get items(): QueryList<T> {
+  get visibleItems(): List<T> {
+    return this.items.findAll(i => i.isVisible);
+  }
+
+  get visibleSortedItems(): List<T> {
+    return this.sortedItems.findAll(i => i.isVisible);
+  }
+
+  get queryList(): QueryList<T> {
+    return this._queryList;
+  }
+
+  get items(): List<T> {
     return this._items;
   }
 
@@ -413,6 +486,11 @@ export abstract class MsfAbstractGrid<T extends MsfAbstractGridItem> implements 
   get selection(): List<T> {
     return this._selection.getRange();
   }
+
+
+  get hiddenItems(): Dictionary<number, MsfAbstractGridItem> {
+    return this._hiddenItems;
+  }
 }
 
 
@@ -422,9 +500,14 @@ export abstract class MsfAbstractGridItem implements AfterContentInit, OnDestroy
    */
   _lastRect: ElementRect;
 
-  _sortOrder: number;
+  _sortOrder: number = 0;
 
-  _index: number;
+  _visibleSortOrder: number = 0;
+
+  @HostBinding('class.msf-tableRow-hidden')
+  _isHidden: boolean = false;
+
+  _isAdded: boolean = false;
 
   /** Whether the item is selected */
   private _selected: boolean;
@@ -440,19 +523,18 @@ export abstract class MsfAbstractGridItem implements AfterContentInit, OnDestroy
 
   @ContentChild(forwardRef(() => MsfCheckboxGrid))
   _checkbox: MsfCheckboxGrid;
+  _translate: string;
 
   protected constructor(protected _elementRef: ElementRef<HTMLElement>,
                         protected _parent: MsfAbstractGrid<MsfAbstractGridItem>,
                         public changeDetectorRef: ChangeDetectorRef) {
-    this._index = _parent._itemIndex++;
+
   }
 
   ngAfterContentInit(): void {
 
     this._lastRect = this.rect;
-    if (this.parent.isInitialized) {
-      this.parent._addNewItem(this);
-    }
+    this.parent._addNewItem(this);
   }
 
   @HostListener("click", ["$event"])
@@ -497,10 +579,25 @@ export abstract class MsfAbstractGridItem implements AfterContentInit, OnDestroy
   }
 
   get index(): number {
-    return this._index;
+    if (this.element.parentElement) {
+      return domIndex(this.element);
+    }
+    return 0;
   }
 
   ngOnDestroy(): void {
     this._parent.remove(this);
+  }
+
+  hide() {
+    this._parent.hide(this);
+  }
+
+  show() {
+    this._parent.show(this);
+  }
+
+  get isVisible(): boolean {
+    return !this._isHidden;
   }
 }

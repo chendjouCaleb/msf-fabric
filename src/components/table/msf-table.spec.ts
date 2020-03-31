@@ -52,9 +52,31 @@ describe("Simple test", () => {
     expect(tableInstance.selection.size()).toBe(0);
     expect(tableInstance.selectionMode).toBeFalsy();
 
-    expect(tableInstance.items.length).toBe(10);
-    expect(tableRowInstances.length).toBe(10);
+    expect(tableInstance.queryList.length).toBe(5);
+    expect(tableInstance.items.size()).toBe(5);
+    expect(tableRowInstances.length).toBe(5);
+    expect(tableInstance.sortedItems.size()).toBe(5);
+    expect(tableInstance.hiddenItems.size()).toBe(0);
+
+    tableRowInstances.forEach((item, index) => {
+      expect(item.table).toBe(tableInstance);
+      expect(item.value).toBe(ELEMENT_DATA[index]);
+      expect(item.index).toBe(index);
+      expect(item._sortOrder).toBe(index);
+      expect(item.selectable).toBeTruthy();
+      expect(item._checkbox).toBeUndefined();
+    });
+  });
+
+
+  it("Add item to table after initialisation", () => {
+    testComponent.values = ELEMENT_DATA.slice();
+    fixture.detectChanges();
+
+    expect(tableInstance.queryList.length).toBe(10);
+    expect(tableInstance.items.size()).toBe(10);
     expect(tableInstance.sortedItems.size()).toBe(10);
+    expect(tableInstance.hiddenItems.size()).toBe(0);
 
     tableRowInstances.forEach((item, index) => {
       expect(item.table).toBe(tableInstance);
@@ -64,6 +86,22 @@ describe("Simple test", () => {
       expect(item._checkbox).toBeUndefined();
     });
   });
+
+    it("Remove item from table", () => {
+      //Remove the 3th element.
+      testComponent.values = ELEMENT_DATA.slice(0, 3).concat(ELEMENT_DATA.slice(4, 5));
+      fixture.detectChanges();
+      tableRowDebugElements = fixture.debugElement.queryAll(By.directive(MsfTableRow));
+      tableRowInstances = tableRowDebugElements.map(el => el.componentInstance);
+
+
+      expect(tableInstance.queryList.length).toBe(4);
+      expect(tableInstance.items.size()).toBe(4);
+      expect(tableInstance.sortedItems.size()).toBe(4);
+      expect(tableRowInstances.length).toBe(4);
+      expect(tableInstance.hiddenItems.size()).toBe(0);
+    });
+
 
 
   it('ItemGrid should have grid selectedClassNames', () => {
@@ -94,6 +132,6 @@ describe("Simple test", () => {
         </MsfTable>`
   })
   class TestComponent {
-    values = ELEMENT_DATA.slice();
+    values = ELEMENT_DATA.slice(0, 5);
   }
 

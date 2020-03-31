@@ -57,7 +57,7 @@ describe("MsfGrid", () => {
       expect(gridInstance.selection.size()).toBe(0);
       expect(gridInstance.selectionMode).toBeFalsy();
 
-      expect(gridInstance.items.length).toBe(10);
+      expect(gridInstance.queryList.length).toBe(10);
       expect(gridItemInstances.length).toBe(10);
       expect(gridInstance.sortedItems.size()).toBe(10);
 

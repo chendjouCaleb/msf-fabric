@@ -9,11 +9,15 @@ $msf-table-cell-hover-backgroundColor: $ms-color-infoBackground;
   display: table;
 }
 
+.msf-tableRow-hidden {
+  //transform: scaleY(0);
+}
+
 
 .msf-table-row, .msf-table-head {
   display: table-row;
   border-bottom: 1px solid $msf-table-border-color;
-  //transition: all $ms-motion-duration-3;
+  transition: all $ms-motion-duration-3;
 
   &.msf-selected {
     background: $ms-color-gray20;

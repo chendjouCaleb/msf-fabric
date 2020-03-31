@@ -16,6 +16,7 @@ const routes: Routes = [
   {path: "callout", loadChildren: () => import('./callout/callout.module').then(m => m.CalloutModule)},
   {path: "dialog", loadChildren: () => import('./dialog/dialog.module').then(m => m.DialogModule)},
   {path: "persona", loadChildren: () => import('./persona/persona.module').then(m => m.PersonaModule)},
+  {path: "select", loadChildren: () => import('./select/select.module').then(m => m.SelectModule)},
   {path: "command-bar", loadChildren: () => import('./command-bar/command-bar.module').then(m => m.CommandBarModule)},
 ];
 

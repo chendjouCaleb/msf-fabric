@@ -22,7 +22,7 @@ export class MsfTable extends MsfAbstractGrid<MsfTableRow> implements AfterConte
   private _isInitialized: boolean = false;
 
   @ContentChildren(forwardRef(() => MsfTableRow), {descendants: true})
-  protected _items: QueryList<MsfTableRow>;
+  protected _queryList: QueryList<MsfTableRow>;
 
   _currentSorter: MsfTableHeadCell;
 

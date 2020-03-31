@@ -1,0 +1,22 @@
+<div (click)="_onClick()" class="msf-select-wrapper" cdk-overlay-origin #origin="cdkOverlayOrigin">
+  <div class="msf-select-placeholder">
+
+    <ng-container  #placeholder></ng-container>
+  </div>
+  <span MsfIcon class="msf-select-trigger" iconName="ChevronDown"></span>
+</div>
+
+<ng-template [cdkConnectedOverlayOpen]="openPanel"
+              [cdkConnectedOverlayOrigin]="origin"
+             cdk-connected-overlay
+
+             cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+             cdkConnectedOverlayHasBackdrop
+             cdkConnectedOverlayLockPosition
+             (backdropClick)="_close()"
+>
+  <div class="msf-select-options ms-depth-4" [@transformPanel]>
+    <ng-content></ng-content>
+  </div>
+</ng-template>
+
