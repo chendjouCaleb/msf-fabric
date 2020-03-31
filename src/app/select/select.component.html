@@ -35,6 +35,10 @@
             <MsfSelectOption *ngFor="let item of itemMap[g]" [value]="item">{{item.name}}</MsfSelectOption>
           </MsfSelectOptionGroup>
 
+          <MsfSelectOptionGroup [label]="'Other'" disabled="true">
+            <MsfSelectOption value="Plutonium">Plutonium</MsfSelectOption>
+          </MsfSelectOptionGroup>
+
         </MsfSelect>
       </div>
     </div>

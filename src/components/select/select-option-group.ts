@@ -23,7 +23,7 @@ let _uniqueId = 0;
   host: {
     'class': 'msf-select-optionGroup',
     'role': 'group',
-    '[class.msf-select-optionGroup-disabled]': 'disabled',
+    '[class.msf-disabled]': 'disabled',
     '[attr.aria-disabled]': 'disabled.toString()',
     '[attr.aria-labelledby]': '_labelId',
   }
