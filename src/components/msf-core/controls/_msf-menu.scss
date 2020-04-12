@@ -1,0 +1,143 @@
+@import '../../msf-core/variables/Msf-Variable';
+@import '~office-ui-fabric-core/src/sass/variables/Font.Variables';
+@import '~office-ui-fabric-core/src/sass/variables/Animation.Variables';
+@import '~office-ui-fabric-core/src/sass/variables/Color.Variables';
+
+
+$msf-menu-fontSize: 14px;
+$msf-menu-minWidth: 180px !default;
+
+$msf-menuItem-height: 32px !default;
+$msf-menuItem-checkboxWidth: 32px !default;
+$msf-menuItem-iconWidth: 32px !default;
+
+$msf-menu-borderColor: $ms-color-gray30 !default;
+
+
+.msf-menu {
+  display: inline-block;
+  background: $msf-background-color;
+  font-size: $msf-menu-fontSize;
+}
+
+.msf-menuItem {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  display: block;
+  position: relative;
+  vertical-align: top;
+  cursor: pointer;
+
+  height: $msf-menuItem-height;
+
+  user-select: none;
+  outline: transparent;
+  border-width: 1px;
+
+
+  background-color: transparent;
+
+  box-sizing: border-box;
+
+  transition: background-color $ms-motion-duration-1;
+
+  &:disabled, &[disabled], &.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  &:hover {
+    background: $msf_ContextMenuItem-Hover-bgColor;
+  }
+}
+
+
+.msf-menuItemGroup {
+  display: block;
+
+  &.msf-menuItemGroup-divider {
+    border-bottom: 1px solid $msf-menu-borderColor;
+  }
+}
+
+.msf-menuItemGroup-title {
+  font-weight: 600;
+  color: $msf-primary-color;
+  height: $msf-menuItem-height;
+  line-height: $msf-menuItem-height;
+  padding-left: 10px;
+  display: block;
+  margin: 0;
+}
+
+
+.msf-menuItem-flexLayout {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.msf-menuItem-label {
+  display: flex;
+  min-width: 100px;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.msf-menuItem-checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding-left: 10px;
+}
+
+.msf-menuItem-icon {
+  display: inline-block;
+  height: $msf-menuItem-height;
+  padding-left: 10px;
+  line-height: $msf-menuItem-height;
+  color: $msf-primary-color;
+  font-size: 16px;
+  text-align: center;
+}
+
+.msf-menuItem-secondaryText {
+  font-size: $msf_ContextMenuItemSecondaryText-fontSize;
+  opacity: .8;
+  text-align: right;
+  padding-left: 10px;
+  display: inline-block;
+}
+
+
+.msf-menuItem-secondaryIcon {
+  justify-self: flex-end;
+  float: right;
+  padding: 0;
+
+  & .ms-Icon {
+    margin-left: 7px;
+    margin-right: 7px;
+  }
+}
+
+
+.msf-menuItem.msf-theme-error{
+  color: $msf-error-color;
+
+  & .msf-menuItem-icon{
+    color: $msf-error-color;
+  }
+}
+
+.msf-menuItem.msf-theme-primary{
+  color: $msf-primary-color;
+
+  & .msf-menuItem-icon{
+    color: $msf-primary-color;
+  }
+}
+

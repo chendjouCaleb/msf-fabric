@@ -42,9 +42,12 @@ $msf-select-option-paddingY: 7px !default;
   height: $msf-select-height;
 }
 
-.msf-select-options {
+.msf-select-panel {
   background-color: $msf-select-option-panel-bgColor;
   min-width: $msf-select-width;
+
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 .msf-select-optionGroup {

@@ -1,53 +1,121 @@
-<app-layout>
-<h1>Menu</h1>
+<app-layout title="Menu">
+  <h1>Menu</h1>
 
-<div>
-  <h3>Simple contextual menu</h3>
+  <div class="component-overview">
+    <h3 class="component-overview-title">Overview</h3>
+    <div class="component-overview-content">
+      ContextualMenus are lists of commands that are based on the context of selection,
+      mouse hover or keyboard focus.
+      They are one of the most effective and highly used command surfaces,
+      and can be used in a variety of places.
+    </div>
+  </div>
 
-  <MsfContextualMenu>
-    <MsfContextualMenuItem>Add</MsfContextualMenuItem>
-    <div style="background-color:#e9ecef; height:0"></div>
-    <MsfContextualMenuItem>Edit</MsfContextualMenuItem>
-    <MsfContextualMenuItem>Rename</MsfContextualMenuItem>
-    <MsfContextualMenuItem>Properties</MsfContextualMenuItem>
-    <MsfContextualMenuItem>Link same window</MsfContextualMenuItem>
-    <MsfContextualMenuItem>Link new window</MsfContextualMenuItem>
-    <MsfContextualMenuItem>Link click</MsfContextualMenuItem>
-    <MsfContextualMenuItem disabled>Disabled item</MsfContextualMenuItem>
-  </MsfContextualMenu>
-</div>
 
-<div class="mt-5">
-  <h4>Menu with icon</h4>
-  <MsfContextualMenu>
-    <MsfContextualMenuItem Icon="Add" >Add</MsfContextualMenuItem>
-    <MsfContextualMenuItem Icon="Folder" >Open</MsfContextualMenuItem>
-    <MsfContextualMenuItem>Open URL</MsfContextualMenuItem>
-    <MsfContextualMenuItem Icon="Cancel" >Close</MsfContextualMenuItem>
-  </MsfContextualMenu>
-</div>
+  <div class="component-usage mt-5">
+    <h3 class="component-usage-title">Usage</h3>
 
-<div class="mt-5">
-  <h4>Menu with secondary icon</h4>
-  <MsfContextualMenu>
-    <MsfContextualMenuItem Icon="Add"  SecondaryIcon="ChevronRight">Add</MsfContextualMenuItem>
-    <MsfContextualMenuItem Icon="Folder" >Open</MsfContextualMenuItem>
-    <MsfContextualMenuItem>Open URL</MsfContextualMenuItem>
-    <MsfContextualMenuItem Icon="Cancel" >Close</MsfContextualMenuItem>
-  </MsfContextualMenu>
-</div>
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">ContextualMenu with checkable menu items</h5>
+      <div class="component-usage-section-content">
+        <MsfMenu>
+          <MsfMenuItemGroup>
+            <MsfMenuItem> <MsfCheckbox  MsfMenuItemCheckbox></MsfCheckbox> New</MsfMenuItem>
+            <MsfMenuItem icon="Delete" theme="error"> <MsfCheckbox  MsfMenuItemCheckbox></MsfCheckbox> Delete</MsfMenuItem>
+            <MsfMenuItem icon="Share"> <MsfCheckbox  MsfMenuItemCheckbox></MsfCheckbox> Share</MsfMenuItem>
+            <MsfMenuItem> <MsfCheckbox  MsfMenuItemCheckbox></MsfCheckbox> Mobile</MsfMenuItem>
+          </MsfMenuItemGroup>
+          <MsfMenuItemGroup [divider]="false">
+            <MsfMenuItem icon="Print"> <MsfCheckbox  MsfMenuItemCheckbox></MsfCheckbox> Print</MsfMenuItem>
+            <MsfMenuItem>  Musique</MsfMenuItem>
+          </MsfMenuItemGroup>
+        </MsfMenu>
+      </div>
+    </div>
 
-<div class="mt-5">
-  <h4>Menu secondary text</h4>
-  <MsfContextualMenu>
-    <MsfContextualMenuItem Icon="Add" SecondaryText="Ctrl + N" SecondaryIcon="ChevronRight" Theme="success">Add</MsfContextualMenuItem>
-    <MsfContextualMenuItem Icon="Folder" SecondaryText="Ctrl + O" Theme="primary">Open</MsfContextualMenuItem>
-    <MsfContextualMenuItem>Open  and URL and destroy him to me</MsfContextualMenuItem>
-    <MsfContextualMenuItem Icon="Cancel" SecondaryText="Alt + F4" Theme="warning">Close</MsfContextualMenuItem>
-    <MsfContextualMenuItem Icon="Delete" SecondaryText="Shift + Del" Theme="error">Delete</MsfContextualMenuItem>
-  </MsfContextualMenu>
-</div>
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">Basic</h5>
+      <div class="component-usage-section-content">
+        <MsfMenu>
+          <MsfMenuItem>Add</MsfMenuItem>
+          <div style="background-color:#e9ecef; height:0"></div>
+          <MsfMenuItem>Edit</MsfMenuItem>
+          <MsfMenuItem>Rename</MsfMenuItem>
+          <MsfMenuItem>Properties</MsfMenuItem>
+          <MsfMenuItem>Link same window</MsfMenuItem>
+          <MsfMenuItem>Link new window</MsfMenuItem>
+          <MsfMenuItem>Link click</MsfMenuItem>
+          <MsfMenuItem disabled>Disabled item</MsfMenuItem>
+        </MsfMenu>
+      </div>
+    </div>
 
-<div class="mt-4"></div>
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">Menu with icon</h5>
+      <div class="component-usage-section-content">
+        <MsfMenu>
+          <MsfMenuItem icon="WordDocument">Open in word</MsfMenuItem>
+          <MsfMenuItem icon="Add" >Add</MsfMenuItem>
+          <MsfMenuItem icon="Upload" theme="error">Upload</MsfMenuItem>
+          <div class="msf-divider"></div>
+          <MsfMenuItem icon="Share"> Share</MsfMenuItem>
+          <MsfMenuItem icon="Print"> Print</MsfMenuItem>
+          <MsfMenuItem icon="MusicInCollection" >Music</MsfMenuItem>
+        </MsfMenu>
+      </div>
+    </div>
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">ContextualMenu with section headers</h5>
+      <div class="component-usage-section-content">
+        <MsfMenu>
+          <MsfMenuItemGroup title="Actions">
+            <MsfMenuItem>New</MsfMenuItem>
+            <MsfMenuItem theme="danger" icon="Delete">Delete</MsfMenuItem>
+          </MsfMenuItemGroup>
+
+          <MsfMenuItemGroup title="Social">
+            <MsfMenuItem>Share</MsfMenuItem>
+            <MsfMenuItem>Print</MsfMenuItem>
+            <MsfMenuItem> Music</MsfMenuItem>
+          </MsfMenuItemGroup>
+
+          <MsfMenuItemGroup title="Navigation">
+            <MsfMenuItem>Go to bing</MsfMenuItem>
+          </MsfMenuItemGroup>
+        </MsfMenu>
+      </div>
+    </div>
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">Menu with secondary icon</h5>
+      <div class="component-usage-section-content">
+        <MsfMenu>
+          <MsfMenuItem icon="Add"  secondaryIcon="ChevronRight">Add</MsfMenuItem>
+          <MsfMenuItem icon="Folder" >Open</MsfMenuItem>
+          <MsfMenuItem>Open URL</MsfMenuItem>
+          <MsfMenuItem icon="Cancel" >Close</MsfMenuItem>
+        </MsfMenu>
+      </div>
+    </div>
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title"> Menu secondary text</h5>
+      <div class="component-usage-section-content">
+        <MsfMenu>
+          <MsfMenuItem icon="Add" secondaryText="Ctrl + N" secondaryIcon="ChevronRight" theme="success">Add</MsfMenuItem>
+          <MsfMenuItem icon="Folder" secondaryText="Ctrl + O" theme="primary">Open</MsfMenuItem>
+          <MsfMenuItem>Open a URL</MsfMenuItem>
+          <MsfMenuItem icon="Cancel" secondaryText="Alt + F4" theme="warning">Close</MsfMenuItem>
+          <MsfMenuItem icon="Delete" secondaryText="Shift + Del" theme="error">Delete</MsfMenuItem>
+        </MsfMenu>
+      </div>
+    </div>
+
+
+
+  </div>
+
+
 
 </app-layout>

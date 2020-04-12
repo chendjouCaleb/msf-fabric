@@ -1,0 +1,24 @@
+<div class="msf-menuItem-flexLayout">
+
+  <div #checkboxRef *ngIf="_showCheckbox" class="msf-menuItem-checkbox" [style.width]="_checkboxWidth+'px'">
+    <ng-content select="[MsfMenuItemCheckbox]"></ng-content>
+  </div>
+
+  <div #iconRef *ngIf="_showIcon" class="msf-menuItem-icon" [style.width]="_iconWidth+'px'">
+    <i *ngIf="icon"   class=" msf-menuItem-labelIcon ms-Icon ms-Icon--{{icon}}"></i>
+  </div>
+
+
+  <div #labelRef [style.width]="_labelWidth+'px'" class="msf-menuItem-label">
+    <ng-content></ng-content>
+  </div>
+
+  <div #secondaryTextRef *ngIf="_showSecondaryText" [style.width]="_secondaryTextWidth+'px'" class="msf-menuItem-secondaryText">
+    {{secondaryText}}
+  </div>
+
+  <div #secondaryIconRef   [style.width]="_secondaryIconWidth+'px'" class="msf-menuItem-icon msf-menuItem-secondaryIcon" >
+    <i *ngIf="secondaryIcon" class=" ms-Icon ms-Icon--{{secondaryIcon}}"  ></i>
+  </div>
+
+</div>

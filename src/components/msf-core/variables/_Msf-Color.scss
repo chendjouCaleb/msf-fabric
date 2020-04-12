@@ -26,15 +26,16 @@ $msf-fontColor:$ms-color-sharedGray40;
 $msf-fontColor10:$ms-color-sharedGray30;
 $msf-fontColor20:$ms-color-sharedGray20;
 
-$msf-theme-colors: () !default;
 
-$msf-theme-colors: map-merge((
+
+
+$msf-theme-colors: (
     "standard": $msf-standard-color,
     "primary":  $msf-primary-color,
     "warning":  $msf-warning-color,
     "error":    $msf-error-color,
     "success":  $msf-success-color
-),$msf-theme-colors);
+) !default;
 
 $msf-theme-foregroundColors: (
   "standard": $ms-color-sharedGray40,

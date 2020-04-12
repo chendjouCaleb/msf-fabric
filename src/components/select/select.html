@@ -7,7 +7,7 @@
 </div>
 
 <ng-template [cdkConnectedOverlayOpen]="openPanel"
-              [cdkConnectedOverlayOrigin]="origin"
+             [cdkConnectedOverlayOrigin]="origin"
              cdk-connected-overlay
 
              cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
@@ -15,8 +15,7 @@
              cdkConnectedOverlayLockPosition
              (backdropClick)="_close()"
 >
-  <div class="msf-select-options ms-depth-4" [@transformPanel]>
+  <div class="msf-select-panel ms-depth-4" [@transformPanel]>
     <ng-content></ng-content>
   </div>
 </ng-template>
-
