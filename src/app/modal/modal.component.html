@@ -1,0 +1,34 @@
+<app-layout title="Pivot">
+  <h1>Modal</h1>
+
+  <div class="component-overview">
+    <h3 class="component-overview-title">Overview</h3>
+    <div class="component-overview-content">
+      Modal
+    </div>
+  </div>
+
+
+  <div class="component-usage mt-5">
+    <h3 class="component-usage-title">Usage</h3>
+
+    <div class="component-usage-section">
+      <h5 class="component-usage-section-title">Default modal</h5>
+
+      <div class="component-usage-section-content">
+        <MsfButton (click)="componentModal()" theme="standard">Open modal</MsfButton>
+
+        <MsfButton (click)="templateDialog()" theme="primary">Template modal</MsfButton>
+        <modal-view></modal-view>
+
+        <ng-template #templateDialogView>
+          <div class="msf-modal-header">
+            <h3 class="msf-modal-title">Modal title</h3>
+          </div>
+
+        </ng-template>
+      </div>
+    </div>
+  </div>
+
+</app-layout>

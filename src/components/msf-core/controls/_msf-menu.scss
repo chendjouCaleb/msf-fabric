@@ -18,6 +18,10 @@ $msf-menu-borderColor: $ms-color-gray30 !default;
   display: inline-block;
   background: $msf-background-color;
   font-size: $msf-menu-fontSize;
+
+  &.msf-nonePointerEvents {
+    pointer-events: none;
+  }
 }
 
 .msf-menuItem {
@@ -28,6 +32,7 @@ $msf-menu-borderColor: $ms-color-gray30 !default;
   position: relative;
   vertical-align: top;
   cursor: pointer;
+
 
   height: $msf-menuItem-height;
 
@@ -80,7 +85,7 @@ $msf-menu-borderColor: $ms-color-gray30 !default;
 
 .msf-menuItem-label {
   display: flex;
-  min-width: 100px;
+  //min-width: 100px;
   align-items: center;
   padding-left: 10px;
   padding-right: 10px;

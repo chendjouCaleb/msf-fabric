@@ -170,7 +170,7 @@ export class MsfCheckbox extends _MsfCheckboxMixinBase implements ControlValueAc
               private _changeDetectorRef: ChangeDetectorRef,
               private _focusMonitor: FocusMonitor,
               private _itemsMap: CheckboxItemsMap,
-              @Inject(DOCUMENT) private _document: Document,
+              @Inject(DOCUMENT) private _document: any,
               @Optional() @Inject(MSF_CHECKBOX_DEFAULT_OPTIONS) private _defaultOptions: MsfCheckboxDefaultOptions) {
     super(_elementRef);
 
@@ -267,7 +267,7 @@ export class MsfCheckbox extends _MsfCheckboxMixinBase implements ControlValueAc
 
   set id( value: string) {
     this._id = value;
-    this.forLabel = `label[for='${value}']`;
+    this.forLabel = `[for='${value}']`;
   }
 
   @Input()
@@ -286,6 +286,7 @@ export class MsfCheckbox extends _MsfCheckboxMixinBase implements ControlValueAc
     if (this._label) {
       this._label.addEventListener("click", this._forLabelEvent);
     }
+
   }
 
 

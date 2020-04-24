@@ -1,6 +1,6 @@
 {
   "name": "fabric-docs",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "scripts": {
     "ng": "ng",
     "package": "ng-packagr -p package.json",

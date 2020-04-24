@@ -1,30 +1,30 @@
 @import '~office-ui-fabric-core/src/sass/variables/Color.Variables';
 
-$msf-standard-color:$ms-color-gray20;
-$msf-primary-color:$ms-color-communicationPrimary;
-$msf-warning-color:$ms-color-sharedOrange20;
-$msf-error-color:$ms-color-sharedRed10;
-$msf-success-color:$ms-color-sharedGreen10;
+$msf-standard-color:$ms-color-gray20 !default;
+$msf-primary-color:$ms-color-communicationPrimary  !default;
+$msf-warning-color:$ms-color-sharedOrange20  !default;
+$msf-error-color:$ms-color-sharedRed10  !default;
+$msf-success-color:$ms-color-sharedGreen10  !default;
 
-$msf-standard-color--hover:$ms-color-gray30;
-$msf-primary-color--hover:$ms-color-communicationShade10;
-$msf-warning-color--hover:$ms-color-sharedOrange20;
-$msf-error-color--hover:$ms-color-sharedRed20;
-$msf-success-color--hover:$ms-color-sharedGreen20;
+$msf-standard-color--hover:$ms-color-gray30 !default;
+$msf-primary-color--hover:$ms-color-communicationShade10 !default;
+$msf-warning-color--hover:$ms-color-sharedOrange20 !default;
+$msf-error-color--hover:$ms-color-sharedRed20 !default;
+$msf-success-color--hover:$ms-color-sharedGreen20 !default;
 
-$msf-standard-textColor:$ms-color-sharedGray40;
-$msf-primary-textColor:$ms-color-white;
-$msf-warning-textColor:$ms-color-white;
-$msf-error-textColor:$ms-color-white;
-$msf-success-textColor:$ms-color-white;
+$msf-standard-textColor:$ms-color-sharedGray40 !default;
+$msf-primary-textColor:$ms-color-white !default;
+$msf-warning-textColor:$ms-color-white !default;
+$msf-error-textColor:$ms-color-white !default;
+$msf-success-textColor:$ms-color-white !default;
 
-$msf-background-color: $ms-color-white;
-$msf-white-color: $ms-color-white;
+$msf-background-color: $ms-color-white  !default;
+$msf-white-color: $ms-color-white  !default;
 
 
-$msf-fontColor:$ms-color-sharedGray40;
-$msf-fontColor10:$ms-color-sharedGray30;
-$msf-fontColor20:$ms-color-sharedGray20;
+$msf-fontColor:$ms-color-sharedGray40  !default;
+$msf-fontColor10:$ms-color-sharedGray30  !default;
+$msf-fontColor20:$ms-color-sharedGray20  !default;
 
 
 
@@ -43,7 +43,7 @@ $msf-theme-foregroundColors: (
   "warning":  $ms-color-white,
   "error":    $ms-color-white,
   "success":  $ms-color-white
-);
+)  !default;;
 
 
 $ms-palette-colors: () !default;

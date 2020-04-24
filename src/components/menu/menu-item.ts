@@ -2,7 +2,7 @@ import {
   AfterContentInit, AfterViewInit,
   ChangeDetectionStrategy, ChangeDetectorRef,
   Component, ContentChild, ContentChildren,
-  ElementRef, forwardRef,
+  ElementRef, forwardRef, HostListener,
   Input,
   OnDestroy,
   ViewChild,
@@ -20,6 +20,9 @@ class MsfMenuItemBase {
 const _MatMenuItemMixinBase: CanDisableCtor & typeof MsfMenuItemBase =
   mixinDisabled(MsfMenuItemBase);
 
+
+let _uniqueId = 0;
+
 @Component({
   selector: 'MsfMenuItem',
   templateUrl: 'menu-item.html',
@@ -27,10 +30,11 @@ const _MatMenuItemMixinBase: CanDisableCtor & typeof MsfMenuItemBase =
   inputs: ['disabled'],
   host: {
     '[attr.role]': 'role',
+    '[attr.for]': 'for',
     'class': 'msf-menuItem',
-    '[class.msf-theme-error]':  `theme === 'error'`,
-    '[class.msf-theme-primary]':  `theme === 'primary'`,
-    '[class.msf-theme-success]':  `theme === 'success'`,
+    '[class.msf-theme-error]': `theme === 'error'`,
+    '[class.msf-theme-primary]': `theme === 'primary'`,
+    '[class.msf-theme-success]': `theme === 'success'`,
     '[class.msf-menuItem-highlighted]': '_highlighted',
     '[class.msf-menuItem-submenu-trigger]': '_triggersSubmenu',
     '[attr.tabindex]': '_getTabIndex()',
@@ -48,8 +52,12 @@ export class MsfMenuItem extends _MatMenuItemMixinBase implements CanDisable, Fo
 
   private _document: Document;
 
+
   /** Stream that emits when the menu item is hovered. */
   readonly _hovered: Subject<MsfMenuItem> = new Subject<MsfMenuItem>();
+
+  /** Stream that emits when the menu item is hovered. */
+  readonly _click: Subject<MsfMenuItem> = new Subject<MsfMenuItem>();
 
   /** Whether the menu item is highlighted. */
   _highlighted: boolean = false;
@@ -82,6 +90,12 @@ export class MsfMenuItem extends _MatMenuItemMixinBase implements CanDisable, Fo
   @Input()
   theme: ColorTheme;
 
+  private _for = `msf-menu-item-${_uniqueId++}`;
+
+  get for(): string {
+    return this._for;
+  }
+
   @ViewChild("checkboxRef")
   _checkboxRef: ElementRef<HTMLElement>;
 
@@ -100,6 +114,7 @@ export class MsfMenuItem extends _MatMenuItemMixinBase implements CanDisable, Fo
   @ContentChild(forwardRef(() => MsfMenuItemCheckbox))
   _checkbox: MsfMenuItemCheckbox;
 
+
   _checkboxWidth: number;
 
   _iconWidth: number;
@@ -109,41 +124,50 @@ export class MsfMenuItem extends _MatMenuItemMixinBase implements CanDisable, Fo
   _secondaryTextWidth: number;
   _secondaryIconWidth: number;
 
-  get _width(): number {
-    return this._elementRef.nativeElement.getBoundingClientRect().width;
-  }
 
   constructor(private _changeDetector: ChangeDetectorRef, private _elementRef: ElementRef<HTMLElement>) {
     super();
   }
 
-  ngAfterViewInit(): void {
-    this._labelWidth = this.labelRef.nativeElement.getBoundingClientRect().width;
+  ngAfterViewInit(): void { }
 
-    if(this._checkboxRef){
+  computeSize() {
+    this._labelWidth = this.labelRef.nativeElement.getBoundingClientRect().width;
+    if (this._checkboxRef) {
       this._checkboxWidth = this._checkboxRef.nativeElement.getBoundingClientRect().width;
     }
 
-    if(this._iconRef){
+    if (this._iconRef) {
       this._iconWidth = this._iconRef.nativeElement.getBoundingClientRect().width;
     }
 
-    if(this._secondaryTextRef){
+    if (this._secondaryTextRef) {
       this._secondaryTextWidth = this._secondaryTextRef.nativeElement.getBoundingClientRect().width;
     }
 
-    if(this._secondaryIconRef){
+    if (this._secondaryIconRef) {
       this._secondaryIconWidth = this._secondaryIconRef.nativeElement.getBoundingClientRect().width;
     }
-
   }
 
   ngAfterContentInit(): void {
-    if(this.theme && this._checkbox){
-      this._checkbox.checkbox.theme = this.theme
+    if (this.theme && this._checkbox) {
+      this._checkbox.checkbox.theme = this.theme;
+      this._checkbox.checkbox.id = this._for;
     }
   }
 
+
+  @HostListener('click', ['$event'])
+  _handleClickEvent(event: MouseEvent) {
+    if (this.disabled) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+
+    this._click.next(this);
+  }
 
   focus(origin?: "touch" | "mouse" | "keyboard" | "program" | null): void {
   }

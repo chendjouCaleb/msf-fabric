@@ -1,6 +1,6 @@
 import {Component, ElementRef, EventEmitter, HostListener, Input, Output} from "@angular/core";
 import {IconImageProps, IconProps} from "../../icon/icon-props";
-import {MsfPivot} from "../pivot/pivot";
+
 
 @Component({
   templateUrl: "pivot-label.html",
@@ -8,7 +8,6 @@ import {MsfPivot} from "../pivot/pivot";
   host: {'class': 'msf_PivotItemLabel', '[attr.tabindex]': '0'}
 })
 export class MsfPivotLabel  {
-  public _index;
   @Input()
   icon: IconProps;
 
@@ -27,7 +26,7 @@ export class MsfPivotLabel  {
 
   constructor( private elementRef: ElementRef<HTMLElement>) {}
 
-  @HostListener("click", ["$event"])
+  @HostListener("click" )
   active( ) {
     this._click.emit();
   }

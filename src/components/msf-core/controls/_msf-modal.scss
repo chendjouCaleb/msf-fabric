@@ -1,0 +1,32 @@
+
+$modal-backgroundColor: #FFF;
+
+.msf-modal-header {
+
+  color: rgb(50, 49, 48);
+  margin: 0;
+
+  line-height: normal;
+}
+.msf-modal-title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.msf-modal-portal {
+  background-color: $modal-backgroundColor;
+  padding: 20px;
+}
+
+.msf-modal-content {
+  margin-top: 20px;
+}
+
+.msf-modal-actions {
+  margin-top: 20px;
+  text-align: right;
+
+  & .msf-button {
+    margin-left: 10px;
+  }
+}

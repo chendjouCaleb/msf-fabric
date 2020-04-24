@@ -1,0 +1,9 @@
+<ng-template>
+  <div class="msf-menu" [class.msf-nonePointerEvents]="_isAnimating" [class.ms-depth-4]="depth" [@transformMenu]
+       (@transformMenu.done)="_onAnimationDone($event)"
+        (@transformMenu.start)="_onAnimationStart($event)">
+    <ng-content></ng-content>
+  </div>
+
+
+</ng-template>
