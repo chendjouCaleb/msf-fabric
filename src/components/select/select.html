@@ -1,21 +1,40 @@
-<div (click)="_onClick()" class="msf-select-wrapper" cdk-overlay-origin #origin="cdkOverlayOrigin">
-  <div class="msf-select-placeholder">
+<div #origin="cdkOverlayOrigin" (click)="_onClick()" cdk-overlay-origin class="msf-select-wrapper">
+  <div class="msf-select-content" #content>
+    <ng-container #contentView  [hidden]="!value && values.length === 0"> </ng-container>
 
-    <ng-container  #placeholder></ng-container>
+
+
+    <div *ngIf="!value && (values.length === 0)" class="msf-select-placeholder">{{placeholder}}</div>
+
+
+
   </div>
   <span MsfIcon class="msf-select-trigger" iconName="ChevronDown"></span>
 </div>
 
-<ng-template [cdkConnectedOverlayOpen]="openPanel"
-             [cdkConnectedOverlayOrigin]="origin"
-             cdk-connected-overlay
+<ng-template #defaultTemplate let-value="value" let-values="values">
+  <ng-container *ngIf="value">
+    {{value}}
+  </ng-container>
 
+  <ng-container *ngIf="values">
+    {{values}}
+  </ng-container>
+</ng-template>
+
+<ng-template (backdropClick)="_close()"
+             [cdkConnectedOverlayOpen]="openPanel"
+             [cdkConnectedOverlayOrigin]="origin"
+
+             cdk-connected-overlay
              cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
              cdkConnectedOverlayHasBackdrop
              cdkConnectedOverlayLockPosition
-             (backdropClick)="_close()"
+             cdkConnectedOverlayPanelClass="msf-select-panel-overlay"
 >
-  <div class="msf-select-panel ms-depth-4" [@transformPanel]>
-    <ng-content></ng-content>
-  </div>
+
+    <div class="msf-select-panel ms-depth-4" [@transformPanel] >
+      <ng-content></ng-content>
+    </div>
+
 </ng-template>

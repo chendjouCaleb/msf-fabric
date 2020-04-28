@@ -6,7 +6,7 @@ import {NullArgumentException} from "@positon/collections";
 import {IconProps} from "./icon-props";
 
 
-export const MSF_ICON_FONT_CLASSNAME = "msf_IconFont";
+export const MSF_ICON_FONT_CLASSNAME = "msf-IconFont";
 
 @Component({
   selector: "MsfIcon, [MsfIcon]",

@@ -7,13 +7,13 @@ import {IconImageProps} from "./icon-props";
 import {MSF_ICON_IMAGE_CONFIG, MsfIconImageConfig} from "./icon-image-config";
 
 
-export const MSF_ICON_IMAGE_CLASSNAME = "msf-icon-image";
+export const MSF_ICON_IMAGE_CLASSNAME = "msf-IconImage";
 
 @Component({
   selector: "MsfIconImage, [MsfIconImage]",
   template: "<img [src]='src' [alt]='alt'>",
   host: {
-    class: MSF_ICON_IMAGE_CLASSNAME
+    'class': MSF_ICON_IMAGE_CLASSNAME
   }
 })
 export class MsfIconImage {

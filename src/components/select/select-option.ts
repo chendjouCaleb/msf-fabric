@@ -108,8 +108,7 @@ export class MsfSelectOption implements AfterViewChecked, OnDestroy {
     private _element: ElementRef<HTMLElement>,
     private _changeDetectorRef: ChangeDetectorRef,
     @Optional() @Inject(MSF_SELECT_OPTION_PARENT_COMPONENT) private _parent: MsfSelectOptionParentComponent,
-    @Optional() readonly group: MsfSelectOptionGroup) {
-  }
+    @Optional() readonly group: MsfSelectOptionGroup) { }
 
   /**
    * The displayed value of the option. It is necessary to show the selected option in the
@@ -253,6 +252,11 @@ export class MsfSelectOption implements AfterViewChecked, OnDestroy {
   /** Emits the selection change event. */
   private _emitSelectionChangeEvent(isUserInput = false): void {
     this.onSelectionChange.emit(new MsfSelectSelectionChange(this, isUserInput));
+  }
+
+
+  get changeDetectorRef(): ChangeDetectorRef {
+    return this._changeDetectorRef;
   }
 }
 

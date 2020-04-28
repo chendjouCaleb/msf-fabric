@@ -1,16 +1,53 @@
 import {Inject, Injectable, Injector, Optional, SkipSelf, TemplateRef} from "@angular/core";
-import {ComponentType, Overlay, OverlayContainer, ScrollStrategy} from "@angular/cdk/overlay";
+import {
+  ComponentType,
+  Overlay,
+  OverlayConfig,
+  OverlayContainer,
+  OverlayRef,
+  ScrollStrategy
+} from "@angular/cdk/overlay";
 import {MsfModalRef} from "./modal-ref";
 import {MsfModalOptions} from "./modal-options";
 import {ComponentPortal, PortalInjector, TemplatePortal} from "@angular/cdk/portal";
 import {MsfModalPortal} from "./modal-portal";
 import {MSF_MODAL_DEFAULT_OPTIONS} from "./modal-default-options";
 import {MSF_MODAL_SCROLL_STRATEGY} from "./modal-scrool-strategy";
+import {defer, Observable, Subject} from "rxjs";
+import {startWith} from "rxjs/operators";
+import {Directionality} from "@angular/cdk/bidi";
 
 @Injectable()
 export class MsfModal {
+  private _openModalsAtThisLevel: MsfModalRef<any>[] = [];
+  private readonly _afterAllClosedAtThisLevel = new Subject<void>();
+  private readonly _afterOpenedAtThisLevel = new Subject<MsfModalRef<any>>();
+  private _ariaHiddenElements = new Map<Element, string | null>();
 
   private _scrollStrategy: () => ScrollStrategy;
+
+  /** Keeps track of the currently-open modals. */
+  get openModals(): MsfModalRef<any>[] {
+    return this._parentModal ? this._parentModal.openModals : this._openModalsAtThisLevel;
+  }
+
+  /** Stream that emits when a modal has been opened. */
+  get afterOpened(): Subject<MsfModalRef<any>> {
+    return this._parentModal ? this._parentModal.afterOpened : this._afterOpenedAtThisLevel;
+  }
+
+  get _afterAllClosed(): Subject<void> {
+    const parent = this._parentModal;
+    return parent ? parent._afterAllClosed : this._afterAllClosedAtThisLevel;
+  }
+
+  /**
+   * Stream that emits when all open modal have finished closing.
+   * Will emit on subscribe if there are no open modals to begin with.
+   */
+  readonly afterAllClosed: Observable<void> = defer(() => this.openModals.length ?
+    this._afterAllClosed :
+    this._afterAllClosed.pipe(startWith(undefined))) as Observable<any>;
 
   constructor(private _overlay: Overlay,
               private _injector: Injector,
@@ -26,7 +63,7 @@ export class MsfModal {
    * Opens a modal modal containing the given component.
    * @param targetRef Type of the component to load into the modal,
    *     or a TemplateRef to instantiate as the modal content.
-   * @param options Extra configuration options.
+   * @param options Extra optionsuration options.
    *
    * @typeparam T the type of the target component or templateRef.
    * @typeparam D The type of data passed into the modal injector.
@@ -34,35 +71,21 @@ export class MsfModal {
    *
    * @returns Reference to the newly-opened modal.
    */
-  open<T, D = any, R = any>(targetRef: ComponentType<T> | TemplateRef<T>, options: MsfModalOptions = new MsfModalOptions()): MsfModalRef<T, R> {
+  open<T, D = any, R = any>(targetRef: ComponentType<T> | TemplateRef<T>, options?: MsfModalOptions): MsfModalRef<T, R> {
+    options = _applyOptionsDefaults(options, this._defaultOptions || new MsfModalOptions());
 
-    const overlayRef = this._overlay.create(
-      {
-        hasBackdrop: true,
-        backdropClass: 'cdk-overlay-dark-backdrop',
-        positionStrategy: this._overlay.position().global()
-      });
+    if (options.id && this.getModalById(options.id)) {
+      throw Error(`Modal with id "${options.id}" exists already. The modal id must be unique.`);
+    }
 
-    const portal = this._createPortal(targetRef);
+    const overlayRef = this._createOverlay(options);
 
     const modalPortal = this._createModalPortal(options);
-
-    const portalRef =  overlayRef.attach(modalPortal);
-
-   const result = portalRef.instance.attachComponentPortal(portal as ComponentPortal<T>);
+    const modalPortalRef = overlayRef.attach(modalPortal);
 
 
 
-    const modalRef = new MsfModalRef<T, R>(overlayRef);
-    modalRef.componentInstance = result.instance;
-
-
-    modalRef.updatePosition();
-
-
-    overlayRef.backdropClick().subscribe(() => overlayRef.dispose());
-
-    return modalRef;
+    return this._attachModalContent<T, R>(targetRef, modalPortalRef.instance, overlayRef, options);
   }
 
   /**
@@ -71,7 +94,7 @@ export class MsfModal {
    * @param options The modal configuration.
    * @returns A modalPortal.
    */
-  private _createModalPortal(options: MsfModalOptions): ComponentPortal<MsfModalPortal>{
+  private _createModalPortal(options: MsfModalOptions): ComponentPortal<MsfModalPortal> {
     const userInjector = options && options.viewContainerRef && options.viewContainerRef.injector;
 
     const injector = new PortalInjector(userInjector || this._injector, new WeakMap([[MsfModalOptions, options]]))
@@ -79,16 +102,208 @@ export class MsfModal {
     return new ComponentPortal(MsfModalPortal, options.viewContainerRef, injector);
   }
 
-  _createPortal<T>(targetRef: ComponentType<T> | TemplateRef<T>): TemplatePortal<T> | ComponentPortal<T> {
-    let portal: TemplatePortal<T> | ComponentPortal<T>;
+  /**
+   * Attaches the user-provided component to the already-created MsfModalContainer.
+   * @param componentOrTemplateRef The type of component being loaded into the modal,
+   *     or a TemplateRef to instantiate as the content.
+   * @param modalPortal Reference to the wrapping MsfModalPortal.
+   * @param overlayRef Reference to the overlay in which the modal resides.
+   * @param options The modal configuration.
+   * @returns A promise resolving to the MsfModalRef that should be returned to the user.
+   */
+  private _attachModalContent<T, R>(
+    componentOrTemplateRef: ComponentType<T> | TemplateRef<T>,
+    modalPortal: MsfModalPortal,
+    overlayRef: OverlayRef,
+    options: MsfModalOptions): MsfModalRef<T, R> {
 
-    if (targetRef instanceof TemplateRef) {
-      portal = new TemplatePortal<T>(targetRef, null!);
+    // Create a reference to the modal we're creating in order to give the user a handle
+    // to modify and close it.
+    const modalRef =
+      new MsfModalRef<T, R>(overlayRef, modalPortal, options.id);
 
-    } else {
-      portal = new ComponentPortal(targetRef, null);
+    // When the modal backdrop is clicked, we want to close it.
+    if (options.hasBackdrop) {
+      overlayRef.backdropClick().subscribe(() => {
+        if (!modalRef.disableClose) {
+          modalRef.close();
+        }
+      });
     }
-    return portal;
+
+    if (componentOrTemplateRef instanceof TemplateRef) {
+      modalPortal.attachTemplatePortal(
+        new TemplatePortal<T>(componentOrTemplateRef, null!,
+          <any>{ $implicit: modalRef }));
+    } else {
+      const injector = this._createInjector<T>(options, modalRef, modalPortal);
+      const contentRef = modalPortal.attachComponentPortal<T>(
+        new ComponentPortal(componentOrTemplateRef, undefined, injector));
+      modalRef.componentInstance = contentRef.instance;
+    }
+
+    modalRef
+      .updateSize(options.width, options.height)
+      .updatePosition(options.position);
+
+    return modalRef;
+  }
+
+
+  /**
+   * Creates a custom injector to be used inside the modal. This allows a component loaded inside
+   * of a modal to close itself and, optionally, to return a value.
+   * @param options Config object that is used to construct the modal.
+   * @param modalRef Reference to the modal.
+   * @param modalPortal Modal container element that wraps all of the contents.
+   * @returns The custom injector that can be used inside the modal.
+   */
+  private _createInjector<T>(
+    options: MsfModalOptions,
+    modalRef: MsfModalRef<T>,
+    modalPortal: MsfModalPortal): PortalInjector {
+    const userInjector = options && options.viewContainerRef && options.viewContainerRef.injector;
+
+
+    const injectionTokens = new WeakMap<any, any>([
+      [MsfModalOptions, options],
+      [MsfModalRef, modalRef],
+      [MsfModalPortal, modalPortal]]);
+
+    if(options.direction && (!userInjector || !userInjector.get<Directionality | null>(Directionality, null))) {
+      injectionTokens.set(Directionality, {
+        value: options.direction
+      });
+    }
+    return new PortalInjector(userInjector || this._injector, injectionTokens);
+  }
+
+  /**
+   * Closes all of the currently-open modals.
+   */
+  closeAll(): void {
+    this._closeModals(this.openModals);
+  }
+
+  /**
+   * Finds an open modal by its id.
+   * @param id ID to use when looking up the modal.
+   */
+  getModalById(id: string): MsfModalRef<any> | undefined {
+    return this.openModals.find(modal => modal.id === id);
+  }
+
+  /**
+   * Creates the overlay into which the modal will be loaded.
+   * @param options The modal options.
+   * @returns A promise resolving to the OverlayRef for the created overlay.
+   */
+  private _createOverlay(options: MsfModalOptions): OverlayRef {
+    const overlayOptions = this._getOverlayOptions(options);
+    return this._overlay.create(overlayOptions);
+  }
+
+  /**
+   * Creates an overlay options from a modal options.
+   * @param modalOptions The modal options.
+   * @returns The overlay options.
+   */
+
+  private _getOverlayOptions(modalOptions: MsfModalOptions): OverlayConfig {
+    const state = new OverlayConfig({
+      positionStrategy: this._overlay.position().global(),
+      scrollStrategy: modalOptions.scrollStrategy || this._scrollStrategy(),
+      panelClass: modalOptions.panelClass,
+      hasBackdrop: modalOptions.hasBackdrop,
+      direction: modalOptions.direction,
+      minWidth: modalOptions.minWidth,
+      minHeight: modalOptions.minHeight,
+      maxWidth: modalOptions.maxWidth,
+      maxHeight: modalOptions.maxHeight,
+      disposeOnNavigation: modalOptions.closeOnNavigation
+    });
+
+    if (modalOptions.backdropClass) {
+      state.backdropClass = modalOptions.backdropClass;
+    }
+
+    return state;
+  }
+
+  ngOnDestroy() {
+    // Only close the modals at this level on destroy
+    // since the parent service may still be active.
+    this._closeModals(this._openModalsAtThisLevel);
+    this._afterAllClosedAtThisLevel.complete();
+    this._afterOpenedAtThisLevel.complete();
+  }
+
+  /**
+   * Removes a modal from the array of open modals.
+   * @param modalRef Modal to be removed.
+   */
+  _removeOpenModal(modalRef
+                     :
+                     MsfModalRef<any>
+  ) {
+    const index = this.openModals.indexOf(modalRef);
+
+    if (index > -1) {
+      this.openModals.splice(index, 1);
+
+      // If all the modals were closed, remove/restore the `aria-hidden`
+      // to a the siblings and emit to the `afterAllClosed` stream.
+      if (!this.openModals.length) {
+        this._ariaHiddenElements.forEach((previousValue, element) => {
+          if (previousValue) {
+            element.setAttribute('aria-hidden', previousValue);
+          } else {
+            element.removeAttribute('aria-hidden');
+          }
+        });
+
+        this._ariaHiddenElements.clear();
+        this._afterAllClosed.next();
+      }
+    }
+  }
+
+  /**
+   * Hides all of the content that isn't an overlay from assistive technology.
+   */
+  _hideNonModalContentFromAssistiveTechnology() {
+    const overlayContainer = this._overlayContainer.getContainerElement();
+
+    // Ensure that the overlay container is attached to the DOM.
+    if (overlayContainer.parentElement) {
+      const siblings = overlayContainer.parentElement.children;
+
+      for (let i = siblings.length - 1; i > -1; i--) {
+        let sibling = siblings[i];
+
+        if (sibling !== overlayContainer &&
+          sibling.nodeName !== 'SCRIPT' &&
+          sibling.nodeName !== 'STYLE' &&
+          !sibling.hasAttribute('aria-live')) {
+
+          this._ariaHiddenElements.set(sibling, sibling.getAttribute('aria-hidden'));
+          sibling.setAttribute('aria-hidden', 'true');
+        }
+      }
+    }
+  }
+
+  /** Closes all of the modals in an array. */
+  _closeModals(modals: MsfModalRef<any> []) {
+    let i = modals.length;
+
+    while (i--) {
+      // The `_openModals` property isn't updated after close until the rxjs subscription
+      // runs on the next microtask, in addition to modifying the array as we're going
+      // through it. We loop through all of them and call close without assuming that
+      // they'll be removed from the list instantaneously.
+      modals[i].close();
+    }
   }
 }
 

@@ -18,3 +18,4 @@ export * from "./command-bar/public_api";
 export * from "./textField/public_api";
 export * from './select/public_api';
 export * from './menu/public_api';
+export * from './modal/public_api';

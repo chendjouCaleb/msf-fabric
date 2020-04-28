@@ -1,4 +1,4 @@
-@import "~office-ui-fabric-core/dist/sass/variables/Color.Variables";
+@import "~office-ui-fabric-core/dist/sass/Fabric";
 @import "../variables/Msf-Color";
 
 $msf-select-border-color: $ms-color-gray140 !default;
@@ -15,6 +15,9 @@ $msf-select-option-paddingY: 7px !default;
   display: inline-block;
 }
 
+.msf-select-panel-overlay {
+  overflow-x: hidden;
+}
 .msf-select-wrapper {
   cursor: pointer;
   border: 1px solid $msf-select-border-color;
@@ -37,9 +40,17 @@ $msf-select-option-paddingY: 7px !default;
   padding-left: 10px;
   padding-right: 10px;
 }
-.msf-select-placeholder {
+.msf-select-content {
   flex-grow: 2;
-  height: $msf-select-height;
+  user-select: none;
+  margin-left: 10px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.msf-select-placeholder {
+  opacity: 0.8;
+  text-overflow: ellipsis;
 }
 
 .msf-select-panel {
@@ -48,6 +59,8 @@ $msf-select-option-paddingY: 7px !default;
 
   max-height: 300px;
   overflow-y: auto;
+
+  border: 1px solid $ms-color-gray50
 }
 
 .msf-select-optionGroup {
@@ -71,5 +84,9 @@ $msf-select-option-paddingY: 7px !default;
   margin:0;
   &:hover {
     background-color: $msf-standard-color--hover;
+  }
+
+  &.msf-selected {
+    background-color: $msf-backgroundColor--selected;
   }
 }

@@ -1,4 +1,5 @@
 import {Component, Input} from "@angular/core";
+import {MsfModalRef} from "../../components/modal";
 
 @Component({
   templateUrl: 'modal-view.html',
@@ -7,4 +8,6 @@ import {Component, Input} from "@angular/core";
 export class ModalView {
   @Input()
   data: any;
+
+  constructor(modalRef: MsfModalRef<ModalView>) {}
 }

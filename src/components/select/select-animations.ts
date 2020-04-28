@@ -49,24 +49,19 @@ export const msfSelectAnimations: {
    * When the panel is removed from the DOM, it simply fades out linearly.
    */
   transformPanel: trigger('transformPanel', [
-    state('void', style({
-      transform: 'translate3d(0, 48px, 0)',
-      //minWidth: '100%',
-      opacity: 0
-    })),
-    state('showing', style({
-      opacity: 1,
-      //minWidth: 'calc(100% + 32px)', // 32px = 2 * 16px padding
-      transform: 'translate3d(0, 0, 0)'
-    })),
-    state('showing-multiple', style({
-      opacity: 1,
-      //minWidth: 'calc(100% + 64px)', // 64px = 48px padding on the left + 16px padding on the right
-      transform: 'translate3d(0, 0, 0)'
-    })),
-    transition('void => *', animate('200ms cubic-bezier(0, 0, 0.2, 1)')),
-    transition('* => void', animate('200ms 25ms linear', style({opacity: 0, transform: 'translate3d(0, 48px, 0)'})) )
-  ]),
+      state('void', style({
+        transform: 'translate3d(0, -48px, 0)',
+        opacity: 0
+      })),
+      state('showing', style({
+        opacity: 1,
+        //minWidth: 'calc(100% + 32px)', // 32px = 2 * 16px padding
+        transform: 'translate3d(0, 0, 0)'
+      })),
+      transition('void => *', animate('200ms cubic-bezier(0, 0, 0.2, 1)')),
+      transition('* => void', animate('200ms 25ms linear', style({opacity: 0, transform: 'translate3d(0, -48px, 0)'})))
+    ]
+  ),
 
   /**
    * This animation fades in the background color and text content of the

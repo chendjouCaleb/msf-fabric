@@ -83,7 +83,7 @@ $msf-button-backgroundColor: $ms-color-gray20 !default;
   border-style: none;
   border-color: initial;
   border-image: initial;
-  outline: 1px dashed;
+  outline: 1px solid;
   transition: background-color $ms-motion-duration-3;
 }
 

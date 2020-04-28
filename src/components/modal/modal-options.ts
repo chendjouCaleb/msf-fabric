@@ -2,13 +2,15 @@
 
 import {ModalPosition} from "./modal-position";
 import {ViewContainerRef} from "@angular/core";
+import {ScrollStrategy} from "@angular/cdk/overlay";
+import {Direction} from "@angular/cdk/bidi";
 
 /** Valid ARIA roles for a modal element. */
-export type ModalRole = 'dialog' | 'alertdialog';
+export type ModalRole = 'modal' | 'alertmodal';
 
 
 /**
- * Configuration for opening a modal dialog with the MatDialog service.
+ * Configuration for opening a modal modal with the MatModal service.
  */
 export class MsfModalOptions {
 
@@ -20,39 +22,39 @@ export class MsfModalOptions {
    */
   viewContainerRef?: ViewContainerRef;
 
-  /** Width of the dialog. */
+  /** Width of the modal. */
   width?: string = '';
 
-  /** Height of the dialog. */
+  /** Height of the modal. */
   height?: string = '';
 
-  /** Min-width of the dialog. If a number is provided, pixel units are assumed. */
+  /** Min-width of the modal. If a number is provided, pixel units are assumed. */
   minWidth?: number | string;
 
-  /** Min-height of the dialog. If a number is provided, pixel units are assumed. */
+  /** Min-height of the modal. If a number is provided, pixel units are assumed. */
   minHeight?: number | string;
 
-  /** Max-width of the dialog. If a number is provided, pixel units are assumed. Defaults to 80vw */
+  /** Max-width of the modal. If a number is provided, pixel units are assumed. Defaults to 80vw */
   maxWidth?: number | string = '90vw';
 
-  /** Max-height of the dialog. If a number is provided, pixel units are assumed. */
+  /** Max-height of the modal. If a number is provided, pixel units are assumed. */
   maxHeight?: number | string;
 
   /** Position overrides. */
   position?: ModalPosition;
 
 
-  /** ID for the dialog. If omitted, a unique one will be generated. */
+  /** ID for the modal. If omitted, a unique one will be generated. */
   id?: string;
 
-  /** The ARIA role of the dialog element. */
-  role?: ModalRole = 'dialog';
+  /** The ARIA role of the modal element. */
+  role?: ModalRole = 'modal';
 
 
   /** Custom class for the overlay pane. */
   panelClass?: string | string[] = '';
 
-  /** Whether the dialog has a backdrop. */
+  /** Whether the modal has a backdrop. */
   hasBackdrop?: boolean = true;
 
   /** Custom class for the backdrop, */
@@ -62,26 +64,32 @@ export class MsfModalOptions {
   disableClose?: boolean = false;
 
 
-  /** ID of the element that describes the dialog. */
+  /** ID of the element that describes the modal. */
   ariaDescribedBy?: string | null = null;
 
-  /** ID of the element that labels the dialog. */
+  /** ID of the element that labels the modal. */
   ariaLabelledBy?: string | null = null;
 
-  /** Aria label to assign to the dialog element */
+  /** Aria label to assign to the modal element */
   ariaLabel?: string | null = null;
 
-  /** Whether the dialog should focus the first focusable element on open. */
+  /** Whether the modal should focus the first focusable element on open. */
   autoFocus?: boolean = true;
 
   /**
-   * Whether the dialog should restore focus to the
+   * Whether the modal should restore focus to the
    * previously-focused element, after it's closed.
    */
   restoreFocus?: boolean = true;
 
+  /** Scroll strategy to be used for the modal. */
+  scrollStrategy?: ScrollStrategy;
+
+  /** Layout direction for the dialog's content. */
+  direction?: Direction;
+
   /**
-   * Whether the dialog should close when the user goes backwards/forwards in history.
+   * Whether the modal should close when the user goes backwards/forwards in history.
    * Note that this usually doesn't include clicking on links (unless the user is using
    * the `HashLocationStrategy`).
    */

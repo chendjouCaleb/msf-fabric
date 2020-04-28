@@ -5,11 +5,11 @@ import {MsfIconModule} from "../icon/public_api";
 import {MsfSelectOption} from "./select-option";
 import {OverlayModule} from "@angular/cdk/overlay";
 import {MsfSelectOptionGroup} from "./select-option-group";
-import {MsfSelectPlaceholder} from "./select-placeholder";
+import {MsfSelectTemplate} from "./select-template";
 
 @NgModule({
   imports: [ CommonModule, MsfIconModule, OverlayModule ],
-  declarations: [ MsfSelect, MsfSelectOption, MsfSelectOptionGroup, MsfSelectPlaceholder  ],
-  exports: [ MsfSelect, MsfSelectOption, MsfSelectOptionGroup, MsfSelectPlaceholder ]
+  declarations: [ MsfSelect, MsfSelectOption, MsfSelectOptionGroup, MsfSelectTemplate ],
+  exports: [ MsfSelect, MsfSelectOption, MsfSelectOptionGroup, MsfSelectTemplate ]
 })
 export class MsfSelectModule {}

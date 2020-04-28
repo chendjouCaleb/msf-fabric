@@ -1,9 +1,8 @@
-
-$modal-backgroundColor: #FFF;
+@import "../variables/msf-modal";
 
 .msf-modal-header {
 
-  color: rgb(50, 49, 48);
+  color: inherit;
   margin: 0;
 
   line-height: normal;
@@ -14,7 +13,7 @@ $modal-backgroundColor: #FFF;
 }
 
 .msf-modal-portal {
-  background-color: $modal-backgroundColor;
+  background-color: $msf-modal-backgroundColor;
   padding: 20px;
 }
 

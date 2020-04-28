@@ -22,7 +22,8 @@
       <h5 class="component-usage-section-title">Basic</h5>
       <div class="component-usage-section-content">
         <MsfSelect>
-          <MsfSelectOption *ngFor="let item of items" [value]="item">{{item.name}}</MsfSelectOption>
+          <ng-template MsfSelectTemplate let-value="value">{{value}}</ng-template>
+          <MsfSelectOption *ngFor="let item of items" [value]="item.name">{{item.name}}</MsfSelectOption>
         </MsfSelect>
       </div>
     </div>
@@ -30,9 +31,10 @@
     <div class="component-usage-section">
       <h5 class="component-usage-section-title">Group</h5>
       <div class="component-usage-section-content">
-        <MsfSelect>
+        <MsfSelect [multiple]="true">
+
           <MsfSelectOptionGroup *ngFor="let g of groups" [label]="g">
-            <MsfSelectOption *ngFor="let item of itemMap[g]" [value]="item">{{item.name}}</MsfSelectOption>
+            <MsfSelectOption *ngFor="let item of itemMap[g]" [value]="item.name">{{item.name}}</MsfSelectOption>
           </MsfSelectOptionGroup>
 
           <MsfSelectOptionGroup [label]="'Other'" disabled="true">

@@ -60,7 +60,7 @@ export class MsfModalPortal extends BasePortalOutlet{
               private _changeDetectorRef: ChangeDetectorRef,
               private _focusTrapFactory: FocusTrapFactory,
               @Optional() @Inject(DOCUMENT) private _document: any,
-              private _options: MsfModalOptions) {
+              public readonly _options: MsfModalOptions) {
     super();
 
     this._id = _options.id;

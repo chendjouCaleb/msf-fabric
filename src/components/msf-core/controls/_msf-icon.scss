@@ -1,13 +1,13 @@
 @import '../../msf-core/variables/Msf-Variable';
 
-MsfIcon, [MsfIcon], .msf-icon-image {
+.msf-IconFont, .msf-IconImage {
   margin: 0;
   padding: 0;
   display: inline-block;
   overflow: hidden;
 }
 
-.msf-icon-image {
+.msf-IconImage {
   vertical-align: center;
   display: inline-block;
 
@@ -18,8 +18,8 @@ MsfIcon, [MsfIcon], .msf-icon-image {
 
   & img {
     position: absolute;
-    top:0;
-    left:0;
+    top: 0;
+    left: 0;
 
     height: $msf-fontSize-md + px;
     width: $msf-fontSize-md + px;
@@ -32,20 +32,25 @@ MsfIcon, [MsfIcon], .msf-icon-image {
 
 
 @each $color, $value in $msf-theme-colors {
-  MsfIcon.msf_Theme-#{$color}, [MsfIcon].msf_Theme-#{$color} {
+  .msf-IconFont.msf_Theme-#{$color} {
     color: $value;
   }
 }
 
 @each $size, $value in $msf-fontSizes {
-  MsfIcon.msf_Size-#{$size}, [MsfIcon].msf_Size-#{$size} {
+  .msf-IconFont.msf_Size-#{$size} {
     font-size: $value + px;
   }
 }
 
 @each $size, $value in $msf-sizes {
-  MsfIconImage.msf_Size-#{$size} img, [MsfIconImage].msf_Size-#{$size} img {
+  .msf-IconFont.msf_Size-#{$size}, .msf-IconImage.msf_Size-#{$size} {
     height: $value + px;
     width: $value + px;
+
+    & img {
+      height: $value + px;
+      width: $value + px;
+    }
   }
 }
