@@ -55,7 +55,7 @@
     "@angular/router": "~9.0.1",
     "@mdi/font": "^4.7.95",
     "@positon/collections": "^0.0.3",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "office-ui-fabric-core": "^11.0.0",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
